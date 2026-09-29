@@ -1,0 +1,30 @@
+{
+  "name": "fitsync",
+  "version": "1.0.0",
+  "description": "FitSync Backend API",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "seed": "node seedAllData.js",
+    "reverse": "node -e \"const { exec } = require('child_process'); const p = process.env.LOCALAPPDATA + '\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe'; exec(`\\\"${p}\\\" reverse tcp:8000 tcp:8000`, (err, out) => console.log(err ? 'ADB error: ' + err.message : 'ADB Reverse Success: Port 8000 forwarded to physical device!'));\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongodb": "^7.3.0",
+    "mongoose": "^9.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

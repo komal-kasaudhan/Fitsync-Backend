@@ -1,0 +1,222 @@
+[
+  {
+    "name": "Masala Dosa",
+    "category": "South Indian",
+    "subCategory": "Breakfast Dishes",
+    "servingType": "piece",
+    "servingSize": "1 dosa (150g)",
+    "servingWeight": 150,
+    "nutritionPerServing": {
+      "calories": 305,
+      "protein": 6.2,
+      "carbs": 45.0,
+      "fat": 11.2,
+      "fiber": 3.5,
+      "sugar": 1.2,
+      "sodium": 320,
+      "potassium": 210
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Breakfast", "Dinner"],
+    "aliases": ["dosa", "potato dosa", "masala dhosa"],
+    "verified": true
+  },
+  {
+    "name": "Plain Dosa",
+    "category": "South Indian",
+    "subCategory": "Crepes",
+    "servingType": "piece",
+    "servingSize": "1 dosa (80g)",
+    "servingWeight": 80,
+    "nutritionPerServing": {
+      "calories": 165,
+      "protein": 3.8,
+      "carbs": 29.0,
+      "fat": 3.8,
+      "fiber": 1.5,
+      "sugar": 0.5,
+      "sodium": 180,
+      "potassium": 90
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Breakfast", "Dinner"],
+    "aliases": ["sada dosa", "plain dosa"],
+    "verified": true
+  },
+  {
+    "name": "Rava Dosa",
+    "category": "South Indian",
+    "subCategory": "Crepes",
+    "servingType": "piece",
+    "servingSize": "1 dosa (100g)",
+    "servingWeight": 100,
+    "nutritionPerServing": {
+      "calories": 195,
+      "protein": 4.2,
+      "carbs": 31.0,
+      "fat": 6.0,
+      "fiber": 1.8,
+      "sugar": 0.8,
+      "sodium": 240,
+      "potassium": 105
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Breakfast", "Dinner"],
+    "aliases": ["onion rava dosa", "semolina dosa"],
+    "verified": true
+  },
+  {
+    "name": "Plain Idli",
+    "category": "South Indian",
+    "subCategory": "Steamed Dishes",
+    "servingType": "piece",
+    "servingSize": "1 medium idli (50g)",
+    "servingWeight": 50,
+    "nutritionPerServing": {
+      "calories": 58,
+      "protein": 1.8,
+      "carbs": 12.0,
+      "fat": 0.2,
+      "fiber": 0.8,
+      "sugar": 0.2,
+      "sodium": 110,
+      "potassium": 45
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Breakfast", "Snack"],
+    "aliases": ["rice idli", "steamed idli"],
+    "verified": true
+  },
+  {
+    "name": "Sambhar",
+    "category": "South Indian",
+    "subCategory": "Lentil Soup",
+    "servingType": "bowl",
+    "servingSize": "1 bowl (200g)",
+    "servingWeight": 200,
+    "nutritionPerServing": {
+      "calories": 130,
+      "protein": 5.5,
+      "carbs": 20.0,
+      "fat": 3.2,
+      "fiber": 4.5,
+      "sugar": 3.0,
+      "sodium": 410,
+      "potassium": 290
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Breakfast", "Lunch", "Dinner"],
+    "aliases": ["sambar", "south indian sambar"],
+    "verified": true
+  },
+  {
+    "name": "Uttapam (Onion)",
+    "category": "South Indian",
+    "subCategory": "Pancakes",
+    "servingType": "piece",
+    "servingSize": "1 medium (120g)",
+    "servingWeight": 120,
+    "nutritionPerServing": {
+      "calories": 210,
+      "protein": 4.8,
+      "carbs": 36.0,
+      "fat": 5.2,
+      "fiber": 2.8,
+      "sugar": 1.8,
+      "sodium": 280,
+      "potassium": 140
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Breakfast", "Dinner"],
+    "aliases": ["onion uttapam", "uthappam"],
+    "verified": true
+  },
+  {
+    "name": "Medu Vada",
+    "category": "South Indian",
+    "subCategory": "Fried Snacks",
+    "servingType": "piece",
+    "servingSize": "1 vada (60g)",
+    "servingWeight": 60,
+    "nutritionPerServing": {
+      "calories": 185,
+      "protein": 4.2,
+      "carbs": 16.5,
+      "fat": 11.5,
+      "fiber": 2.2,
+      "sugar": 0.3,
+      "sodium": 210,
+      "potassium": 160
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Breakfast", "Snack"],
+    "aliases": ["vada", "urad dal vada"],
+    "verified": true
+  },
+  {
+    "name": "Curd Rice (Thayir Sadam)",
+    "category": "South Indian",
+    "subCategory": "Rice Dishes",
+    "servingType": "bowl",
+    "servingSize": "1 bowl (200g)",
+    "servingWeight": 200,
+    "nutritionPerServing": {
+      "calories": 240,
+      "protein": 6.8,
+      "carbs": 38.0,
+      "fat": 6.5,
+      "fiber": 1.2,
+      "sugar": 3.5,
+      "sodium": 310,
+      "potassium": 210
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Lunch", "Dinner"],
+    "aliases": ["dahi chawal", "thayir sadam"],
+    "verified": true
+  },
+  {
+    "name": "Appam (Plain)",
+    "category": "South Indian",
+    "subCategory": "Breads",
+    "servingType": "piece",
+    "servingSize": "1 appam (60g)",
+    "servingWeight": 60,
+    "nutritionPerServing": {
+      "calories": 115,
+      "protein": 2.0,
+      "carbs": 22.0,
+      "fat": 2.1,
+      "fiber": 0.8,
+      "sugar": 0.5,
+      "sodium": 85,
+      "potassium": 65
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Breakfast", "Dinner"],
+    "aliases": ["kerala appam", "palappam"],
+    "verified": true
+  },
+  {
+    "name": "Chicken Chettinad",
+    "category": "South Indian",
+    "subCategory": "Curry",
+    "servingType": "bowl",
+    "servingSize": "1 bowl (220g)",
+    "servingWeight": 220,
+    "nutritionPerServing": {
+      "calories": 340,
+      "protein": 27.0,
+      "carbs": 8.0,
+      "fat": 22.0,
+      "fiber": 2.0,
+      "sugar": 1.8,
+      "sodium": 510,
+      "potassium": 380
+    },
+    "dietType": "NonVeg",
+    "mealTypes": ["Lunch", "Dinner"],
+    "aliases": ["chettinad chicken curry", "spicy south chicken"],
+    "verified": true
+  }
+]

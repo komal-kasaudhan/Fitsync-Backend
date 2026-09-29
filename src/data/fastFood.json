@@ -1,0 +1,222 @@
+[
+  {
+    "name": "Veg Burger (Classic)",
+    "category": "Fast Food",
+    "subCategory": "Burgers",
+    "servingType": "piece",
+    "servingSize": "1 burger (160g)",
+    "servingWeight": 160,
+    "nutritionPerServing": {
+      "calories": 350,
+      "protein": 9.0,
+      "carbs": 48.0,
+      "fat": 14.0,
+      "fiber": 3.5,
+      "sugar": 6.5,
+      "sodium": 640,
+      "potassium": 210
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Snack", "Dinner"],
+    "aliases": ["aloobi burger", "veggie burger", "mcveggie"],
+    "verified": true
+  },
+  {
+    "name": "Chicken Burger",
+    "category": "Fast Food",
+    "subCategory": "Burgers",
+    "servingType": "piece",
+    "servingSize": "1 burger (180g)",
+    "servingWeight": 180,
+    "nutritionPerServing": {
+      "calories": 440,
+      "protein": 22.0,
+      "carbs": 42.0,
+      "fat": 20.0,
+      "fiber": 2.2,
+      "sugar": 5.0,
+      "sodium": 780,
+      "potassium": 310
+    },
+    "dietType": "NonVeg",
+    "mealTypes": ["Snack", "Dinner"],
+    "aliases": ["mcchicken", "crispy chicken burger"],
+    "verified": true
+  },
+  {
+    "name": "Margherita Pizza (Medium Slice)",
+    "category": "Fast Food",
+    "subCategory": "Pizza",
+    "servingType": "slice",
+    "servingSize": "1 slice (100g)",
+    "servingWeight": 100,
+    "nutritionPerServing": {
+      "calories": 250,
+      "protein": 10.5,
+      "carbs": 30.0,
+      "fat": 10.0,
+      "fiber": 1.8,
+      "sugar": 3.0,
+      "sodium": 520,
+      "potassium": 140
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Snack", "Dinner"],
+    "aliases": ["cheese pizza slice", "margherita"],
+    "verified": true
+  },
+  {
+    "name": "Chicken Pepperoni Pizza (Medium Slice)",
+    "category": "Fast Food",
+    "subCategory": "Pizza",
+    "servingType": "slice",
+    "servingSize": "1 slice (110g)",
+    "servingWeight": 110,
+    "nutritionPerServing": {
+      "calories": 290,
+      "protein": 13.5,
+      "carbs": 29.0,
+      "fat": 13.0,
+      "fiber": 1.5,
+      "sugar": 2.8,
+      "sodium": 640,
+      "potassium": 180
+    },
+    "dietType": "NonVeg",
+    "mealTypes": ["Snack", "Dinner"],
+    "aliases": ["pepperoni pizza slice", "non veg pizza"],
+    "verified": true
+  },
+  {
+    "name": "French Fries (Medium)",
+    "category": "Fast Food",
+    "subCategory": "Sides",
+    "servingType": "pack",
+    "servingSize": "1 medium pack (117g)",
+    "servingWeight": 117,
+    "nutritionPerServing": {
+      "calories": 365,
+      "protein": 4.0,
+      "carbs": 48.0,
+      "fat": 17.0,
+      "fiber": 4.0,
+      "sugar": 0.5,
+      "sodium": 240,
+      "potassium": 620
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Snack"],
+    "aliases": ["fries", "potato fries", "salted fries"],
+    "verified": true
+  },
+  {
+    "name": "Peri Peri Fries",
+    "category": "Fast Food",
+    "subCategory": "Sides",
+    "servingType": "pack",
+    "servingSize": "1 medium pack (120g)",
+    "servingWeight": 120,
+    "nutritionPerServing": {
+      "calories": 380,
+      "protein": 4.2,
+      "carbs": 49.0,
+      "fat": 18.0,
+      "fiber": 4.2,
+      "sugar": 0.8,
+      "sodium": 480,
+      "potassium": 630
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Snack"],
+    "aliases": ["spicy fries", "masala fries"],
+    "verified": true
+  },
+  {
+    "name": "Chicken Nuggets (6 Pieces)",
+    "category": "Fast Food",
+    "subCategory": "Sides",
+    "servingType": "pack",
+    "servingSize": "6 pieces (100g)",
+    "servingWeight": 100,
+    "nutritionPerServing": {
+      "calories": 280,
+      "protein": 15.0,
+      "carbs": 16.0,
+      "fat": 18.0,
+      "fiber": 1.0,
+      "sugar": 0.5,
+      "sodium": 540,
+      "potassium": 220
+    },
+    "dietType": "NonVeg",
+    "mealTypes": ["Snack"],
+    "aliases": ["mcnuggets", "fried chicken nuggets"],
+    "verified": true
+  },
+  {
+    "name": "Veg Chowmein / Hakka Noodles",
+    "category": "Fast Food",
+    "subCategory": "Indo-Chinese",
+    "servingType": "plate",
+    "servingSize": "1 plate (250g)",
+    "servingWeight": 250,
+    "nutritionPerServing": {
+      "calories": 380,
+      "protein": 7.5,
+      "carbs": 58.0,
+      "fat": 13.5,
+      "fiber": 4.0,
+      "sugar": 3.2,
+      "sodium": 680,
+      "potassium": 210
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Snack", "Dinner"],
+    "aliases": ["veg noodles", "hakka noodles", "chowmein"],
+    "verified": true
+  },
+  {
+    "name": "Chicken Hakka Noodles",
+    "category": "Fast Food",
+    "subCategory": "Indo-Chinese",
+    "servingType": "plate",
+    "servingSize": "1 plate (280g)",
+    "servingWeight": 280,
+    "nutritionPerServing": {
+      "calories": 460,
+      "protein": 22.0,
+      "carbs": 56.0,
+      "fat": 16.0,
+      "fiber": 3.5,
+      "sugar": 3.0,
+      "sodium": 740,
+      "potassium": 320
+    },
+    "dietType": "NonVeg",
+    "mealTypes": ["Snack", "Dinner"],
+    "aliases": ["chicken noodles", "spicy chicken noodles"],
+    "verified": true
+  },
+  {
+    "name": "Veg Manchurian (Dry)",
+    "category": "Fast Food",
+    "subCategory": "Indo-Chinese",
+    "servingType": "plate",
+    "servingSize": "1 plate (200g)",
+    "servingWeight": 200,
+    "nutritionPerServing": {
+      "calories": 290,
+      "protein": 5.8,
+      "carbs": 32.0,
+      "fat": 15.5,
+      "fiber": 3.8,
+      "sugar": 4.5,
+      "sodium": 710,
+      "potassium": 190
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Snack", "Dinner"],
+    "aliases": ["manchurian balls", "dry manchurian"],
+    "verified": true
+  }
+]

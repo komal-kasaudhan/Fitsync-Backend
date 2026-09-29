@@ -1,0 +1,178 @@
+[
+  {
+    "name": "Chicken Biryani (Hyderabadi)",
+    "category": "Indian Meals",
+    "subCategory": "Rice Dishes",
+    "servingType": "plate",
+    "servingSize": "1 plate (350g)",
+    "servingWeight": 350,
+    "nutritionPerServing": {
+      "calories": 520,
+      "protein": 28.5,
+      "carbs": 64.0,
+      "fat": 16.5,
+      "fiber": 3.0,
+      "sugar": 2.1,
+      "sodium": 680,
+      "potassium": 340
+    },
+    "dietType": "NonVeg",
+    "mealTypes": ["Lunch", "Dinner"],
+    "aliases": ["chicken biryani", "hyderabadi biryani"],
+    "verified": true
+  },
+  {
+    "name": "Vegetable Biryani",
+    "category": "Indian Meals",
+    "subCategory": "Rice Dishes",
+    "servingType": "plate",
+    "servingSize": "1 plate (300g)",
+    "servingWeight": 300,
+    "nutritionPerServing": {
+      "calories": 380,
+      "protein": 8.5,
+      "carbs": 62.0,
+      "fat": 11.0,
+      "fiber": 5.2,
+      "sugar": 3.0,
+      "sodium": 540,
+      "potassium": 290
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Lunch", "Dinner"],
+    "aliases": ["veg biryani", "vegetable dum biryani"],
+    "verified": true
+  },
+  {
+    "name": "Mutton Biryani",
+    "category": "Indian Meals",
+    "subCategory": "Rice Dishes",
+    "servingType": "plate",
+    "servingSize": "1 plate (350g)",
+    "servingWeight": 350,
+    "nutritionPerServing": {
+      "calories": 580,
+      "protein": 26.0,
+      "carbs": 62.0,
+      "fat": 24.0,
+      "fiber": 2.8,
+      "sugar": 2.0,
+      "sodium": 720,
+      "potassium": 380
+    },
+    "dietType": "NonVeg",
+    "mealTypes": ["Lunch", "Dinner"],
+    "aliases": ["mutton dum biryani", "gosht biryani"],
+    "verified": true
+  },
+  {
+    "name": "Poha (Kanda Poha)",
+    "category": "Indian Meals",
+    "subCategory": "Breakfast Dishes",
+    "servingType": "plate",
+    "servingSize": "1 plate (150g)",
+    "servingWeight": 150,
+    "nutritionPerServing": {
+      "calories": 220,
+      "protein": 3.8,
+      "carbs": 38.0,
+      "fat": 6.2,
+      "fiber": 2.5,
+      "sugar": 2.0,
+      "sodium": 280,
+      "potassium": 120
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Breakfast", "Snack"],
+    "aliases": ["flattened rice", "kanda poha", "beaten rice"],
+    "verified": true
+  },
+  {
+    "name": "Upma (Rava)",
+    "category": "Indian Meals",
+    "subCategory": "Breakfast Dishes",
+    "servingType": "plate",
+    "servingSize": "1 plate (150g)",
+    "servingWeight": 150,
+    "nutritionPerServing": {
+      "calories": 195,
+      "protein": 4.5,
+      "carbs": 32.0,
+      "fat": 5.8,
+      "fiber": 2.2,
+      "sugar": 1.2,
+      "sodium": 310,
+      "potassium": 95
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Breakfast", "Snack"],
+    "aliases": ["semolina upma", "suji upma"],
+    "verified": true
+  },
+  {
+    "name": "Vegetable Khichdi",
+    "category": "Indian Meals",
+    "subCategory": "Comfort Food",
+    "servingType": "bowl",
+    "servingSize": "1 bowl (200g)",
+    "servingWeight": 200,
+    "nutritionPerServing": {
+      "calories": 210,
+      "protein": 6.8,
+      "carbs": 36.0,
+      "fat": 4.5,
+      "fiber": 3.8,
+      "sugar": 1.5,
+      "sodium": 340,
+      "potassium": 190
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Lunch", "Dinner"],
+    "aliases": ["dal khichdi", "masala khichdi"],
+    "verified": true
+  },
+  {
+    "name": "Sabudana Khichdi",
+    "category": "Indian Meals",
+    "subCategory": "Fasting Food",
+    "servingType": "plate",
+    "servingSize": "1 plate (150g)",
+    "servingWeight": 150,
+    "nutritionPerServing": {
+      "calories": 280,
+      "protein": 3.2,
+      "carbs": 42.0,
+      "fat": 11.0,
+      "fiber": 1.8,
+      "sugar": 1.0,
+      "sodium": 290,
+      "potassium": 140
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Breakfast", "Snack"],
+    "aliases": ["tapioca khichdi", "sago khichdi"],
+    "verified": true
+  },
+  {
+    "name": "Paneer Rice Bowl",
+    "category": "Indian Meals",
+    "subCategory": "Healthy Meals",
+    "servingType": "bowl",
+    "servingSize": "1 bowl (350g)",
+    "servingWeight": 350,
+    "nutritionPerServing": {
+      "calories": 540,
+      "protein": 32.0,
+      "carbs": 62.0,
+      "fat": 16.0,
+      "fiber": 6.0,
+      "sugar": 3.5,
+      "sodium": 480,
+      "potassium": 380
+    },
+    "dietType": "Veg",
+    "mealTypes": ["Lunch", "Dinner"],
+    "aliases": ["paneer rice", "cottage cheese rice bowl"],
+    "verified": true
+  }
+]
