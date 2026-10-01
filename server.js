@@ -1,4 +1,9 @@
 require("dotenv").config();
+const dns = require("dns");
+if (dns.setDefaultResultOrder) {
+    dns.setDefaultResultOrder("ipv4first");
+}
+
 const os = require("os");
 const { exec } = require("child_process");
 const path = require("path");
@@ -58,8 +63,12 @@ function setupAdbReverse(port) {
             console.log(`📱 [ADB Reverse] Port ${port} forwarded to connected physical Android device!`);
             console.log(`   -> Physical device can use: http://localhost:${port}/api/`);
         } else {
-            console.log(`ℹ️  [ADB] No active USB device or adb reverse status: ${stderr || err.message}`);
-            console.log(`   If testing via USB, ensure USB debugging is ON, or run: npm run reverse`);
+            const rawMsg = (stderr || err.message || "").toLowerCase();
+            if (rawMsg.includes("no devices") || rawMsg.includes("device not found")) {
+                console.log(`ℹ️  [ADB] No USB Android device connected (harmless if using Android Emulator or Wi-Fi).`);
+            } else {
+                console.log(`ℹ️  [ADB Status]: ${stderr || err.message}`);
+            }
         }
     });
 }
@@ -67,12 +76,12 @@ function setupAdbReverse(port) {
 async function startServer() {
     let isConnected = false;
     let attempts = 0;
-    const maxAttempts = 5;
+    const maxAttempts = 3;
 
     while (!isConnected && attempts < maxAttempts) {
         attempts++;
         try {
-            console.log(`🔄 Attempting to connect to MongoDB (Attempt ${attempts}/${maxAttempts})...`);
+            console.log(`🔄 Connecting to MongoDB Atlas (Attempt ${attempts}/${maxAttempts})...`);
             await connectDB();
             isConnected = true;
         } catch (error) {
