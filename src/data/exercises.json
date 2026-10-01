@@ -1,0 +1,110 @@
+[
+  {
+    "name": "Barbell Bench Press",
+    "targetArea": "Upper Body",
+    "primaryTarget": "Chest",
+    "secondaryTarget": "Triceps",
+    "coachTips": ["Keep your shoulder blades pinched together", "Lower the bar to mid-chest", "Do not flare your elbows 90 degrees"],
+    "stepsList": ["Lie flat on the bench with eyes under the bar", "Grip bar slightly wider than shoulder-width", "Unrack and lower with control to lower chest", "Press up explosively to starting position"],
+    "mistakesList": ["Bouncing bar off the sternum", "Flaring elbows excessively", "Lifting hips off the bench"]
+  },
+  {
+    "name": "Incline Dumbbell Press",
+    "targetArea": "Upper Body",
+    "primaryTarget": "Upper Chest",
+    "secondaryTarget": "Front Deltoids",
+    "coachTips": ["Set bench angle to 30 degrees", "Squeeze chest at the top of movement"],
+    "stepsList": ["Sit on bench with dumbbells on thighs", "Kick weights to shoulder level and lie back", "Press weights upward over upper chest", "Lower slowly until mild chest stretch"],
+    "mistakesList": ["Setting incline too high (>45 deg shifts to shoulders)", "Arching lower back excessively"]
+  },
+  {
+    "name": "Pull-Ups",
+    "targetArea": "Upper Body",
+    "primaryTarget": "Lats",
+    "secondaryTarget": "Biceps",
+    "coachTips": ["Lead with your chest towards the bar", "Full dead-hang stretch at the bottom"],
+    "stepsList": ["Hang from bar with overhand grip wider than shoulders", "Pull chest up by driving elbows down into ribs", "Clear chin over bar", "Lower slowly to full extension"],
+    "mistakesList": ["Kicking legs or kipping", "Half reps without full range of motion"]
+  },
+  {
+    "name": "Lat Pulldown",
+    "targetArea": "Upper Body",
+    "primaryTarget": "Lats",
+    "secondaryTarget": "Upper Back",
+    "coachTips": ["Slight backward lean in torso", "Drive elbows straight down to floor"],
+    "stepsList": ["Adjust knee pad securely", "Grip wide bar with overhand grip", "Pull bar down to upper chest level", "Control bar back up smoothly"],
+    "mistakesList": ["Swinging torso backward for momentum", "Pulling bar behind the neck"]
+  },
+  {
+    "name": "Barbell Back Squat",
+    "targetArea": "Lower Body",
+    "primaryTarget": "Quadriceps",
+    "secondaryTarget": "Glutes",
+    "coachTips": ["Brace core before descending", "Keep knees tracking over toes", "Hit parallel or deeper"],
+    "stepsList": ["Position bar across upper traps", "Step back, feet shoulder-width apart", "Hinge hips and bend knees downward", "Drive through midfoot back to stand"],
+    "mistakesList": ["Knees caving inward (valgus)", "Heels lifting off floor", "Rounding lower spine"]
+  },
+  {
+    "name": "Romanian Deadlift",
+    "targetArea": "Lower Body",
+    "primaryTarget": "Hamstrings",
+    "secondaryTarget": "Glutes",
+    "coachTips": ["Push hips backward like closing a car door", "Slight knee bend maintained throughout"],
+    "stepsList": ["Hold bar at hips with shoulder-width grip", "Hinge at hips, sliding bar down thighs", "Lower until hamstrings feel deep stretch", "Drive hips forward to stand tall"],
+    "mistakesList": ["Squatting down instead of hip hinging", "Rounding upper and lower back"]
+  },
+  {
+    "name": "Overhead Dumbbell Shoulder Press",
+    "targetArea": "Upper Body",
+    "primaryTarget": "Shoulders",
+    "secondaryTarget": "Triceps",
+    "coachTips": ["Keep core engaged to prevent spine hyperextension", "Elbows slightly tucked in scapular plane"],
+    "stepsList": ["Sit with back supported, dumbbells at ear height", "Press weights upward until arms extend overhead", "Lower with control back to ear level"],
+    "mistakesList": ["Arching back aggressively", "Locking elbows violently at top"]
+  },
+  {
+    "name": "Standing Barbell Bicep Curl",
+    "targetArea": "Arms",
+    "primaryTarget": "Biceps",
+    "secondaryTarget": "Forearms",
+    "coachTips": ["Keep elbows pinned to your sides", "Squeeze bicep at peak contraction"],
+    "stepsList": ["Stand tall with underhand grip on barbell", "Curl bar upward toward chest keeping elbows stationary", "Lower smoothly over 2 seconds"],
+    "mistakesList": ["Swinging hips to hoist weight", "Moving elbows forward to cheat range"]
+  },
+  {
+    "name": "Dumbbell Lateral Raise",
+    "targetArea": "Shoulders",
+    "primaryTarget": "Lateral Deltoids",
+    "secondaryTarget": "Traps",
+    "coachTips": ["Lead with elbows, not wrists", "Pour out a pitcher of water angle at the top"],
+    "stepsList": ["Stand with weights at sides, slight forward torso tilt", "Raise arms outward to sides until parallel with floor", "Hold for a split second, then lower under control"],
+    "mistakesList": ["Using excessive momentum/swinging", "Shrugging traps before lifting"]
+  },
+  {
+    "name": "Triceps Cable Pushdown",
+    "targetArea": "Arms",
+    "primaryTarget": "Triceps",
+    "secondaryTarget": "Forearms",
+    "coachTips": ["Elbows stationary by ribcage", "Full lockout contraction at bottom"],
+    "stepsList": ["Grip rope or straight bar at chest height", "Push down until arms are fully extended", "Pause and squeeze triceps", "Return slowly to chest height"],
+    "mistakesList": ["Letting elbows drift forward and back", "Rounding shoulders forward"]
+  },
+  {
+    "name": "Dumbbell Walking Lunges",
+    "targetArea": "Lower Body",
+    "primaryTarget": "Quadriceps",
+    "secondaryTarget": "Glutes",
+    "coachTips": ["Keep front shin relatively vertical", "Torso upright with tight core"],
+    "stepsList": ["Hold dumbbells at sides", "Step forward into a deep lunge until back knee nears floor", "Push off front foot to step through into next lunge"],
+    "mistakesList": ["Torso collapsing forward", "Front knee caving in"]
+  },
+  {
+    "name": "Standard Core Plank",
+    "targetArea": "Core",
+    "primaryTarget": "Abdominals",
+    "secondaryTarget": "Lower Back",
+    "coachTips": ["Tuck tailbone slightly, squeeze glutes and quads", "Do not let hips sag"],
+    "stepsList": ["Rest on forearms and toes with body in straight line", "Brace core as if expecting a punch", "Hold for specified duration breathing steadily"],
+    "mistakesList": ["Hips sagging toward floor", "Butt sticking high in air"]
+  }
+]

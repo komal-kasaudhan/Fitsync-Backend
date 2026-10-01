@@ -1,26 +1,34 @@
 const Food = require('../models/Food');
 exports.searchFoods = async (req, res) => {
     try {
-        const { q, category } = req.query;
+        const { q, category, mealType, dietType } = req.query;
         
         let queryFilter = {};
 
-      
         if (category && category !== 'All') {
             queryFilter.category = { $regex: category, $options: 'i' };
         }
 
-        // 2. Search Query Matching (Name, Aliases, Category)
+        if (mealType && mealType !== 'All') {
+            queryFilter.mealTypes = { $in: [new RegExp(mealType, 'i')] };
+        }
+
+        if (dietType && dietType !== 'All') {
+            queryFilter.dietType = { $regex: dietType, $options: 'i' };
+        }
+
+        // 2. Search Query Matching (Name, Aliases, Category, MealTypes)
         if (q && q.trim() !== "") {
             const searchRegex = new RegExp(q.trim(), 'i');
             queryFilter.$or = [
                 { name: searchRegex },
                 { aliases: searchRegex },
-                { category: searchRegex }
+                { category: searchRegex },
+                { mealTypes: searchRegex }
             ];
         }
 
-        const rawFoods = await Food.find(queryFilter).limit(30);
+        const rawFoods = await Food.find(queryFilter).limit(50);
 
         // 3. 🔄 MAP & FLATTEN: Response to Match Android App Expectations
         const formattedFoods = rawFoods.map(item => {
@@ -40,7 +48,9 @@ exports.searchFoods = async (req, res) => {
                 protein: nutrition.protein !== undefined ? nutrition.protein : 0,
                 carbs: nutrition.carbs !== undefined ? nutrition.carbs : 0,
                 fat: nutrition.fat !== undefined ? nutrition.fat : 0,
-                
+                fiber: nutrition.fiber !== undefined ? nutrition.fiber : 0,
+                dietType: item.dietType || "Veg",
+                mealTypes: item.mealTypes || [],
                 servingUnit: item.servingSize || "100g",
                 verified: item.verified !== undefined ? item.verified : true
             };
