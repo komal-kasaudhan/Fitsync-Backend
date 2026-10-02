@@ -1,14 +1,27 @@
+// 📄 Path: src/routes/nutritionRoutes.js
 const express = require('express');
 const router = express.Router();
 
 const foodController = require('../controllers/foodController');
 const mealController = require('../controllers/mealController');
 const nutritionController = require('../controllers/nutritionController');
+const recommendationController = require('../controllers/recommendationController');
 const waterController = require('../controllers/waterController');
 const targetController = require('../controllers/targetController');
 const aiController = require('../controllers/aiController');
 const auth = require('../middleware/auth.middleware');
 const { uploadImage } = require('../middleware/upload.middleware');
+
+// FEATURE A: Protein-focused daily recommendations
+router.get('/recommendations', auth, recommendationController.getRecommendations);
+router.post('/recommendations/:id/add', auth, recommendationController.addRecommendationToLog);
+
+// FEATURE B: Weekly calorie bar graph
+router.get('/weekly', auth, nutritionController.getWeeklyNutrition);
+
+// FEATURE C: Dynamic AI nutrition insight
+router.get('/insight', auth, nutritionController.getDynamicInsight);
+router.get('/ai/insight', auth, nutritionController.getDynamicInsight); // Alias for backward compatibility
 
 // Food Routes
 router.get('/foods/search', auth, foodController.searchFoods);
@@ -27,9 +40,8 @@ router.post('/water/add', auth, waterController.addWater);
 router.post('/targets/setup', auth, targetController.setupTargets);
 router.get('/targets', auth, targetController.getTargets);
 
-// AI Vision Scan & AI Coach (directly under /api/v1/nutrition for Android Retrofit client)
+// AI Vision Scan & AI Coach (for Android Retrofit client)
 router.post('/scan', auth, uploadImage, aiController.scanFoodImage);
 router.post('/ai/ask', auth, aiController.askAiCoach);
-router.get('/ai/insight', auth, aiController.getSmartInsight);
 
 module.exports = router;

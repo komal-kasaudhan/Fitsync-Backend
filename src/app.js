@@ -7,6 +7,9 @@ const onboardingRoutes = require("./routes/onboarding.routes");
 const workoutRoutes = require("./routes/workout.routes");
 const nutritionRoutes = require("./routes/nutritionRoutes");
 const aiRoutes = require("./routes/aiRoutes");
+const equipmentRoutes = require("./routes/equipment.routes");
+const userRoutes = require("./routes/user.routes");
+const targetRoutes = require("./routes/target.routes");
 
 const app = express();
 
@@ -48,22 +51,44 @@ app.get("/", (req, res) => {
     });
 });
 
+// Health check endpoint (No auth, phone-friendly)
 app.get("/api/health", (req, res) => {
     const isDbConnected = mongoose.connection.readyState === 1;
-    res.status(isDbConnected ? 200 : 503).json({
-        status: isDbConnected ? "UP" : "DEGRADED",
-        dbConnected: isDbConnected,
-        timestamp: new Date().toISOString(),
-        clientIp: req.headers["x-forwarded-for"] || req.socket.remoteAddress
+    res.status(200).json({
+        status: "ok",
+        db: isDbConnected ? "connected" : "offline",
+        time: new Date().toISOString()
     });
+});
+
+// Database-offline guard: return 503 if DB is offline instead of hanging
+app.use("/api", (req, res, next) => {
+    if (req.path === "/health") {
+        return next();
+    }
+    if (mongoose.connection.readyState !== 1) {
+        return res.status(503).json({
+            message: "Database offline"
+        });
+    }
+    next();
 });
 
 // API Routes
 if (authRoutes) app.use("/api/auth", authRoutes);
 if (onboardingRoutes) app.use("/api/onboarding", onboardingRoutes);
 if (workoutRoutes) app.use("/api/workout", workoutRoutes);
-if (nutritionRoutes) app.use("/api/v1/nutrition", nutritionRoutes);
-if (aiRoutes) app.use("/api/v1/nutrition/ai", aiRoutes);
+if (nutritionRoutes) {
+    app.use("/api/nutrition", nutritionRoutes);
+    app.use("/api/v1/nutrition", nutritionRoutes);
+}
+if (equipmentRoutes) app.use("/api/equipment", equipmentRoutes);
+if (userRoutes) app.use("/api/user", userRoutes);
+if (targetRoutes) app.use("/api/targets", targetRoutes);
+if (aiRoutes) {
+    app.use("/api/ai", aiRoutes);
+    app.use("/api/v1/nutrition/ai", aiRoutes);
+}
 
 // 404 Route Handler
 app.use((req, res) => {

@@ -1,8 +1,43 @@
+// 📄 Path: src/controllers/aiController.js
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const DailyNutrition = require("../models/DailyNutrition");
+const NutritionTarget = require("../models/NutritionTarget");
+const Onboarding = require("../models/onboarding.model");
+const WorkoutPlan = require("../models/WorkoutPlan");
+const WorkoutPreferences = require("../models/WorkoutPreferences");
+const AiChat = require("../models/AiChat");
+const { getTodayKolkata, getWeekdayKolkata } = require("../utils/dateUtils");
+const { chatWithAiCoach } = require("../service/geminiService");
+const crypto = require("crypto");
 
 const PRIMARY_MODEL = process.env.GEMINI_MODEL || "gemini-3.1-flash-lite";
 const FALLBACK_MODELS = [PRIMARY_MODEL, "gemini-3.5-flash", "gemini-flash-latest"];
+
+// In-memory sliding rate limiter per user (e.g. max 20 requests per minute)
+const userRequestCounts = new Map();
+
+function checkRateLimit(userId) {
+    const now = Date.now();
+    const windowMs = 60 * 1000;
+    const maxRequests = 20;
+
+    let userLog = userRequestCounts.get(String(userId));
+    if (!userLog) {
+        userLog = [];
+        userRequestCounts.set(String(userId), userLog);
+    }
+
+    // Filter out timestamps outside window
+    userLog = userLog.filter(ts => now - ts < windowMs);
+    userRequestCounts.set(String(userId), userLog);
+
+    if (userLog.length >= maxRequests) {
+        return false;
+    }
+
+    userLog.push(now);
+    return true;
+}
 
 function getGenAI() {
     const apiKey = process.env.GEMINI_API_KEY || "";
@@ -12,14 +47,18 @@ function getGenAI() {
     return new GoogleGenerativeAI(apiKey);
 }
 
-async function generateWithFallback(promptOrParts, generationConfig = {}) {
+async function generateWithFallback(promptOrParts, generationConfig = {}, timeoutMs = 60000) {
     const genAI = getGenAI();
     let lastError = null;
 
     for (const modelName of FALLBACK_MODELS) {
         try {
             const model = genAI.getGenerativeModel({ model: modelName, generationConfig });
-            const result = await model.generateContent(promptOrParts);
+            const timeoutPromise = new Promise((_, reject) =>
+                setTimeout(() => reject(new Error(`Model timeout after ${timeoutMs}ms`)), timeoutMs)
+            );
+            const resultPromise = model.generateContent(promptOrParts);
+            const result = await Promise.race([resultPromise, timeoutPromise]);
             return result.response.text().trim();
         } catch (err) {
             console.warn(`⚠️ Model ${modelName} failed (${err.status || err.message}), trying fallback...`);
@@ -30,11 +69,140 @@ async function generateWithFallback(promptOrParts, generationConfig = {}) {
     throw lastError || new Error("All Gemini models failed to respond.");
 }
 
-// 💡 1. Smart Insight Controller
+/**
+ * FEATURE I: Ask AI (Floating Button & Multi-turn Chat)
+ * POST /api/ai/ask
+ * Body: { message, query, conversationId? }
+ */
+exports.askAiCoach = async (req, res) => {
+    try {
+        const userId = req.user?._id || req.user?.id || req.userId;
+        const userMessage = (req.body.message || req.body.query || "").trim();
+        let conversationId = req.body.conversationId || "default";
+
+        if (!userMessage) {
+            return res.status(400).json({ success: false, message: "message is required" });
+        }
+
+        // 1. Rate limiting
+        if (!checkRateLimit(userId)) {
+            return res.status(429).json({
+                success: false,
+                message: "You're asking questions very quickly! Please wait a moment before trying again."
+            });
+        }
+
+        // 2. Build full user context from DB
+        const date = getTodayKolkata();
+        const onboarding = await Onboarding.findOne({ userId });
+        const targets = await NutritionTarget.findOne({ $or: [{ userId }, { user: userId }] });
+        const daily = await DailyNutrition.findOne({ $or: [{ userId }, { user: userId }], date });
+        const plan = await WorkoutPlan.findOne({ userId, status: "Active" });
+        const prefs = await WorkoutPreferences.findOne({ userId });
+
+        const targetProtein = targets?.targetProtein || 100;
+        const targetCalories = targets?.targetCalories || 2000;
+        const consumedProtein = daily?.consumedProtein || daily?.consumed?.protein || 0;
+        const consumedCalories = daily?.consumedCalories || daily?.consumed?.calories || 0;
+
+        const todayWeekday = getWeekdayKolkata();
+        const todayRoutine = plan?.routines?.find(r => r.dayName === todayWeekday);
+        const todayWorkout = todayRoutine ? `${todayRoutine.focus} (${todayRoutine.isRestDay ? "Rest Day" : todayRoutine.duration + " mins"})` : "Rest / Active Recovery";
+
+        const rawDiet = (onboarding?.goal || "").toLowerCase();
+        const dietType = rawDiet.includes("non") ? "Non-Veg" : rawDiet.includes("egg") ? "Eggetarian" : "Vegetarian";
+
+        const userContext = {
+            goal: onboarding?.goal || "General Fitness",
+            currentWeight: onboarding?.currentWeight || 70,
+            targetWeight: onboarding?.targetWeight || 68,
+            dietType,
+            injuries: onboarding?.selectedMedicalConditions || [],
+            equipment: prefs?.equipmentAvailable || ["Bodyweight"],
+            remainingProtein: Math.max(0, Math.round((targetProtein - consumedProtein) * 10) / 10),
+            remainingCalories: Math.max(0, Math.round(targetCalories - consumedCalories)),
+            todayWorkout
+        };
+
+        // 3. Load or initialize conversation history
+        let chatDoc = await AiChat.findOne({ userId, conversationId });
+        if (!chatDoc) {
+            chatDoc = new AiChat({
+                userId,
+                conversationId,
+                messages: []
+            });
+        }
+
+        const history = chatDoc.messages.slice(-10);
+
+        // 4. Generate AI response (with scope guard, timeout, and fallback)
+        let aiReply = "";
+        try {
+            aiReply = await chatWithAiCoach(userMessage, history, userContext);
+        } catch (err) {
+            console.error("❌ Gemini call in askAiCoach error:", err.message);
+            aiReply = "I am experiencing high traffic right now. In the meantime, remember to prioritize hitting your protein target and drinking enough water!";
+        }
+
+        // 5. Save turn in DB
+        chatDoc.messages.push({ role: "user", content: userMessage, timestamp: new Date() });
+        chatDoc.messages.push({ role: "model", content: aiReply, timestamp: new Date() });
+
+        // Keep last 40 messages max per conversation
+        if (chatDoc.messages.length > 40) {
+            chatDoc.messages = chatDoc.messages.slice(-40);
+        }
+
+        await chatDoc.save();
+
+        return res.status(200).json({
+            success: true,
+            conversationId,
+            reply: aiReply,
+            answer: aiReply // Alias for backward compatibility
+        });
+    } catch (error) {
+        console.error("❌ AI Coach Chat Error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "I am having a brief connection issue. Please try asking again in a moment.",
+            error: error.message
+        });
+    }
+};
+
+/**
+ * FEATURE I: Get Conversation History
+ * GET /api/ai/history?conversationId=
+ */
+exports.getChatHistory = async (req, res) => {
+    try {
+        const userId = req.user?._id || req.user?.id || req.userId;
+        const conversationId = req.query.conversationId || "default";
+
+        const chatDoc = await AiChat.findOne({ userId, conversationId });
+        const messages = chatDoc ? chatDoc.messages : [];
+
+        return res.status(200).json({
+            success: true,
+            conversationId,
+            count: messages.length,
+            messages
+        });
+    } catch (error) {
+        console.error("❌ Error in getChatHistory:", error);
+        return res.status(500).json({ success: false, message: error.message || "Failed to load chat history" });
+    }
+};
+
+/**
+ * 💡 Smart Insight Controller (Backward compatibility)
+ */
 exports.getSmartInsight = async (req, res) => {
     try {
         const userId = req.user?._id || req.user?.id;
-        const date = req.query.date || new Date().toISOString().split("T")[0];
+        const date = req.query.date || getTodayKolkata();
 
         const dailyRecord = await DailyNutrition.findOne({ userId, date });
         const consumed = dailyRecord ? (dailyRecord.consumed || { calories: dailyRecord.consumedCalories || 0, protein: dailyRecord.consumedProtein || 0 }) : { calories: 0, protein: 0 };
@@ -52,8 +220,8 @@ exports.getSmartInsight = async (req, res) => {
         }
 
         const prompt = `User Stats Today: Consumed ${consumed.calories}/${targetCalories} kcal, ${consumed.protein}/${targetProtein}g protein.
-                        Remaining: ${remCalories} kcal and ${remProtein}g protein.
-                        Write a crisp 1-sentence fitness advice (under 15 words) on what to eat or do next. No markdown, no quotes, no emojis.`;
+Remaining: ${remCalories} kcal and ${remProtein}g protein.
+Write a crisp 1-sentence fitness advice (under 15 words) on what to eat or do next. No markdown, no quotes, no emojis.`;
 
         const insightText = await generateWithFallback(prompt);
 
@@ -70,49 +238,9 @@ exports.getSmartInsight = async (req, res) => {
     }
 };
 
-// 🤖 2. Interactive AI Coach Chat Controller
-exports.askAiCoach = async (req, res) => {
-    try {
-        const userId = req.user?._id || req.user?.id;
-        const { query } = req.body;
-        const date = new Date().toISOString().split("T")[0];
-
-        if (!query || query.trim() === "") {
-            return res.status(400).json({ success: false, message: "Query is required" });
-        }
-
-        if (!process.env.GEMINI_API_KEY) {
-            return res.status(200).json({
-                success: true,
-                answer: "GEMINI_API_KEY is not configured on the backend server. Please configure it in your .env file."
-            });
-        }
-
-        const dailyRecord = await DailyNutrition.findOne({ userId, date });
-        const consumed = dailyRecord ? (dailyRecord.consumed || { calories: dailyRecord.consumedCalories || 0, protein: dailyRecord.consumedProtein || 0 }) : { calories: 0, protein: 0 };
-
-        const prompt = `You are FitSync AI, an expert nutrition and fitness coach.
-                        User Context Today: ${consumed.calories || 0}/2000 kcal consumed, ${consumed.protein || 0}/100g protein consumed.
-                        User Question: "${query.trim()}".
-                        Answer concisely in clear, helpful English under 60 words.`;
-
-        const answerText = await generateWithFallback(prompt);
-
-        return res.status(200).json({
-            success: true,
-            answer: answerText
-        });
-    } catch (error) {
-        console.error("❌ AI Coach Chat Error:", error);
-        return res.status(500).json({
-            success: false,
-            message: "Failed to process AI chat query",
-            error: error.message
-        });
-    }
-};
-
-// 📸 3. Camera Food Image Vision Scan Controller
+/**
+ * 📸 Camera Food Image Vision Scan Controller
+ */
 exports.scanFoodImage = async (req, res) => {
     try {
         let imageBase64 = null;
@@ -123,7 +251,6 @@ exports.scanFoodImage = async (req, res) => {
             imageBase64 = req.file.buffer.toString("base64");
             mimeType = req.file.mimetype || "image/jpeg";
         } else if (req.body?.imageBase64 || req.body?.image) {
-            // Check JSON body base64 string
             const raw = req.body.imageBase64 || req.body.image;
             if (raw.includes(",")) {
                 const parts = raw.split(",");
@@ -149,83 +276,61 @@ exports.scanFoodImage = async (req, res) => {
             });
         }
 
-        const prompt = `
-        Analyze this image carefully.
-        First, determine if this image clearly contains edible food, meal, or beverage.
-        If NO food is detected (e.g. human face, clothing, document, room, furniture, plain background, non-food item), return ONLY this JSON:
-        {
-          "isFood": false,
-          "message": "No food detected in image",
-          "foodName": "Unknown",
-          "calories": 0,
-          "protein": 0,
-          "carbs": 0,
-          "fat": 0,
-          "estimatedGram": 0
-        }
-
-        If food IS detected, estimate the portion and nutritional breakdown. Return ONLY this JSON:
-        {
-          "isFood": true,
-          "foodName": "Specific name of dish or food item",
-          "calories": <estimated calories as number>,
-          "protein": <estimated protein in grams as number>,
-          "carbs": <estimated carbohydrates in grams as number>,
-          "fat": <estimated fats in grams as number>,
-          "estimatedGram": <estimated total serving weight in grams as number>
-        }
-        `;
+        const prompt = `Analyze this food image. Identify the dish and estimate nutrition per standard serving.
+Respond with pure JSON only in this exact structure:
+{
+    "foodName": "Name of dish",
+    "servingSize": "e.g. 1 bowl / 150g",
+    "servingWeightGrams": 150,
+    "calories": 250,
+    "protein": 12,
+    "carbs": 30,
+    "fat": 8,
+    "fiber": 3,
+    "confidenceScore": 0.90,
+    "dietType": "Veg or NonVeg or Vegan or Eggitarian",
+    "ingredientsDetected": ["item 1", "item 2"]
+}`;
 
         const imagePart = {
             inlineData: {
-                data: imageBase64.trim(),
-                mimeType: mimeType
+                data: imageBase64,
+                mimeType
             }
         };
 
-        const responseText = await generateWithFallback(
-            [prompt, imagePart],
-            { responseMimeType: "application/json" }
-        );
+        const rawResponse = await generateWithFallback([prompt, imagePart], {
+            responseMimeType: "application/json"
+        }, 75000);
 
         let parsedData;
         try {
-            parsedData = JSON.parse(responseText);
+            let cleaned = rawResponse.trim();
+            if (cleaned.startsWith("```json")) {
+                cleaned = cleaned.replace(/^```json\s*/, "").replace(/```$/, "").trim();
+            } else if (cleaned.startsWith("```")) {
+                cleaned = cleaned.replace(/^```\s*/, "").replace(/```$/, "").trim();
+            }
+            parsedData = JSON.parse(cleaned);
         } catch (jsonErr) {
-            const cleanJson = responseText.replace(/```json/gi, "").replace(/```/g, "").trim();
-            parsedData = JSON.parse(cleanJson);
-        }
-
-        if (parsedData.isFood === false) {
-            return res.status(200).json({
+            console.error("❌ Failed to parse Gemini Vision JSON:", jsonErr.message);
+            return res.status(500).json({
                 success: false,
-                isFood: false,
-                message: "No food detected in the provided image. Please take a clear picture of your food.",
-                foodName: "Unknown",
-                calories: 0,
-                protein: 0,
-                carbs: 0,
-                fat: 0,
-                estimatedGram: 0
+                message: "Failed to parse nutritional data from image.",
+                rawResponse
             });
         }
 
         return res.status(200).json({
             success: true,
-            isFood: true,
-            foodName: parsedData.foodName || "Identified Dish",
-            calories: Math.round(Number(parsedData.calories) || 0),
-            protein: parseFloat(Number(parsedData.protein || 0).toFixed(1)),
-            carbs: parseFloat(Number(parsedData.carbs || 0).toFixed(1)),
-            fat: parseFloat(Number(parsedData.fat || 0).toFixed(1)),
-            estimatedGram: Math.round(Number(parsedData.estimatedGram) || 100)
+            message: "Food scanned successfully",
+            data: parsedData
         });
-
     } catch (error) {
-        console.error("❌ AI Food Scan Error:", error);
+        console.error("❌ Scan Food Image Error:", error);
         return res.status(500).json({
             success: false,
-            message: "Failed to scan food image with AI: " + error.message,
+            message: "Failed to scan food image",
             error: error.message
         });
     }

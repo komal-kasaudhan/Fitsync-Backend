@@ -1,134 +1,295 @@
+// 📄 Path: src/controllers/workout.controller.js
+const Exercise = require('../models/Exercise');
+const WorkoutPlan = require('../models/WorkoutPlan');
 const WorkoutPreferences = require('../models/WorkoutPreferences');
 const Onboarding = require('../models/onboarding.model');
-const WorkoutPlanService = require('../service/workoutPlan.service');
+const WeightLog = require('../models/WeightLog');
+const workoutPlanService = require('../service/workoutPlan.service');
+const nutritionCalculationService = require('../service/nutritionCalculationService');
+const { getTodayKolkata, getLast7DaysKolkata } = require('../utils/dateUtils');
 
-const savePreferencesAndQueueGeneration = async (req, res) => {
+/**
+ * FEATURE D: Browse Exercise Library
+ * GET /api/workout/exercises?muscle=&equipment=&location=&level=
+ */
+exports.getExercises = async (req, res) => {
     try {
-        const userId = req.user?._id || req.user?.id || req.body.userId;
+        const { muscle, equipment, location, level, search } = req.query;
+        const filter = {};
 
-        if (!userId) {
-            return res.status(400).json({
-                success: false,
-                message: "Authentication or userId is required."
-            });
+        if (muscle) {
+            filter.$or = [
+                { primaryMuscle: { $regex: new RegExp(muscle, "i") } },
+                { secondaryMuscles: { $regex: new RegExp(muscle, "i") } }
+            ];
         }
 
-        const daysPerWeek = Number(req.body.daysPerWeek) || (req.body.specificDays?.length ? req.body.specificDays.length : 3);
-        const specificDays = req.body.specificDays || ["Monday", "Wednesday", "Friday"];
-        const preferredDurationMinutes = Number(req.body.preferredDurationMinutes) || 45;
-        const equipmentAvailable = req.body.equipmentAvailable || [];
+        if (equipment) {
+            filter.equipment = { $regex: new RegExp(equipment, "i") };
+        }
 
-        const synchronizedPreferences = await WorkoutPreferences.findOneAndUpdate(
-            { userId },
-            {
-                userId,
-                daysPerWeek,
-                specificDays,
-                preferredDurationMinutes,
-                equipmentAvailable
+        if (location) {
+            filter.locations = { $regex: new RegExp(location, "i") };
+        }
+
+        if (level) {
+            filter.difficulty = { $regex: new RegExp(level, "i") };
+        }
+
+        if (search) {
+            filter.name = { $regex: new RegExp(search, "i") };
+        }
+
+        const exercises = await Exercise.find(filter).sort({ primaryMuscle: 1, name: 1 }).lean();
+
+        return res.status(200).json({
+            success: true,
+            count: exercises.length,
+            exercises
+        });
+    } catch (error) {
+        console.error("❌ Error in getExercises:", error);
+        return res.status(500).json({ success: false, message: error.message || "Failed to load exercises" });
+    }
+};
+
+/**
+ * FEATURE E: Generate or regenerate workout plan
+ * POST /api/workout/plan/generate
+ * POST /api/workout/plan/regenerate
+ */
+exports.generateWorkoutPlan = async (req, res) => {
+    try {
+        const userId = req.user?._id || req.user?.id || req.userId;
+        const options = req.body || {};
+
+        const plan = await workoutPlanService.generatePlan(userId, options);
+
+        return res.status(200).json({
+            success: true,
+            message: "Weekly workout plan generated successfully!",
+            plan
+        });
+    } catch (error) {
+        console.error("❌ Error in generateWorkoutPlan:", error);
+        return res.status(500).json({ success: false, message: error.message || "Failed to generate workout plan" });
+    }
+};
+
+/**
+ * FEATURE E: Get current 7-day plan
+ * GET /api/workout/plan/current
+ * GET /api/workout/plan
+ */
+exports.getCurrentPlan = async (req, res) => {
+    try {
+        const userId = req.user?._id || req.user?.id || req.userId;
+        const plan = await workoutPlanService.getCurrentPlan(userId);
+
+        return res.status(200).json({
+            success: true,
+            plan
+        });
+    } catch (error) {
+        console.error("❌ Error in getCurrentPlan:", error);
+        return res.status(500).json({ success: false, message: error.message || "Failed to load current workout plan" });
+    }
+};
+
+/**
+ * FEATURE E: Get today's scheduled workout
+ * GET /api/workout/today
+ */
+exports.getTodayWorkout = async (req, res) => {
+    try {
+        const userId = req.user?._id || req.user?.id || req.userId;
+        const todayWorkout = await workoutPlanService.getTodayWorkout(userId);
+
+        return res.status(200).json({
+            success: true,
+            today: todayWorkout
+        });
+    } catch (error) {
+        console.error("❌ Error in getTodayWorkout:", error);
+        return res.status(500).json({ success: false, message: error.message || "Failed to load today's workout" });
+    }
+};
+
+/**
+ * FEATURE E: Complete a session
+ * POST /api/workout/session/complete
+ */
+exports.completeSession = async (req, res) => {
+    try {
+        const userId = req.user?._id || req.user?.id || req.userId;
+        const { dayIndex, exercisesCompleted, durationMin } = req.body;
+
+        if (dayIndex === undefined) {
+            return res.status(400).json({ success: false, message: "dayIndex is required" });
+        }
+
+        const result = await workoutPlanService.completeSession(userId, {
+            dayIndex,
+            exercisesCompleted,
+            durationMin: Number(durationMin) || 45
+        });
+
+        return res.status(200).json(result);
+    } catch (error) {
+        console.error("❌ Error in completeSession:", error);
+        return res.status(500).json({ success: false, message: error.message || "Failed to complete session" });
+    }
+};
+
+/**
+ * FEATURE E: Skip a session with adaptation
+ * POST /api/workout/session/skip
+ */
+exports.skipSession = async (req, res) => {
+    try {
+        const userId = req.user?._id || req.user?.id || req.userId;
+        const { dayIndex, reason } = req.body;
+
+        if (dayIndex === undefined) {
+            return res.status(400).json({ success: false, message: "dayIndex is required" });
+        }
+
+        const result = await workoutPlanService.skipSession(userId, {
+            dayIndex,
+            reason: reason || "Busy"
+        });
+
+        return res.status(200).json(result);
+    } catch (error) {
+        console.error("❌ Error in skipSession:", error);
+        return res.status(500).json({ success: false, message: error.message || "Failed to skip session" });
+    }
+};
+
+/**
+ * FEATURE F: Workout Stats (No hardcoded values)
+ * GET /api/workout/stats
+ */
+exports.getWorkoutStats = async (req, res) => {
+    try {
+        const userId = req.user?._id || req.user?.id || req.userId;
+
+        // 1. Fetch user onboarding profile & weight logs
+        const onboarding = await Onboarding.findOne({ userId });
+        const weightLogs = await WeightLog.find({ userId }).sort({ date: -1 }).lean();
+
+        const startWeight = onboarding?.currentWeight || (weightLogs[weightLogs.length - 1]?.weightKg) || 70;
+        const targetWeight = onboarding?.targetWeight || (startWeight - 5);
+        const currentWeight = weightLogs.length > 0 ? weightLogs[0].weightKg : startWeight;
+
+        // Weight progress percentage
+        let weightProgressPercent = 0;
+        if (startWeight !== targetWeight) {
+            const totalToChange = Math.abs(startWeight - targetWeight);
+            const changed = Math.abs(startWeight - currentWeight);
+            weightProgressPercent = Math.min(100, Math.max(0, Math.round((changed / totalToChange) * 100)));
+        }
+
+        // 2. Fetch workout plan and routines
+        const plan = await workoutPlanService.getCurrentPlan(userId);
+        const routines = plan?.routines || [];
+
+        const activeSessions = routines.filter(r => !r.isRestDay);
+        const weeklySessionsPlanned = activeSessions.length || 4;
+        const weeklySessionsCompleted = activeSessions.filter(r => r.completed).length;
+        const weekCompletionPercent = Math.round((weeklySessionsCompleted / weeklySessionsPlanned) * 100);
+
+        // Calories burned this week
+        let caloriesBurnedThisWeek = 0;
+        routines.forEach(r => {
+            if (r.completed) {
+                caloriesBurnedThisWeek += (r.calories || r.estimatedCalories || 0);
+            }
+        });
+
+        // 3. Last 7 days completion tracking
+        const last7 = getLast7DaysKolkata();
+        const completedDatesSet = new Set();
+        routines.forEach(r => {
+            if (r.completed && r.completedAt) {
+                completedDatesSet.add(new Date(r.completedAt).toISOString().split('T')[0]);
+            }
+        });
+
+        const last7Days = last7.map(d => ({
+            date: d.date,
+            dayLabel: d.dayLabel,
+            completed: completedDatesSet.has(d.date)
+        }));
+
+        // Calculate streak days (consecutive completed days or active routine count)
+        const currentStreakDays = weeklySessionsCompleted;
+
+        return res.status(200).json({
+            success: true,
+            currentWeight,
+            startWeight,
+            targetWeight,
+            weightProgressPercent,
+            weeklyStreak: {
+                currentStreakDays,
+                weeklySessionsCompleted,
+                weeklySessionsPlanned
             },
-            { returnDocument: 'after', upsert: true, runValidators: true }
+            weekCompletionPercent,
+            caloriesBurnedThisWeek,
+            last7Days
+        });
+    } catch (error) {
+        console.error("❌ Error in getWorkoutStats:", error);
+        return res.status(500).json({ success: false, message: error.message || "Failed to load workout stats" });
+    }
+};
+
+/**
+ * FEATURE F: Log Weight and update calorie/macro targets
+ * POST /api/workout/weight
+ * Body: { weightKg, date }
+ */
+exports.logWeight = async (req, res) => {
+    try {
+        const userId = req.user?._id || req.user?.id || req.userId;
+        const { weightKg, date } = req.body;
+
+        if (!weightKg || isNaN(weightKg)) {
+            return res.status(400).json({ success: false, message: "Valid weightKg is required" });
+        }
+
+        const weightDate = date || getTodayKolkata();
+
+        // 1. Record in WeightLog
+        const log = await WeightLog.findOneAndUpdate(
+            { userId, date: weightDate },
+            { userId, weightKg: Number(weightKg), date: weightDate },
+            { upsert: true, new: true }
         );
 
-        let coreUserProfile = await Onboarding.findOne({ userId });
-        if (!coreUserProfile) {
-            coreUserProfile = {
-                age: 25,
-                gender: "Male",
-                height: 175,
-                currentWeight: 70,
-                targetWeight: 70,
-                goal: "Fitness",
-                activityLevel: "MODERATE",
-                workoutLocation: "Gym",
-                selectedMedicalConditions: [],
-                physicalLimitations: "None"
-            };
-        }
+        // 2. Update currentWeight in Onboarding profile
+        const onboarding = await Onboarding.findOneAndUpdate(
+            { userId },
+            { $set: { currentWeight: Number(weightKg) } },
+            { new: true }
+        );
 
-        const compiledWorkoutContextPayload = {
-            userOnboardingTelemetry: {
-                age: coreUserProfile.age,
-                gender: coreUserProfile.gender,
-                height: coreUserProfile.height,
-                currentWeight: coreUserProfile.currentWeight,
-                targetWeight: coreUserProfile.targetWeight,
-                fitnessGoal: coreUserProfile.goal,
-                activityLevel: coreUserProfile.activityLevel,
-                workoutLocation: coreUserProfile.workoutLocation,
-                medicalConditions: coreUserProfile.selectedMedicalConditions || [],
-                physicalLimitations: coreUserProfile.physicalLimitations || "None"
-            },
-            bottomSheetCurrentConstraints: {
-                targetDaysCount: synchronizedPreferences.daysPerWeek,
-                weeklyActiveDays: synchronizedPreferences.specificDays,
-                durationPerSession: synchronizedPreferences.preferredDurationMinutes,
-                hardwareInventory: synchronizedPreferences.equipmentAvailable
-            }
-        };
-
-        const plan = await WorkoutPlanService.generateAndSaveWorkoutPlan(userId, compiledWorkoutContextPayload);
-
-        return res.status(200).json({
-            success: true,
-            message: "Workout plan generated successfully and saved to MongoDB Atlas.",
-            preferenceId: synchronizedPreferences._id,
-            data: plan
-        });
-
-    } catch (error) {
-        console.error("❌ Workout Generation Controller Error:", error);
-        return res.status(500).json({
-            success: false,
-            message: "Internal Runtime Processing Pipeline Failure.",
-            error: error.message
-        });
-    }
-};
-
-const getWorkoutPlan = async (req, res) => {
-    try {
-        const userId = req.user?._id || req.user?.id || req.query.userId;
-
-        if (!userId) {
-            return res.status(400).json({
-                success: false,
-                message: "Authentication or userId is required."
-            });
-        }
-
-        let plan = await WorkoutPlanService.getUserWorkoutPlan(userId);
-
-        if (!plan) {
-            const coreUserProfile = await Onboarding.findOne({ userId });
-            const prefs = await WorkoutPreferences.findOne({ userId });
-
-            const defaultContext = {
-                userOnboardingTelemetry: coreUserProfile || { currentWeight: 70, fitnessGoal: "Fitness" },
-                bottomSheetCurrentConstraints: {
-                    targetDaysCount: prefs?.daysPerWeek || 3,
-                    weeklyActiveDays: prefs?.specificDays || ["Monday", "Wednesday", "Friday"],
-                    durationPerSession: prefs?.preferredDurationMinutes || 45,
-                    hardwareInventory: prefs?.equipmentAvailable || []
-                }
-            };
-            plan = await WorkoutPlanService.generateAndSaveWorkoutPlan(userId, defaultContext);
+        // 3. Recalculate targets based on new weight
+        let updatedTargets = null;
+        if (onboarding) {
+            updatedTargets = await nutritionCalculationService.saveUserTargets(userId, onboarding);
         }
 
         return res.status(200).json({
             success: true,
-            data: plan
+            message: `Weight logged: ${weightKg} kg for ${weightDate}`,
+            weightLog: log,
+            updatedTargets
         });
     } catch (error) {
-        console.error("❌ Get Workout Plan Error:", error);
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        });
+        console.error("❌ Error in logWeight:", error);
+        return res.status(500).json({ success: false, message: error.message || "Failed to log weight" });
     }
-};
-
-module.exports = {
-    savePreferencesAndQueueGeneration,
-    getWorkoutPlan
 };

@@ -5,9 +5,14 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
+    "dev:wifi": "nodemon server.js",
+    "dev:usb": "npm run reverse && nodemon server.js",
+    "reverse": "adb reverse tcp:8000 tcp:8000",
     "start": "node server.js",
     "seed": "node seedAllData.js",
-    "reverse": "node -e \"const { exec } = require('child_process'); const p = process.env.LOCALAPPDATA + '\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe'; exec(`\\\"${p}\\\" reverse tcp:8000 tcp:8000`, (err, out) => console.log(err ? 'ADB error: ' + err.message : 'ADB Reverse Success: Port 8000 forwarded to physical device!'));\"",
+    "seed:recipes": "node seedRecipes.js",
+    "seed:exercises": "node seedExercises.js",
+    "seed:all": "node seedAllData.js && node seedRecipes.js && node seedExercises.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
