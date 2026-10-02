@@ -84,6 +84,37 @@ function getLast7DaysKolkata(endDateStr) {
     return days;
 }
 
+/**
+ * Determine the current Indian season from the date in Asia/Kolkata
+ * Mar-Apr: spring
+ * May-Jun: summer
+ * Jul-Sep: monsoon
+ * Oct-Nov: post_monsoon (festive)
+ * Dec-Feb: winter
+ */
+function getCurrentIndianSeason(customDate = new Date()) {
+    let d;
+    if (typeof customDate === "string") {
+        d = new Date(`${customDate}T12:00:00Z`);
+    } else if (customDate instanceof Date) {
+        d = customDate;
+    } else {
+        d = new Date();
+    }
+
+    const monthStr = new Intl.DateTimeFormat("en-US", {
+        timeZone: TIMEZONE,
+        month: "numeric"
+    }).format(d);
+    const month = parseInt(monthStr, 10);
+
+    if (month >= 3 && month <= 4) return "spring";
+    if (month >= 5 && month <= 6) return "summer";
+    if (month >= 7 && month <= 9) return "monsoon";
+    if (month >= 10 && month <= 11) return "post_monsoon";
+    return "winter";
+}
+
 module.exports = {
     TIMEZONE,
     getTodayKolkata,
@@ -91,5 +122,6 @@ module.exports = {
     getTimeBucketKolkata,
     getWeekdayKolkata,
     getShortDayLabel,
-    getLast7DaysKolkata
+    getLast7DaysKolkata,
+    getCurrentIndianSeason
 };

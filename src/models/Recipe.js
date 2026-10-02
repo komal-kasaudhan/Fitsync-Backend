@@ -74,11 +74,23 @@ const RecipeSchema = new mongoose.Schema(
         foodId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Food'
-        }
+        },
+        seasons: [{
+            type: String,
+            enum: ['summer', 'monsoon', 'post_monsoon', 'winter', 'spring', 'all'],
+            default: 'all'
+        }],
+        tags: [{
+            type: String,
+            trim: true,
+            lowercase: true
+        }]
     },
     { timestamps: true }
 );
 
 RecipeSchema.index({ dietType: 1, protein: -1 });
+RecipeSchema.index({ seasons: 1 });
+RecipeSchema.index({ tags: 1 });
 
 module.exports = mongoose.model('Recipe', RecipeSchema);

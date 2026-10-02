@@ -237,10 +237,81 @@ Output ONLY valid JSON.`;
     }
 }
 
+/**
+ * Feature A: Rank and provide one-line reasons for top 5 meal recommendations
+ * Returns array: [ { id: string, reason: string }, ... ]
+ */
+async function rankAndReasonMealRecommendations({
+    candidates,
+    userContext = {},
+    currentSeason = "post_monsoon",
+    remainingProtein = 50,
+    remainingCalories = 600,
+    timeBucket = "afternoon"
+}) {
+    if (!process.env.GEMINI_API_KEY || !Array.isArray(candidates) || candidates.length === 0) {
+        return null;
+    }
+
+    const candidateSummary = candidates.map(c => ({
+        id: c._id ? c._id.toString() : c.id.toString(),
+        name: c.name,
+        protein: c.protein,
+        calories: c.calories,
+        mealType: c.mealType,
+        seasons: c.seasons || ["all"],
+        tags: c.tags || ["high_protein"]
+    }));
+
+    const prompt = `You are a certified sports nutritionist and chef.
+User Context:
+- Current Indian Season: ${currentSeason}
+- Time of Day: ${timeBucket}
+- Fitness Goal: ${userContext.goal || "General Fitness"}
+- Diet Preference: ${userContext.dietType || "Veg"}
+- Remaining Protein Target Today: ${remainingProtein}g
+- Remaining Calorie Target Today: ${remainingCalories} kcal
+
+Candidate Recipes:
+${JSON.stringify(candidateSummary, null, 2)}
+
+Task:
+Pick and order the BEST 5 recipes from the candidate list for the user's current meal.
+For each selected recipe, write a short, friendly, one-line reason (STRICTLY MAXIMUM 15 WORDS) explaining why it fits right now (mentioning seasonal feel, protein, or digestion). Example: "Warm, 28g protein, comforting for this post-monsoon evening."
+
+STRICT JSON format:
+[
+  {
+    "id": "<must match an id from Candidate Recipes>",
+    "reason": "One-line reason under 15 words"
+  }
+]
+Rules:
+1. ONLY return IDs that exist in the Candidate Recipes list above.
+2. Return up to 5 objects.
+3. Output ONLY valid JSON, without markdown formatting or other text.`;
+
+    try {
+        const raw = await generateWithFallback(prompt, 20000);
+        const parsed = parseGeminiJson(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+            const valid = parsed.every(p => p && typeof p.id === "string" && typeof p.reason === "string");
+            if (valid) {
+                return parsed;
+            }
+        }
+        return null;
+    } catch (err) {
+        console.warn("⚠️ Gemini meal recommendation ranking skipped:", err.message);
+        return null;
+    }
+}
+
 module.exports = {
     generateWithFallback,
     parseGeminiJson,
     generateDynamicNutritionInsight,
     chatWithAiCoach,
-    optimizeWorkoutPlanWithGemini
+    optimizeWorkoutPlanWithGemini,
+    rankAndReasonMealRecommendations
 };
