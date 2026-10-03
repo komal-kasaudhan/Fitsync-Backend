@@ -35,6 +35,7 @@ temp/
 tmp/
 coverage/
 .nyc_output/
+public/uploads/gym-*
 
 # OS Files
 .DS_Store

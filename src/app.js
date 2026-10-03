@@ -12,12 +12,39 @@ const equipmentRoutes = require("./routes/equipment.routes");
 const userRoutes = require("./routes/user.routes");
 const targetRoutes = require("./routes/target.routes");
 const adminRoutes = require("./routes/admin.routes");
+const homeRoutes = require("./routes/home.routes");
+const gymRoutes = require("./routes/gym.routes");
+const gymBookingRoutes = require("./routes/gymBooking.routes");
+const notificationRoutes = require("./routes/notification.routes");
+const geoRoutes = require("./routes/geo.routes");
+const configRoutes = require("./routes/config.routes");
+const reportRoutes = require("./routes/report.routes");
+const trainerRoutes = require("./routes/trainer.routes");
+const trainerBookingRoutes = require("./routes/trainerBooking.routes");
+const sellerRoutes = require("./routes/seller.routes");
+const productRoutes = require("./routes/product.routes");
+const cartRoutes = require("./routes/cart.routes");
+const orderRoutes = require("./routes/order.routes");
+const addressRoutes = require("./routes/address.routes");
 
 const app = express();
 
-// Serve static exercise images automatically
+// 90-second request timeout guard
+app.use((req, res, next) => {
+    req.setTimeout(90000);
+    res.setTimeout(90000, () => {
+        if (!res.headersSent) {
+            res.status(504).json({ success: false, message: "Request timed out after 90 seconds" });
+        }
+    });
+    next();
+});
+
+// Serve static files and uploads automatically
 app.use('/exercise-images', express.static(path.join(__dirname, '../public/exercise-images')));
+app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
 app.use(express.static(path.join(__dirname, '../public')));
+
 
 
 // Enable CORS for all origins and headers
@@ -97,6 +124,21 @@ if (aiRoutes) {
     app.use("/api/v1/nutrition/ai", aiRoutes);
 }
 if (adminRoutes) app.use("/api/admin", adminRoutes);
+if (homeRoutes) app.use("/api/home", homeRoutes);
+if (gymRoutes) app.use("/api/gyms", gymRoutes);
+if (gymBookingRoutes) app.use("/api/gym-bookings", gymBookingRoutes);
+if (notificationRoutes) app.use("/api/notifications", notificationRoutes);
+if (geoRoutes) app.use("/api/geo", geoRoutes);
+if (configRoutes) app.use("/api/config", configRoutes);
+if (reportRoutes) app.use("/api/reports", reportRoutes);
+if (trainerRoutes) app.use("/api/trainers", trainerRoutes);
+if (trainerBookingRoutes) app.use("/api/trainer-bookings", trainerBookingRoutes);
+if (sellerRoutes) app.use("/api/seller", sellerRoutes);
+if (productRoutes) app.use("/api/products", productRoutes);
+if (cartRoutes) app.use("/api/cart", cartRoutes);
+if (orderRoutes) app.use("/api/orders", orderRoutes);
+if (addressRoutes) app.use("/api/addresses", addressRoutes);
+
 
 
 // 404 Route Handler

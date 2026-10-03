@@ -97,27 +97,27 @@ exports.getTargetsOverview = async (req, res) => {
         const userId = req.user?._id || req.user?.id || req.userId;
         const date = req.query.date || getTodayKolkata();
 
-        // 1. Fetch user targets
-        let targets = await NutritionTarget.findOne({
-            $or: [{ userId }, { user: userId }]
-        });
+        // 1. Fetch user targets, daily consumption, and active workout plan in parallel
+        let [targets, daily, plan] = await Promise.all([
+            NutritionTarget.findOne({ $or: [{ userId }, { user: userId }] }).lean(),
+            DailyNutrition.findOne({ $or: [{ userId }, { user: userId }], date }).lean(),
+            WorkoutPlan.findOne({ userId, status: "Active" }).lean()
+        ]);
 
         if (!targets) {
-            const onboarding = await Onboarding.findOne({ userId });
+            const onboarding = await Onboarding.findOne({ userId }).lean();
             if (onboarding) {
                 targets = await nutritionCalculationService.saveUserTargets(userId, onboarding);
             }
         }
 
+        if (!plan) {
+            plan = await workoutPlanService.getCurrentPlan(userId);
+        }
+
         const proteinTarget = targets?.targetProtein || 100;
         const caloriesTarget = targets?.targetCalories || 2000;
         const waterTargetMl = targets?.targetWaterMl || (targets?.targetWaterLiters ? targets.targetWaterLiters * 1000 : 3000);
-
-        // 2. Fetch today's consumed values
-        const daily = await DailyNutrition.findOne({
-            $or: [{ userId }, { user: userId }],
-            date
-        });
 
         const proteinConsumed = Math.round((daily?.consumedProtein || daily?.consumed?.protein || 0) * 10) / 10;
         const caloriesConsumed = Math.round(daily?.consumedCalories || daily?.consumed?.calories || 0);
@@ -127,9 +127,8 @@ exports.getTargetsOverview = async (req, res) => {
         const caloriesPercentage = caloriesTarget > 0 ? Math.min(100, Math.round((caloriesConsumed / caloriesTarget) * 100)) : 0;
         const waterPercentage = waterTargetMl > 0 ? Math.min(100, Math.round((waterConsumedMl / waterTargetMl) * 100)) : 0;
 
-        // 3. Fetch active workout plan
-        const plan = await workoutPlanService.getCurrentPlan(userId);
         const routines = plan?.routines || [];
+
 
         const activeSessions = routines.filter(r => !r.isRestDay);
         const sessionsPlanned = activeSessions.length || 4;

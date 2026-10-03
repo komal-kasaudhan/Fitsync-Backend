@@ -1,8 +1,8 @@
 // 📄 Path: src/service/geminiService.js
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
-const PRIMARY_MODEL = process.env.GEMINI_MODEL || "gemini-3.1-flash-lite";
-const FALLBACK_MODELS = [PRIMARY_MODEL, "gemini-3.5-flash", "gemini-flash-latest"];
+const PRIMARY_MODEL = process.env.GEMINI_MODEL || "gemini-3.5-flash";
+const FALLBACK_MODELS = [PRIMARY_MODEL, "gemini-3.8-flash", "gemini-flash-latest"];
 
 function getGenAI() {
     const apiKey = process.env.GEMINI_API_KEY || "";
@@ -10,32 +10,55 @@ function getGenAI() {
 }
 
 /**
- * Execute Gemini model call with model fallbacks and timeout
+ * Sanitize error message so no API keys or connection strings are logged
  */
-async function generateWithFallback(prompt, timeoutMs = 60000) {
+function sanitizeError(err) {
+    if (!err) return "Unknown error";
+    const msg = err.message || String(err);
+    return msg.replace(/AIza[0-9A-Za-z-_]{35}/g, "[REDACTED_API_KEY]");
+}
+
+/**
+ * Execute Gemini model call with single retry + backoff, model fallbacks, and 20-30s timeout
+ */
+async function generateWithFallback(prompt, timeoutMs = 25000) {
     const genAI = getGenAI();
     let lastError = null;
 
     for (const modelName of FALLBACK_MODELS) {
-        try {
-            const model = genAI.getGenerativeModel({ model: modelName });
-            
-            // Promise race with timeout
-            const timeoutPromise = new Promise((_, reject) =>
-                setTimeout(() => reject(new Error(`Gemini timeout after ${timeoutMs}ms`)), timeoutMs)
-            );
+        // Attempt with 1 retry on transient errors (503, 429, timeout)
+        for (let attempt = 1; attempt <= 2; attempt++) {
+            try {
+                const model = genAI.getGenerativeModel({ model: modelName });
+                
+                // Promise race with 25s timeout
+                const timeoutPromise = new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error(`Gemini timeout after ${timeoutMs}ms`)), timeoutMs)
+                );
 
-            const resultPromise = model.generateContent(prompt);
-            const result = await Promise.race([resultPromise, timeoutPromise]);
-            return result.response.text().trim();
-        } catch (err) {
-            console.warn(`⚠️ Model ${modelName} failed (${err.status || err.message}), trying fallback...`);
-            lastError = err;
+                const resultPromise = model.generateContent(prompt);
+                const result = await Promise.race([resultPromise, timeoutPromise]);
+                return result.response.text().trim();
+            } catch (err) {
+                lastError = err;
+                const status = err.status || (err.message?.includes("503") ? 503 : err.message?.includes("429") ? 429 : 500);
+                const sanitized = sanitizeError(err);
+                
+                if (attempt === 1 && (status === 503 || status === 429 || err.message?.includes("timeout"))) {
+                    console.warn(`⚠️ Model ${modelName} encountered ${status} on attempt 1. Retrying with backoff (1500ms)... Error: ${sanitized}`);
+                    await new Promise(r => setTimeout(r, 1500));
+                    continue;
+                } else {
+                    console.warn(`⚠️ Model ${modelName} attempt ${attempt} failed (${status}): ${sanitized}. Trying next fallback model...`);
+                    break;
+                }
+            }
         }
     }
 
     throw lastError || new Error("All Gemini models failed to respond.");
 }
+
 
 /**
  * Clean and parse JSON from Gemini response (handling codeblocks if present)

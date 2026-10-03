@@ -40,7 +40,8 @@ const signup = async (req, res) => {
         const token = jwt.sign(
             {
                 id: user._id,
-                email: user.email
+                email: user.email,
+                roles: user.roles || ["user"]
             },
             process.env.JWT_SECRET,
             {
@@ -55,7 +56,8 @@ const signup = async (req, res) => {
             data: {
                 id: user._id,
                 name: user.name,
-                email: user.email
+                email: user.email,
+                roles: user.roles || ["user"]
             }
         });
 
@@ -97,21 +99,23 @@ const login = async(req,res) => {
         const token = jwt.sign(
             {
                 id: user._id,
-                email: user.email
+                email: user.email,
+                roles: user.roles || ["user"]
             },
             process.env.JWT_SECRET,
             {
                 expiresIn: "7d"
             }
         );
-          res.status(200).json({
+        res.status(200).json({
             success: true,
             message: "Login successful",
             token,
             data: {
                 id: user._id,
                 name: user.name,
-                email: user.email
+                email: user.email,
+                roles: user.roles || ["user"]
             }
         });
     }catch(error){

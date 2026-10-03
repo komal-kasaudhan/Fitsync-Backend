@@ -10,8 +10,14 @@ const { getTodayKolkata, getWeekdayKolkata } = require("../utils/dateUtils");
 const { chatWithAiCoach } = require("../service/geminiService");
 const crypto = require("crypto");
 
-const PRIMARY_MODEL = process.env.GEMINI_MODEL || "gemini-3.1-flash-lite";
-const FALLBACK_MODELS = [PRIMARY_MODEL, "gemini-3.5-flash", "gemini-flash-latest"];
+const PRIMARY_MODEL = process.env.GEMINI_MODEL || "gemini-3.5-flash";
+const FALLBACK_MODELS = [PRIMARY_MODEL, "gemini-3.8-flash", "gemini-flash-latest"];
+
+function sanitizeError(err) {
+    if (!err) return "Unknown error";
+    const msg = err.message || String(err);
+    return msg.replace(/AIza[0-9A-Za-z-_]{35}/g, "[REDACTED_API_KEY]");
+}
 
 // In-memory sliding rate limiter per user (e.g. max 20 requests per minute)
 const userRequestCounts = new Map();
@@ -47,27 +53,39 @@ function getGenAI() {
     return new GoogleGenerativeAI(apiKey);
 }
 
-async function generateWithFallback(promptOrParts, generationConfig = {}, timeoutMs = 60000) {
+async function generateWithFallback(promptOrParts, generationConfig = {}, timeoutMs = 25000) {
     const genAI = getGenAI();
     let lastError = null;
 
     for (const modelName of FALLBACK_MODELS) {
-        try {
-            const model = genAI.getGenerativeModel({ model: modelName, generationConfig });
-            const timeoutPromise = new Promise((_, reject) =>
-                setTimeout(() => reject(new Error(`Model timeout after ${timeoutMs}ms`)), timeoutMs)
-            );
-            const resultPromise = model.generateContent(promptOrParts);
-            const result = await Promise.race([resultPromise, timeoutPromise]);
-            return result.response.text().trim();
-        } catch (err) {
-            console.warn(`⚠️ Model ${modelName} failed (${err.status || err.message}), trying fallback...`);
-            lastError = err;
+        for (let attempt = 1; attempt <= 2; attempt++) {
+            try {
+                const model = genAI.getGenerativeModel({ model: modelName, generationConfig });
+                const timeoutPromise = new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error(`Model timeout after ${timeoutMs}ms`)), timeoutMs)
+                );
+                const resultPromise = model.generateContent(promptOrParts);
+                const result = await Promise.race([resultPromise, timeoutPromise]);
+                return result.response.text().trim();
+            } catch (err) {
+                lastError = err;
+                const status = err.status || (err.message?.includes("503") ? 503 : err.message?.includes("429") ? 429 : 500);
+                const sanitized = sanitizeError(err);
+                if (attempt === 1 && (status === 503 || status === 429 || err.message?.includes("timeout"))) {
+                    console.warn(`⚠️ Model ${modelName} encountered ${status} on attempt 1. Retrying with backoff (1500ms)... Error: ${sanitized}`);
+                    await new Promise(r => setTimeout(r, 1500));
+                    continue;
+                } else {
+                    console.warn(`⚠️ Model ${modelName} attempt ${attempt} failed (${status}): ${sanitized}. Trying next fallback model...`);
+                    break;
+                }
+            }
         }
     }
 
     throw lastError || new Error("All Gemini models failed to respond.");
 }
+
 
 /**
  * FEATURE I: Ask AI (Floating Button & Multi-turn Chat)
@@ -263,34 +281,47 @@ exports.scanFoodImage = async (req, res) => {
         }
 
         if (!imageBase64 || imageBase64.trim() === "") {
-            return res.status(400).json({
+            return res.status(200).json({
+                detected: false,
                 success: false,
-                message: "No image provided. Please upload an image file ('image') or provide 'imageBase64' in JSON."
+                message: "No image provided. Please upload an image file ('image') or provide 'imageBase64' in JSON.",
+                data: null
             });
         }
 
         if (!process.env.GEMINI_API_KEY) {
-            return res.status(500).json({
+            console.error("❌ Gemini API key is missing or not configured.");
+            return res.status(200).json({
+                detected: false,
                 success: false,
-                message: "GEMINI_API_KEY is not configured on the backend server. Please add it to your .env file."
+                message: "AI scanner service is temporarily unavailable. Please try again later.",
+                data: null
             });
         }
 
-        const prompt = `Analyze this food image. Identify the dish and estimate nutrition per standard serving.
-Respond with pure JSON only in this exact structure:
+        const prompt = `Analyze this image carefully.
+If this image does NOT contain recognizable food or beverage, return JSON:
 {
-    "foodName": "Name of dish",
-    "servingSize": "e.g. 1 bowl / 150g",
-    "servingWeightGrams": 150,
-    "calories": 250,
-    "protein": 12,
-    "carbs": 30,
-    "fat": 8,
+    "detected": false,
+    "message": "No food detected in image."
+}
+
+If food IS detected, identify the primary dish and estimate realistic nutritional values per standard single serving:
+{
+    "detected": true,
+    "foodName": "Name of dish (e.g. Paneer Butter Masala)",
+    "servingSize": "1 bowl (approx 180g)",
+    "servingWeightGrams": 180,
+    "calories": 280,
+    "protein": 14,
+    "carbs": 12,
+    "fat": 18,
     "fiber": 3,
-    "confidenceScore": 0.90,
-    "dietType": "Veg or NonVeg or Vegan or Eggitarian",
-    "ingredientsDetected": ["item 1", "item 2"]
-}`;
+    "confidenceScore": 0.88,
+    "dietType": "Veg",
+    "ingredientsDetected": ["Paneer", "Tomato gravy", "Cream", "Spices"]
+}
+Output strictly valid JSON with no markdown wrapping.`;
 
         const imagePart = {
             inlineData: {
@@ -301,9 +332,9 @@ Respond with pure JSON only in this exact structure:
 
         const rawResponse = await generateWithFallback([prompt, imagePart], {
             responseMimeType: "application/json"
-        }, 75000);
+        }, 25000);
 
-        let parsedData;
+        let parsedData = null;
         try {
             let cleaned = rawResponse.trim();
             if (cleaned.startsWith("```json")) {
@@ -313,25 +344,43 @@ Respond with pure JSON only in this exact structure:
             }
             parsedData = JSON.parse(cleaned);
         } catch (jsonErr) {
-            console.error("❌ Failed to parse Gemini Vision JSON:", jsonErr.message);
-            return res.status(500).json({
+            console.error("❌ Failed to parse Gemini Vision JSON:", sanitizeError(jsonErr));
+        }
+
+        if (!parsedData || parsedData.detected === false || !parsedData.foodName) {
+            return res.status(200).json({
+                detected: false,
                 success: false,
-                message: "Failed to parse nutritional data from image.",
-                rawResponse
+                message: parsedData?.message || "No food detected in image. Please try another angle or clearer lighting.",
+                data: null
             });
         }
 
         return res.status(200).json({
+            detected: true,
             success: true,
             message: "Food scanned successfully",
-            data: parsedData
+            data: {
+                foodName: parsedData.foodName,
+                servingSize: parsedData.servingSize || "1 serving",
+                servingWeightGrams: Number(parsedData.servingWeightGrams) || 150,
+                calories: Math.round(Number(parsedData.calories) || 200),
+                protein: Math.round((Number(parsedData.protein) || 10) * 10) / 10,
+                carbs: Math.round((Number(parsedData.carbs) || 20) * 10) / 10,
+                fat: Math.round((Number(parsedData.fat) || 8) * 10) / 10,
+                fiber: Math.round((Number(parsedData.fiber) || 2) * 10) / 10,
+                confidenceScore: Math.min(1.0, Math.max(0.1, Number(parsedData.confidenceScore) || 0.85)),
+                dietType: parsedData.dietType || "Veg",
+                ingredientsDetected: Array.isArray(parsedData.ingredientsDetected) ? parsedData.ingredientsDetected : []
+            }
         });
     } catch (error) {
-        console.error("❌ Scan Food Image Error:", error);
-        return res.status(500).json({
+        console.error("❌ Scan Food Image Error:", sanitizeError(error));
+        return res.status(200).json({
+            detected: false,
             success: false,
-            message: "Failed to scan food image",
-            error: error.message
+            message: "Unable to identify food from this photo. Please try again with clearer lighting.",
+            data: null
         });
     }
 };
