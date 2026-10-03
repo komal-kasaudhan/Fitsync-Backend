@@ -97,7 +97,24 @@ exports.getCurrentPlan = async (req, res) => {
 };
 
 /**
- * FEATURE E: Get today's scheduled workout
+ * TASK 3: Get workout for a specific day index (0..6)
+ * GET /api/workout/day/:dayIndex
+ */
+exports.getDayWorkout = async (req, res) => {
+    try {
+        const userId = req.user?._id || req.user?.id || req.userId;
+        const { dayIndex } = req.params;
+        const dayWorkout = await workoutPlanService.getDayWorkout(userId, dayIndex);
+
+        return res.status(200).json(dayWorkout);
+    } catch (error) {
+        console.error("❌ Error in getDayWorkout:", error);
+        return res.status(500).json({ success: false, message: error.message || "Failed to load day workout" });
+    }
+};
+
+/**
+ * TASK 3: Get today's scheduled workout
  * GET /api/workout/today
  */
 exports.getTodayWorkout = async (req, res) => {
@@ -105,15 +122,13 @@ exports.getTodayWorkout = async (req, res) => {
         const userId = req.user?._id || req.user?.id || req.userId;
         const todayWorkout = await workoutPlanService.getTodayWorkout(userId);
 
-        return res.status(200).json({
-            success: true,
-            today: todayWorkout
-        });
+        return res.status(200).json(todayWorkout);
     } catch (error) {
         console.error("❌ Error in getTodayWorkout:", error);
         return res.status(500).json({ success: false, message: error.message || "Failed to load today's workout" });
     }
 };
+
 
 /**
  * FEATURE E: Complete a session
@@ -165,6 +180,75 @@ exports.skipSession = async (req, res) => {
         return res.status(500).json({ success: false, message: error.message || "Failed to skip session" });
     }
 };
+
+/**
+ * TASK 3: Record workout session feedback
+ * POST /api/workout/session/feedback
+ * Body: { dayIndex, difficulty, soreness, energy, painAreas, notes }
+ */
+exports.saveSessionFeedback = async (req, res) => {
+    try {
+        const userId = req.user?._id || req.user?.id || req.userId;
+        const { dayIndex, difficulty, soreness, energy, painAreas, notes } = req.body;
+
+        if (dayIndex === undefined) {
+            return res.status(400).json({ success: false, message: "dayIndex is required" });
+        }
+
+        const result = await workoutPlanService.saveSessionFeedback(userId, {
+            dayIndex,
+            difficulty,
+            soreness,
+            energy,
+            painAreas,
+            notes
+        });
+
+        return res.status(200).json(result);
+    } catch (error) {
+        console.error("❌ Error in saveSessionFeedback:", error);
+        return res.status(500).json({ success: false, message: error.message || "Failed to save session feedback" });
+    }
+};
+
+/**
+ * TASK 1: Set exercise image URL manually
+ * PUT /api/workout/exercises/:id/image
+ */
+exports.updateExerciseImage = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { imageUrl } = req.body;
+
+        if (!imageUrl) {
+            return res.status(400).json({ success: false, message: "imageUrl is required" });
+        }
+
+        const updated = await Exercise.findOneAndUpdate(
+            { $or: [{ id: id }, { _id: id.match(/^[0-9a-fA-F]{24}$/) ? id : null }] },
+            { $set: { imageUrl } },
+            { new: true }
+        );
+
+        if (!updated) {
+            return res.status(404).json({ success: false, message: `Exercise ${id} not found` });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: `Image updated for exercise ${updated.id || updated.name}`,
+            exercise: {
+                id: updated.id,
+                name: updated.name,
+                imageUrl: updated.imageUrl
+            }
+        });
+    } catch (error) {
+        console.error("❌ Error in updateExerciseImage:", error);
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 
 /**
  * FEATURE F: Workout Stats (No hardcoded values)

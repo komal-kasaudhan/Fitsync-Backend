@@ -1,0 +1,367 @@
+[
+  {
+    "id": "tricep-rope-pushdown",
+    "name": "Tricep Rope Pushdown",
+    "category": "main",
+    "primaryMuscle": "Triceps",
+    "secondaryMuscles": [
+      "Forearms"
+    ],
+    "targetMuscles": "Triceps Lateral & Medial Heads",
+    "movementType": "push",
+    "equipment": [
+      "cable_machine"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "elbow"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 12,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 12,
+      "max": 15
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5,
+    "instructions": [
+      "Attach rope to high pulley, stand with slight forward lean.",
+      "Push rope straight down until arms are fully extended.",
+      "Flare rope ends apart at bottom for maximum contraction.",
+      "Control release back up to 90 degrees."
+    ],
+    "commonMistakes": [
+      "Letting elbows drift forward and backward"
+    ],
+    "coachTips": [
+      "Pin elbows to your ribs throughout the entire movement."
+    ],
+    "breathingTip": "Exhale pushing down; inhale returning up.",
+    "safeAlternativeIds": [
+      "bench-dips",
+      "overhead-dumbbell-tricep-extension"
+    ],
+    "progressionNote": "Increase pin weight when all sets reach 15 reps cleanly.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "skull-crushers",
+    "name": "Lying Triceps Extension (Skull Crushers)",
+    "category": "main",
+    "primaryMuscle": "Triceps",
+    "secondaryMuscles": [
+      "Forearms"
+    ],
+    "targetMuscles": "Triceps Long Head",
+    "movementType": "push",
+    "equipment": [
+      "barbell",
+      "bench"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "muscle_gain",
+      "strength"
+    ],
+    "contraindications": [
+      "elbow",
+      "wrist"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 8,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": 75,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5.8,
+    "instructions": [
+      "Lie flat on bench holding EZ bar with arms extended over chest.",
+      "Hinge at elbows to lower bar toward forehead or just behind top of head.",
+      "Extend elbows to push bar back to starting position."
+    ],
+    "commonMistakes": [
+      "Flaring elbows outwards"
+    ],
+    "coachTips": [
+      "Aiming for just behind the head places less torque on the elbow joints."
+    ],
+    "breathingTip": "Inhale lowering; exhale extending.",
+    "safeAlternativeIds": [
+      "tricep-rope-pushdown",
+      "close-grip-bench-press"
+    ],
+    "progressionNote": "Use an EZ curl bar for comfortable wrist positioning.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "close-grip-bench-press",
+    "name": "Close-Grip Bench Press",
+    "category": "main",
+    "primaryMuscle": "Triceps",
+    "secondaryMuscles": [
+      "Chest",
+      "Front Delts"
+    ],
+    "targetMuscles": "Triceps Brachii, Inner Chest",
+    "movementType": "push",
+    "equipment": [
+      "barbell",
+      "bench"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "strength",
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "wrist",
+      "shoulder"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 8,
+      "max": 10
+    },
+    "defaultRepRange": {
+      "min": 8,
+      "max": 10
+    },
+    "restSec": 90,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "high",
+    "caloriesPerMinute": 7.2,
+    "instructions": [
+      "Lie on bench, grip bar with hands shoulder-width apart (not touching).",
+      "Lower bar to lower chest keeping elbows tucked tight to sides.",
+      "Press up locking out with triceps."
+    ],
+    "commonMistakes": [
+      "Placing hands too close together (strains wrists)"
+    ],
+    "coachTips": [
+      "Shoulder-width grip is optimal for tricep overload and wrist safety."
+    ],
+    "breathingTip": "Inhale on descent; exhale pushing up.",
+    "safeAlternativeIds": [
+      "diamond-push-up",
+      "tricep-rope-pushdown"
+    ],
+    "progressionNote": "One of the best heavy compound mass-builders for arms.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "overhead-dumbbell-tricep-extension",
+    "name": "Overhead Dumbbell Tricep Extension",
+    "category": "main",
+    "primaryMuscle": "Triceps",
+    "secondaryMuscles": [],
+    "targetMuscles": "Triceps Long Head",
+    "movementType": "push",
+    "equipment": [
+      "dumbbell",
+      "bench"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "shoulder",
+      "elbow"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5.2,
+    "instructions": [
+      "Sit upright holding one dumbbell vertically overhead with both hands cup-gripping top plate.",
+      "Lower dumbbell behind head by bending elbows.",
+      "Press back up to overhead extension."
+    ],
+    "commonMistakes": [
+      "Flaring elbows out to sides"
+    ],
+    "coachTips": [
+      "Brace core to keep spine neutral while overhead."
+    ],
+    "breathingTip": "Inhale lowering; exhale extending.",
+    "safeAlternativeIds": [
+      "tricep-rope-pushdown"
+    ],
+    "progressionNote": "Increase weight once you achieve 3x12 with complete control.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "bench-dips",
+    "name": "Bench Dips",
+    "category": "main",
+    "primaryMuscle": "Triceps",
+    "secondaryMuscles": [
+      "Chest",
+      "Front Delts"
+    ],
+    "targetMuscles": "Triceps Brachii",
+    "movementType": "push",
+    "equipment": [
+      "bench",
+      "bodyweight"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain",
+      "general_fitness"
+    ],
+    "contraindications": [
+      "shoulder"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 12,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 12,
+      "max": 15
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5.5,
+    "instructions": [
+      "Place palms on edge of bench behind you with fingers pointing forward.",
+      "Extend legs out in front (bend knees for easier version).",
+      "Lower hips by bending elbows until upper arms are parallel to floor.",
+      "Push back up to lockout."
+    ],
+    "commonMistakes": [
+      "Shrugging shoulders into ears"
+    ],
+    "coachTips": [
+      "Keep back close to the bench to avoid excessive shoulder extension."
+    ],
+    "breathingTip": "Inhale down, exhale up.",
+    "safeAlternativeIds": [
+      "tricep-rope-pushdown"
+    ],
+    "progressionNote": "Elevate feet on a second bench for progression.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "diamond-push-up",
+    "name": "Diamond Push-Up",
+    "category": "main",
+    "primaryMuscle": "Triceps",
+    "secondaryMuscles": [
+      "Chest",
+      "Core"
+    ],
+    "targetMuscles": "Triceps Brachii, Inner Chest",
+    "movementType": "push",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "advanced",
+    "goalTags": [
+      "muscle_gain",
+      "strength"
+    ],
+    "contraindications": [
+      "wrist",
+      "elbow"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 8,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "high",
+    "caloriesPerMinute": 7,
+    "instructions": [
+      "Assume pushup plank position with index fingers and thumbs touching to form a diamond shape.",
+      "Lower chest toward the center of your diamond.",
+      "Press firmly through palms to return to top."
+    ],
+    "commonMistakes": [
+      "Elbows flaring too wide"
+    ],
+    "coachTips": [
+      "Keep elbows tucked at a 45-degree angle to protect wrists and isolate triceps."
+    ],
+    "breathingTip": "Inhale descending, exhale pushing up.",
+    "safeAlternativeIds": [
+      "bench-dips",
+      "tricep-rope-pushdown"
+    ],
+    "progressionNote": "Perform on knees if full plank is too challenging.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  }
+]

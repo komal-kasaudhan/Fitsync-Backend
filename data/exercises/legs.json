@@ -1,0 +1,615 @@
+[
+  {
+    "id": "barbell-back-squat",
+    "name": "Barbell Back Squat",
+    "category": "main",
+    "primaryMuscle": "Quads",
+    "secondaryMuscles": [
+      "Glutes",
+      "Hamstrings",
+      "Core",
+      "Lower Back"
+    ],
+    "targetMuscles": "Quadriceps, Gluteus Maximus, Adductors",
+    "movementType": "legs",
+    "equipment": [
+      "barbell"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "advanced",
+    "goalTags": [
+      "strength",
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "knee",
+      "lower_back"
+    ],
+    "defaultSets": 4,
+    "defaultReps": {
+      "min": 6,
+      "max": 8
+    },
+    "defaultRepRange": {
+      "min": 6,
+      "max": 8
+    },
+    "restSec": 120,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "high",
+    "caloriesPerMinute": 9,
+    "instructions": [
+      "Rest barbell securely across upper traps, feet shoulder-width, toes turned slightly out.",
+      "Brace core, sit hips down and back between your knees.",
+      "Descend until thighs are parallel or just below parallel to the floor.",
+      "Drive out of the hole through midfoot and heels to stand tall."
+    ],
+    "commonMistakes": [
+      "Knees caving inwards",
+      "Heels lifting off the ground",
+      "Rounding back"
+    ],
+    "coachTips": [
+      "Screw your feet into the floor to activate hip external rotators."
+    ],
+    "breathingTip": "Big diaphragmatic breath and brace at top; exhale past sticking point on way up.",
+    "safeAlternativeIds": [
+      "box-squat",
+      "goblet-squat",
+      "leg-press"
+    ],
+    "progressionNote": "Add 2.5-5kg weekly when hitting 4x8 with deep, upright mechanics.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "goblet-squat",
+    "name": "Goblet Squat (Knee-Friendly)",
+    "category": "main",
+    "primaryMuscle": "Quads",
+    "secondaryMuscles": [
+      "Glutes",
+      "Core"
+    ],
+    "targetMuscles": "Quadriceps, Core, Glutes",
+    "movementType": "legs",
+    "equipment": [
+      "dumbbell",
+      "kettlebell"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "fat_loss",
+      "muscle_gain",
+      "general_fitness"
+    ],
+    "contraindications": [],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 6.8,
+    "instructions": [
+      "Hold a dumbbell or kettlebell vertically against your chest with both hands.",
+      "Keep torso upright and squat down between your hips.",
+      "Elbows should track inside knees at the bottom.",
+      "Drive through heels to stand."
+    ],
+    "commonMistakes": [
+      "Letting weight pull chest forward"
+    ],
+    "coachTips": [
+      "The anterior counterweight naturally encourages an upright torso and healthy knee tracking."
+    ],
+    "breathingTip": "Inhale going down; exhale standing up.",
+    "safeAlternativeIds": [
+      "box-squat"
+    ],
+    "progressionNote": "Progress weight of dumbbell or switch to barbell front squat.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "box-squat",
+    "name": "Box Squat (Knee & Back Safe)",
+    "category": "main",
+    "primaryMuscle": "Quads",
+    "secondaryMuscles": [
+      "Glutes",
+      "Hamstrings"
+    ],
+    "targetMuscles": "Glutes, Quads, Posterior Chain",
+    "movementType": "legs",
+    "equipment": [
+      "bench",
+      "dumbbell",
+      "bodyweight"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "strength",
+      "mobility"
+    ],
+    "contraindications": [],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 6,
+    "instructions": [
+      "Stand a few inches in front of a box or bench.",
+      "Hinge hips back and sit down onto the box with full control.",
+      "Pause for 1 second without rocking or releasing core tension.",
+      "Explode upward through heels to standing."
+    ],
+    "commonMistakes": [
+      "Plummeting onto box and bouncing off"
+    ],
+    "coachTips": [
+      "Eliminates patellofemoral knee shear by maintaining vertical shins."
+    ],
+    "breathingTip": "Inhale on descent; exhale pushing up.",
+    "safeAlternativeIds": [
+      "goblet-squat"
+    ],
+    "progressionNote": "Lower box height as hip mobility improves.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "romanian-deadlift",
+    "name": "Romanian Deadlift (RDL)",
+    "category": "main",
+    "primaryMuscle": "Hamstrings",
+    "secondaryMuscles": [
+      "Glutes",
+      "Lower Back",
+      "Lats"
+    ],
+    "targetMuscles": "Hamstrings, Gluteus Maximus, Posterior Chain",
+    "movementType": "legs",
+    "equipment": [
+      "barbell",
+      "dumbbell"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "muscle_gain",
+      "strength"
+    ],
+    "contraindications": [
+      "lower_back"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 8,
+      "max": 10
+    },
+    "defaultRepRange": {
+      "min": 8,
+      "max": 10
+    },
+    "restSec": 90,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "high",
+    "caloriesPerMinute": 7.8,
+    "instructions": [
+      "Hold weights in front of thighs with slight soft knee bend.",
+      "Push hips straight backwards as if closing a car door with your butt.",
+      "Lower weights along shins until you feel a deep stretch in hamstrings.",
+      "Drive hips forward to stand tall and squeeze glutes."
+    ],
+    "commonMistakes": [
+      "Squatting down instead of hinging",
+      "Rounding lower spine"
+    ],
+    "coachTips": [
+      "Shins stay completely vertical. Move through the hips, not the knees."
+    ],
+    "breathingTip": "Inhale hinging back; exhale thrusting hips forward.",
+    "safeAlternativeIds": [
+      "swiss-ball-leg-curl",
+      "lying-leg-curl"
+    ],
+    "progressionNote": "Master with dumbbells before loading heavy barbells.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "bulgarian-split-squat",
+    "name": "Bulgarian Split Squat",
+    "category": "main",
+    "primaryMuscle": "Quads",
+    "secondaryMuscles": [
+      "Glutes",
+      "Hamstrings",
+      "Adductors"
+    ],
+    "targetMuscles": "Unilateral Quads & Gluteus Maximus",
+    "movementType": "legs",
+    "equipment": [
+      "dumbbell",
+      "bench",
+      "bodyweight"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "muscle_gain",
+      "strength",
+      "fat_loss"
+    ],
+    "contraindications": [
+      "knee"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 8,
+      "max": 10
+    },
+    "defaultRepRange": {
+      "min": 8,
+      "max": 10
+    },
+    "restSec": 75,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "high",
+    "caloriesPerMinute": 8,
+    "instructions": [
+      "Rest top of rear foot on a bench behind you, front foot placed forward.",
+      "Lower hips straight down until back knee hovers just above the floor.",
+      "Push through front heel to return to top."
+    ],
+    "commonMistakes": [
+      "Front foot placed too close causing heel lift"
+    ],
+    "coachTips": [
+      "Lean torso slightly forward at 15 degrees for glute emphasis and knee comfort."
+    ],
+    "breathingTip": "Inhale down, exhale up.",
+    "safeAlternativeIds": [
+      "box-squat",
+      "walking-lunges"
+    ],
+    "progressionNote": "Start with bodyweight, add dumbbells once balance is stable.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "leg-press",
+    "name": "Leg Press",
+    "category": "main",
+    "primaryMuscle": "Quads",
+    "secondaryMuscles": [
+      "Glutes",
+      "Hamstrings"
+    ],
+    "targetMuscles": "Quadriceps",
+    "movementType": "legs",
+    "equipment": [
+      "cable_machine"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain",
+      "strength"
+    ],
+    "contraindications": [
+      "knee"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 90,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 7,
+    "instructions": [
+      "Sit firmly with lower back pressed flush against backrest.",
+      "Place feet shoulder-width on sled.",
+      "Lower sled under control until knees reach 90 degrees.",
+      "Press sled up through midfoot without hyper-locking knees."
+    ],
+    "commonMistakes": [
+      "Locking knees aggressively at top",
+      "Butt lifting off seat at bottom"
+    ],
+    "coachTips": [
+      "Never let your lower back curl off the pad at bottom."
+    ],
+    "breathingTip": "Inhale coming down; exhale pressing out.",
+    "safeAlternativeIds": [
+      "goblet-squat"
+    ],
+    "progressionNote": "High foot placement shifts focus to glutes/hamstrings; low shifts to quads.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "lying-leg-curl",
+    "name": "Lying Leg Curl",
+    "category": "main",
+    "primaryMuscle": "Hamstrings",
+    "secondaryMuscles": [
+      "Calves"
+    ],
+    "targetMuscles": "Hamstrings (Biceps Femoris)",
+    "movementType": "legs",
+    "equipment": [
+      "cable_machine"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain"
+    ],
+    "contraindications": [],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5.5,
+    "instructions": [
+      "Lie face down on machine with pad resting just beneath calves.",
+      "Curl heels toward glutes smoothly.",
+      "Squeeze at peak contraction, lower with control over 2 seconds."
+    ],
+    "commonMistakes": [
+      "Hips lifting up off pad during the curl"
+    ],
+    "coachTips": [
+      "Dorsiflex ankles (point toes toward shins) for greater hamstring recruitment."
+    ],
+    "breathingTip": "Exhale curling up; inhale lowering down.",
+    "safeAlternativeIds": [
+      "swiss-ball-leg-curl",
+      "romanian-deadlift"
+    ],
+    "progressionNote": "Focus on controlled negative return.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "swiss-ball-leg-curl",
+    "name": "Swiss Ball / Slider Leg Curl (Home Friendly)",
+    "category": "main",
+    "primaryMuscle": "Hamstrings",
+    "secondaryMuscles": [
+      "Glutes",
+      "Core"
+    ],
+    "targetMuscles": "Hamstrings, Core Stability",
+    "movementType": "legs",
+    "equipment": [
+      "bodyweight"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain",
+      "endurance"
+    ],
+    "contraindications": [],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5.5,
+    "instructions": [
+      "Lie on back with heels on a Swiss ball or floor sliders.",
+      "Lift hips into a bridge position.",
+      "Curl heels towards butt while keeping hips elevated.",
+      "Extend legs back out with control."
+    ],
+    "commonMistakes": [
+      "Hips dropping to floor during curl"
+    ],
+    "coachTips": [
+      "Zero spinal compression; outstanding knee rehabilitation exercise."
+    ],
+    "breathingTip": "Exhale curling in; inhale rolling out.",
+    "safeAlternativeIds": [
+      "lying-leg-curl"
+    ],
+    "progressionNote": "Progress to single-leg curls as strength develops.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "walking-lunges",
+    "name": "Walking Dumbbell Lunges",
+    "category": "main",
+    "primaryMuscle": "Quads",
+    "secondaryMuscles": [
+      "Glutes",
+      "Hamstrings",
+      "Calves"
+    ],
+    "targetMuscles": "Quads, Glutes, Dynamic Balance",
+    "movementType": "legs",
+    "equipment": [
+      "dumbbell",
+      "bodyweight"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "fat_loss",
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "knee"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "high",
+    "caloriesPerMinute": 8.2,
+    "instructions": [
+      "Step forward with right leg, lowering back knee towards floor.",
+      "Front knee should stay stacked above ankle.",
+      "Drive up through front heel and step through with left leg.",
+      "Repeat smoothly across a walking path."
+    ],
+    "commonMistakes": [
+      "Knee tracking too far past toes and collapsing inward"
+    ],
+    "coachTips": [
+      "Take a slightly wider stride width to enhance stability."
+    ],
+    "breathingTip": "Continuous rhythmic breathing with each step.",
+    "safeAlternativeIds": [
+      "box-squat"
+    ],
+    "progressionNote": "Increase dumbbell weight held at sides.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "leg-extension",
+    "name": "Leg Extension Machine",
+    "category": "main",
+    "primaryMuscle": "Quads",
+    "secondaryMuscles": [],
+    "targetMuscles": "Rectus Femoris & Vastus Muscles",
+    "movementType": "legs",
+    "equipment": [
+      "cable_machine"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "knee"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 12,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 12,
+      "max": 15
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5.5,
+    "instructions": [
+      "Sit with knees aligned with machine pivot point, shin pad above ankles.",
+      "Extend legs upward until straight, squeezing quads at peak.",
+      "Lower slowly with control."
+    ],
+    "commonMistakes": [
+      "Kicking up quickly using momentum"
+    ],
+    "coachTips": [
+      "Isolates quadriceps completely; keep reps strict and controlled."
+    ],
+    "breathingTip": "Exhale extending; inhale lowering.",
+    "safeAlternativeIds": [
+      "goblet-squat"
+    ],
+    "progressionNote": "Pause at top for 2 seconds for intense quad pump.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  }
+]

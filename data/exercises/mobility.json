@@ -1,0 +1,417 @@
+[
+  {
+    "id": "worlds-greatest-stretch",
+    "name": "World's Greatest Stretch",
+    "category": "main",
+    "primaryMuscle": "Mobility",
+    "secondaryMuscles": [
+      "Hips",
+      "Thoracic Spine",
+      "Hamstrings"
+    ],
+    "targetMuscles": "Hip Flexors, Hamstrings, Thoracic Spine",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility",
+      "general_fitness"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 5,
+      "max": 6
+    },
+    "defaultRepRange": {
+      "min": 5,
+      "max": 6
+    },
+    "restSec": 30,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 3.8,
+    "instructions": [
+      "Step forward into a deep lunge with back leg extended.",
+      "Place both hands inside front foot.",
+      "Take inside hand and rotate chest up towards ceiling reaching for the sky.",
+      "Return hand, sit back slightly to stretch front hamstring, step forward and switch."
+    ],
+    "commonMistakes": [
+      "Rushing through the rotational pause"
+    ],
+    "coachTips": [
+      "Opens all major joints: hips, thoracic spine, groin, and ankles in one flow."
+    ],
+    "breathingTip": "Exhale as you twist toward ceiling; inhale as hand returns.",
+    "safeAlternativeIds": [
+      "cat-cow-stretch"
+    ],
+    "progressionNote": "Spend 2 full breaths in the thoracic twist.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cat-cow-stretch",
+    "name": "Cat-Cow Stretch",
+    "category": "main",
+    "primaryMuscle": "Mobility",
+    "secondaryMuscles": [
+      "Spine",
+      "Core"
+    ],
+    "targetMuscles": "Spinal Segmental Mobility",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility",
+      "general_fitness"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 30,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 3.2,
+    "instructions": [
+      "Start on hands and knees with wrists under shoulders, knees under hips.",
+      "Cow: Inhale, drop belly toward floor, lift chest and gaze up.",
+      "Cat: Exhale, round spine up towards ceiling, tuck chin and tailbone."
+    ],
+    "commonMistakes": [
+      "Bending elbows instead of moving spine"
+    ],
+    "coachTips": [
+      "Move slowly vertebra by vertebra to lubricate spinal discs."
+    ],
+    "breathingTip": "Deep breath in on Cow; complete empty exhale on Cat.",
+    "safeAlternativeIds": [
+      "worlds-greatest-stretch"
+    ],
+    "progressionNote": "Synchronize breath fluidly with spinal movement.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "thoracic-spine-rotations",
+    "name": "Thoracic Spine Rotations (Open Books)",
+    "category": "main",
+    "primaryMuscle": "Mobility",
+    "secondaryMuscles": [
+      "Chest",
+      "Upper Back"
+    ],
+    "targetMuscles": "Thoracic Spine Mobility",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 8,
+      "max": 10
+    },
+    "defaultRepRange": {
+      "min": 8,
+      "max": 10
+    },
+    "restSec": 30,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 3.2,
+    "instructions": [
+      "Lie on your side with hips and knees bent at 90 degrees.",
+      "Arms outstretched together on floor in front of chest.",
+      "Sweep top arm up and across like opening a book, following hand with your eyes.",
+      "Reach back until shoulder touches floor, hold for 1 second, return."
+    ],
+    "commonMistakes": [
+      "Allowing knees to lift apart off the floor"
+    ],
+    "coachTips": [
+      "Keep knees clamped tightly together so movement stays in upper back."
+    ],
+    "breathingTip": "Exhale as you open chest wide; inhale returning.",
+    "safeAlternativeIds": [
+      "cat-cow-stretch"
+    ],
+    "progressionNote": "Hold peak stretch for 3 seconds.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "deep-squat-pry",
+    "name": "Deep Squat Pry & Hold",
+    "category": "main",
+    "primaryMuscle": "Mobility",
+    "secondaryMuscles": [
+      "Hips",
+      "Ankles",
+      "Groin"
+    ],
+    "targetMuscles": "Hip Capsules, Ankles, Adductors",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [
+      "knee"
+    ],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 30,
+      "max": 45
+    },
+    "defaultRepRange": {
+      "min": 30,
+      "max": 45
+    },
+    "restSec": 30,
+    "isTimed": true,
+    "durationSec": 30,
+    "intensity": "low",
+    "caloriesPerMinute": 3.5,
+    "instructions": [
+      "Squat down into the lowest possible comfortable squat position.",
+      "Place elbows inside knees and press palms together in prayer position.",
+      "Gently pry knees apart with elbows, shifting weight slightly side to side."
+    ],
+    "commonMistakes": [
+      "Heels lifting up off floor"
+    ],
+    "coachTips": [
+      "Hold onto a doorframe or pole if your ankles are tight."
+    ],
+    "breathingTip": "Slow deep abdominal breathing.",
+    "safeAlternativeIds": [
+      "hip-90-90-mobility"
+    ],
+    "progressionNote": "Gradually progress to freestanding hold with flat heels.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "hip-90-90-mobility",
+    "name": "90/90 Hip Mobility Flow",
+    "category": "main",
+    "primaryMuscle": "Mobility",
+    "secondaryMuscles": [
+      "Glutes",
+      "Hip Rotators"
+    ],
+    "targetMuscles": "Internal & External Hip Rotation",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [
+      "knee"
+    ],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 8,
+      "max": 10
+    },
+    "defaultRepRange": {
+      "min": 8,
+      "max": 10
+    },
+    "restSec": 30,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 3.5,
+    "instructions": [
+      "Sit on floor with lead leg bent at 90 degrees in front and trail leg bent at 90 degrees to side.",
+      "Hinge torso over front shin keeping spine long.",
+      "Rotate knees smoothly across to switch sides without hands on floor."
+    ],
+    "commonMistakes": [
+      "Slouching over the shin"
+    ],
+    "coachTips": [
+      "Restores rotational freedom in hips to relieve lower back stiffness."
+    ],
+    "breathingTip": "Inhale tall, exhale leaning into stretch.",
+    "safeAlternativeIds": [
+      "deep-squat-pry"
+    ],
+    "progressionNote": "Perform hands-free transitions as mobility improves.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "wrist-mobility-circles",
+    "name": "Wrist Flexor & Extensor Mobility",
+    "category": "main",
+    "primaryMuscle": "Mobility",
+    "secondaryMuscles": [
+      "Forearms"
+    ],
+    "targetMuscles": "Wrist Joint & Flexors/Extensors",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 10,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 15
+    },
+    "restSec": 30,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 3,
+    "instructions": [
+      "On hands and knees, place palms flat with fingers pointed forward.",
+      "Rock gently forward and back.",
+      "Rotate fingers backwards toward knees, rocking gently to stretch flexors."
+    ],
+    "commonMistakes": [
+      "Applying harsh force onto stiff wrists"
+    ],
+    "coachTips": [
+      "Essential prep before heavy benching, pushups, or front squats."
+    ],
+    "breathingTip": "Breathe gently and smoothly.",
+    "safeAlternativeIds": [
+      "cat-cow-stretch"
+    ],
+    "progressionNote": "Perform before every upper body session.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "ankle-dorsiflexion-rock",
+    "name": "Ankle Dorsiflexion Knee-to-Wall",
+    "category": "main",
+    "primaryMuscle": "Mobility",
+    "secondaryMuscles": [
+      "Calves"
+    ],
+    "targetMuscles": "Talocrural Joint & Achilles Tendon",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 30,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 3,
+    "instructions": [
+      "Kneel in half-kneeling stance facing a wall with toes 4 inches away.",
+      "Drive front knee straight forward over middle toe until knee touches wall.",
+      "Keep heel glued to the floor throughout.",
+      "Hold for 1 second and return."
+    ],
+    "commonMistakes": [
+      "Allowing heel to peel off floor"
+    ],
+    "coachTips": [
+      "Fixes limited ankle mobility that causes heels to lift in squats."
+    ],
+    "breathingTip": "Exhale on knee drive; inhale returning.",
+    "safeAlternativeIds": [
+      "deep-squat-pry"
+    ],
+    "progressionNote": "Move foot 1/2 inch further back from wall as mobility expands.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  }
+]

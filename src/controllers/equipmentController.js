@@ -3,30 +3,36 @@ const WorkoutPreferences = require('../models/WorkoutPreferences');
 const WorkoutPlan = require('../models/WorkoutPlan');
 
 const MASTER_EQUIPMENT = [
-    { id: "bodyweight", name: "Bodyweight (No Equipment)", category: "Basic", icon: "accessibility" },
-    { id: "dumbbell", name: "Dumbbells", category: "Free Weights", icon: "fitness_center" },
-    { id: "barbell", name: "Barbell & Weight Plates", category: "Free Weights", icon: "fitness_center" },
-    { id: "kettlebell", name: "Kettlebells", category: "Free Weights", icon: "sports_gymnastics" },
-    { id: "resistance_band", name: "Resistance Bands", category: "Bands & Straps", icon: "linear_scale" },
-    { id: "pull_up_bar", name: "Pull-Up Bar", category: "Calisthenics", icon: "horizontal_rule" },
-    { id: "bench", name: "Flat / Incline Bench", category: "Benches", icon: "table_rows" },
-    { id: "cable_machine", name: "Cable Machine (Gym)", category: "Gym Machines", icon: "settings_input_composite" },
-    { id: "treadmill", name: "Treadmill", category: "Cardio", icon: "directions_run" },
-    { id: "stationary_bike", name: "Stationary Bike", category: "Cardio", icon: "directions_bike" },
-    { id: "jump_rope", name: "Jump Rope", category: "Cardio", icon: "refresh" },
-    { id: "leg_press", name: "Leg Press Machine", category: "Gym Machines", icon: "compress" },
-    { id: "foam_roller", name: "Foam Roller / Mat", category: "Mobility", icon: "self_improvement" }
+    { id: "bodyweight", label: "Bodyweight (No Equipment)", name: "Bodyweight (No Equipment)", category: "Basic", icon: "accessibility" },
+    { id: "dumbbell", label: "Dumbbells", name: "Dumbbells", category: "Free Weights", icon: "fitness_center" },
+    { id: "barbell", label: "Barbell & Weight Plates", name: "Barbell & Weight Plates", category: "Free Weights", icon: "fitness_center" },
+    { id: "kettlebell", label: "Kettlebells", name: "Kettlebells", category: "Free Weights", icon: "sports_gymnastics" },
+    { id: "resistance_band", label: "Resistance Bands", name: "Resistance Bands", category: "Bands & Straps", icon: "linear_scale" },
+    { id: "pull_up_bar", label: "Pull-Up Bar", name: "Pull-Up Bar", category: "Calisthenics", icon: "horizontal_rule" },
+    { id: "bench", label: "Flat / Incline Bench", name: "Flat / Incline Bench", category: "Benches", icon: "table_rows" },
+    { id: "cable_machine", label: "Cable Machine (Gym)", name: "Cable Machine (Gym)", category: "Gym Machines", icon: "settings_input_composite" },
+    { id: "treadmill", label: "Treadmill", name: "Treadmill", category: "Cardio", icon: "directions_run" },
+    { id: "stationary_bike", label: "Stationary Bike", name: "Stationary Bike", category: "Cardio", icon: "directions_bike" },
+    { id: "jump_rope", label: "Jump Rope", name: "Jump Rope", category: "Cardio", icon: "refresh" },
+    { id: "leg_press", label: "Leg Press Machine", name: "Leg Press Machine", category: "Gym Machines", icon: "compress" },
+    { id: "foam_roller", label: "Foam Roller / Mat", name: "Foam Roller / Mat", category: "Mobility", icon: "self_improvement" }
 ];
 
 /**
+ * TASK 4: Master Equipment list
  * GET /api/equipment/master
+ * Response: { "equipment": [{ id, label, icon }] }
  */
 exports.getMasterEquipment = async (req, res) => {
     try {
+        const formatted = MASTER_EQUIPMENT.map(e => ({
+            id: e.id,
+            label: e.label || e.name,
+            icon: e.icon
+        }));
+
         return res.status(200).json({
-            success: true,
-            count: MASTER_EQUIPMENT.length,
-            equipment: MASTER_EQUIPMENT
+            equipment: formatted
         });
     } catch (error) {
         console.error("❌ Error in getMasterEquipment:", error);
@@ -35,7 +41,9 @@ exports.getMasterEquipment = async (req, res) => {
 };
 
 /**
+ * TASK 4: User Owned Equipment
  * GET /api/user/equipment
+ * Response: { "equipment": ["dumbbell","bench"], "planStale": false }
  */
 exports.getUserEquipment = async (req, res) => {
     try {
@@ -48,10 +56,9 @@ exports.getUserEquipment = async (req, res) => {
 
         // Check if plan is stale
         const plan = await WorkoutPlan.findOne({ userId, status: "Active" });
-        const planStale = plan ? (plan.planStale || false) : false;
+        const planStale = plan ? Boolean(plan.planStale) : false;
 
         return res.status(200).json({
-            success: true,
             equipment,
             planStale
         });
@@ -62,14 +69,20 @@ exports.getUserEquipment = async (req, res) => {
 };
 
 /**
+ * TASK 4: Update User Equipment
  * PUT /api/user/equipment
  * Body: { equipment: [string] }
- * Marks active plan as stale so user can regenerate
+ * Response: { "equipment": [...], "planStale": true }
  */
 exports.updateUserEquipment = async (req, res) => {
     try {
         const userId = req.user?._id || req.user?.id || req.userId;
-        const { equipment } = req.body;
+        let { equipment } = req.body;
+
+        // If client passes an object with equipment array or direct array
+        if (!Array.isArray(equipment) && Array.isArray(req.body)) {
+            equipment = req.body;
+        }
 
         if (!Array.isArray(equipment)) {
             return res.status(400).json({ success: false, message: "equipment must be an array of strings" });
@@ -94,8 +107,6 @@ exports.updateUserEquipment = async (req, res) => {
         );
 
         return res.status(200).json({
-            success: true,
-            message: "Equipment updated successfully. Your workout plan has been marked as stale.",
             equipment: prefs.equipmentAvailable,
             planStale: true
         });

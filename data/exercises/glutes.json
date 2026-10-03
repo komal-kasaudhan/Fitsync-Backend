@@ -1,0 +1,354 @@
+[
+  {
+    "id": "barbell-hip-thrust",
+    "name": "Barbell Hip Thrust",
+    "category": "main",
+    "primaryMuscle": "Glutes",
+    "secondaryMuscles": [
+      "Hamstrings",
+      "Core"
+    ],
+    "targetMuscles": "Gluteus Maximus (Peak Contraction)",
+    "movementType": "legs",
+    "equipment": [
+      "barbell",
+      "bench"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "muscle_gain",
+      "strength"
+    ],
+    "contraindications": [],
+    "defaultSets": 4,
+    "defaultReps": {
+      "min": 8,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": 90,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "high",
+    "caloriesPerMinute": 7.8,
+    "instructions": [
+      "Sit on floor with upper back against a bench, padded barbell across hips.",
+      "Feet flat, hip-width apart with shins vertical at top of movement.",
+      "Drive hips upward through heels until torso and thighs form a straight bridge.",
+      "Squeeze glutes hard at the top for 1 full second, then lower with control."
+    ],
+    "commonMistakes": [
+      "Hyperextending lumbar spine instead of driving with glutes",
+      "Looking up at ceiling"
+    ],
+    "coachTips": [
+      "Keep chin tucked to chest and eyes forward throughout the thrust."
+    ],
+    "breathingTip": "Inhale at bottom; exhale powerfully as hips thrust up.",
+    "safeAlternativeIds": [
+      "dumbbell-glute-bridge"
+    ],
+    "progressionNote": "Add 5-10kg once you hit 12 solid reps with a locked 1-second pause.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "dumbbell-glute-bridge",
+    "name": "Dumbbell Glute Bridge (Back Safe)",
+    "category": "main",
+    "primaryMuscle": "Glutes",
+    "secondaryMuscles": [
+      "Hamstrings",
+      "Core"
+    ],
+    "targetMuscles": "Gluteus Maximus",
+    "movementType": "legs",
+    "equipment": [
+      "dumbbell",
+      "bodyweight"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain",
+      "general_fitness"
+    ],
+    "contraindications": [],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 12,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 12,
+      "max": 15
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5.5,
+    "instructions": [
+      "Lie flat on your back with knees bent, feet flat on the floor.",
+      "Place a dumbbell across your hips holding it steady with your hands.",
+      "Drive through heels to raise hips into full extension.",
+      "Squeeze glutes at top, then lower slowly."
+    ],
+    "commonMistakes": [
+      "Arching through lower back"
+    ],
+    "coachTips": [
+      "Fantastic for glute activation and lumbar rehabilitation."
+    ],
+    "breathingTip": "Exhale bridging up; inhale lowering down.",
+    "safeAlternativeIds": [
+      "barbell-hip-thrust"
+    ],
+    "progressionNote": "Try single-leg glute bridges for extra challenge.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cable-glute-kickback",
+    "name": "Cable Glute Kickback",
+    "category": "main",
+    "primaryMuscle": "Glutes",
+    "secondaryMuscles": [
+      "Hamstrings"
+    ],
+    "targetMuscles": "Gluteus Maximus & Medius",
+    "movementType": "legs",
+    "equipment": [
+      "cable_machine",
+      "resistance_band"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain"
+    ],
+    "contraindications": [],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 12,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 12,
+      "max": 15
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 4.8,
+    "instructions": [
+      "Fasten ankle cuff to low pulley.",
+      "Face the machine, holding onto the frame for stability.",
+      "Extend leg straight backward and upward squeezing the glute.",
+      "Hold for 1 second, then control back to start."
+    ],
+    "commonMistakes": [
+      "Swinging leg wildly and hyperextending lumbar spine"
+    ],
+    "coachTips": [
+      "Keep movement isolated strictly in the hip joint."
+    ],
+    "breathingTip": "Exhale on kickback; inhale returning.",
+    "safeAlternativeIds": [
+      "dumbbell-glute-bridge"
+    ],
+    "progressionNote": "Keep reps smooth and deliberate.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "standing-calf-raise",
+    "name": "Standing Calf Raise",
+    "category": "main",
+    "primaryMuscle": "Calves",
+    "secondaryMuscles": [],
+    "targetMuscles": "Gastrocnemius",
+    "movementType": "legs",
+    "equipment": [
+      "dumbbell",
+      "bodyweight"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain",
+      "endurance"
+    ],
+    "contraindications": [
+      "ankle"
+    ],
+    "defaultSets": 4,
+    "defaultReps": {
+      "min": 15,
+      "max": 20
+    },
+    "defaultRepRange": {
+      "min": 15,
+      "max": 20
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 4.5,
+    "instructions": [
+      "Stand with balls of feet on an elevated step or ledge, heels hanging down.",
+      "Lower heels into a deep calf stretch for 1 second.",
+      "Rise up as high as possible on the big toes, squeeze calves.",
+      "Lower with control."
+    ],
+    "commonMistakes": [
+      "Bouncing reps without pausing at stretch and peak"
+    ],
+    "coachTips": [
+      "Calves respond best to full range: deep 2s stretch, 1s peak squeeze."
+    ],
+    "breathingTip": "Inhale lowering; exhale rising.",
+    "safeAlternativeIds": [
+      "seated-calf-raise"
+    ],
+    "progressionNote": "Hold dumbbells in hands or do on one leg.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "seated-calf-raise",
+    "name": "Seated Calf Raise",
+    "category": "main",
+    "primaryMuscle": "Calves",
+    "secondaryMuscles": [],
+    "targetMuscles": "Soleus (Deep Calf Muscle)",
+    "movementType": "legs",
+    "equipment": [
+      "bench",
+      "dumbbell"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "ankle"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 15,
+      "max": 20
+    },
+    "defaultRepRange": {
+      "min": 15,
+      "max": 20
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 4.2,
+    "instructions": [
+      "Sit on a bench with knees bent at 90 degrees, resting dumbbells on lower thighs.",
+      "Raise heels high off the floor by contracting calves.",
+      "Hold for 1 second and slowly lower."
+    ],
+    "commonMistakes": [
+      "Moving too fast"
+    ],
+    "coachTips": [
+      "Bent knee position isolates the soleus muscle beneath the gastrocnemius."
+    ],
+    "breathingTip": "Exhale up, inhale down.",
+    "safeAlternativeIds": [
+      "standing-calf-raise"
+    ],
+    "progressionNote": "Higher volume (20-25 reps) works exceptionally well for soleus.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "single-leg-calf-raise",
+    "name": "Single-Leg Bodyweight Calf Raise",
+    "category": "main",
+    "primaryMuscle": "Calves",
+    "secondaryMuscles": [],
+    "targetMuscles": "Unilateral Gastrocnemius & Ankle Stabilizers",
+    "movementType": "legs",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "muscle_gain",
+      "endurance"
+    ],
+    "contraindications": [
+      "ankle"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 12,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 12,
+      "max": 15
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5,
+    "instructions": [
+      "Stand on one foot near a wall for balance.",
+      "Rise up onto toes as high as possible.",
+      "Lower slowly until heel touches floor."
+    ],
+    "commonMistakes": [
+      "Leaning weight onto the wall support"
+    ],
+    "coachTips": [
+      "Use light fingertip touch on the wall for balance only."
+    ],
+    "breathingTip": "Exhale on rise; inhale on return.",
+    "safeAlternativeIds": [
+      "standing-calf-raise"
+    ],
+    "progressionNote": "Hold a dumbbell in the working side hand.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  }
+]

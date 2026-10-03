@@ -1,0 +1,916 @@
+[
+  {
+    "id": "warmup-arm-circles",
+    "name": "Dynamic Arm Circles",
+    "category": "warmup",
+    "primaryMuscle": "Shoulders",
+    "secondaryMuscles": [
+      "Chest",
+      "Upper Back"
+    ],
+    "targetMuscles": "Rotator Cuff & Deltoids",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility",
+      "general_fitness"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 15,
+      "max": 20
+    },
+    "defaultRepRange": {
+      "min": 15,
+      "max": 20
+    },
+    "restSec": 15,
+    "isTimed": false,
+    "durationSec": 30,
+    "intensity": "low",
+    "caloriesPerMinute": 3.5,
+    "instructions": [
+      "Stand tall with arms outstretched to sides.",
+      "Perform 15 small forward circles, then 15 large forward circles.",
+      "Reverse direction and repeat backwards."
+    ],
+    "commonMistakes": [
+      "Moving too fast without shoulder engagement"
+    ],
+    "coachTips": [
+      "Gradually increase circle radius to warm synovial fluid in shoulder joints."
+    ],
+    "breathingTip": "Breathe naturally and rhythmically.",
+    "safeAlternativeIds": [],
+    "progressionNote": "Hold light 0.5kg plates for extra resistance.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "warmup-band-pull-aparts",
+    "name": "Resistance Band Pull-Aparts",
+    "category": "warmup",
+    "primaryMuscle": "Back",
+    "secondaryMuscles": [
+      "Rear Delts",
+      "Rotator Cuff"
+    ],
+    "targetMuscles": "Scapular Retractors & Posterior Delts",
+    "movementType": "pull",
+    "equipment": [
+      "resistance_band"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 15,
+      "max": 20
+    },
+    "defaultRepRange": {
+      "min": 15,
+      "max": 20
+    },
+    "restSec": 15,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 3.8,
+    "instructions": [
+      "Hold light resistance band in front of chest at shoulder height with straight arms.",
+      "Pull band apart until it touches sternum, squeezing shoulder blades together.",
+      "Control back to start."
+    ],
+    "commonMistakes": [
+      "Arching lower back",
+      "Shrugging shoulders into ears"
+    ],
+    "coachTips": [
+      "Pivotal warmup to activate upper back before pressing or pulling."
+    ],
+    "breathingTip": "Exhale pulling band to chest; inhale returning.",
+    "safeAlternativeIds": [
+      "warmup-arm-circles"
+    ],
+    "progressionNote": "Grip closer together on the band to increase resistance.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "warmup-leg-swings-front-back",
+    "name": "Leg Swings (Front to Back)",
+    "category": "warmup",
+    "primaryMuscle": "Hamstrings",
+    "secondaryMuscles": [
+      "Quads",
+      "Hip Flexors"
+    ],
+    "targetMuscles": "Hamstrings & Hip Flexors",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 12,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 12,
+      "max": 15
+    },
+    "restSec": 15,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 4,
+    "instructions": [
+      "Stand next to a wall or post, lightly holding for balance.",
+      "Swing one leg smoothly forward and backward with a relaxed knee.",
+      "Gradually increase height of the swing."
+    ],
+    "commonMistakes": [
+      "Excessively arching back on the backward swing"
+    ],
+    "coachTips": [
+      "Keep your torso upright and brace your core so the movement stays in the hip."
+    ],
+    "breathingTip": "Rhythmic breathing matching the swings.",
+    "safeAlternativeIds": [
+      "warmup-glute-bridges"
+    ],
+    "progressionNote": "Control the deceleration smoothly.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "warmup-leg-swings-side-side",
+    "name": "Leg Swings (Side to Side)",
+    "category": "warmup",
+    "primaryMuscle": "Glutes",
+    "secondaryMuscles": [
+      "Adductors",
+      "Groin"
+    ],
+    "targetMuscles": "Hip Abductors & Adductors",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 12,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 12,
+      "max": 15
+    },
+    "restSec": 15,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 4,
+    "instructions": [
+      "Face a wall placing both hands flat against it.",
+      "Swing one leg across the front of your body, then out to the side.",
+      "Switch legs after 15 reps."
+    ],
+    "commonMistakes": [
+      "Twisting hips violently"
+    ],
+    "coachTips": [
+      "Opens up tight groins and wakes up the glute medius."
+    ],
+    "breathingTip": "Inhale swinging in, exhale swinging out.",
+    "safeAlternativeIds": [],
+    "progressionNote": "Keep swings fluid and relaxed.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "warmup-cat-cow",
+    "name": "Gentle Cat-Cow Spine Prep",
+    "category": "warmup",
+    "primaryMuscle": "Mobility",
+    "secondaryMuscles": [
+      "Core",
+      "Spine"
+    ],
+    "targetMuscles": "Spinal Column & Paraspinals",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 15,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 3.2,
+    "instructions": [
+      "On hands and knees, inhale as you drop belly and look up.",
+      "Exhale and round back like a frightened cat, tucking chin.",
+      "Perform with smooth slow breathing."
+    ],
+    "commonMistakes": [
+      "Rushing through spinal positions"
+    ],
+    "coachTips": [
+      "Great for waking up spinal erectors before lifting."
+    ],
+    "breathingTip": "Inhale Cow; exhale Cat.",
+    "safeAlternativeIds": [],
+    "progressionNote": "Hold each pose for 1 full breath.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "warmup-bird-dog",
+    "name": "Bird-Dog Core Warmup",
+    "category": "warmup",
+    "primaryMuscle": "Core",
+    "secondaryMuscles": [
+      "Glutes",
+      "Lower Back"
+    ],
+    "targetMuscles": "Spinal Stabilizers & Glutes",
+    "movementType": "core",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 8,
+      "max": 10
+    },
+    "defaultRepRange": {
+      "min": 8,
+      "max": 10
+    },
+    "restSec": 15,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 3.8,
+    "instructions": [
+      "From all fours, extend opposite arm and leg straight out.",
+      "Hold 1 second with a level pelvis.",
+      "Switch sides."
+    ],
+    "commonMistakes": [
+      "Tilting pelvis to one side"
+    ],
+    "coachTips": [
+      "Builds core stiffness and glute activation."
+    ],
+    "breathingTip": "Exhale extending; inhale returning.",
+    "safeAlternativeIds": [],
+    "progressionNote": "Draw a square with your extended hand for extra coordination.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "warmup-glute-bridges",
+    "name": "Bodyweight Glute Bridge Warmup",
+    "category": "warmup",
+    "primaryMuscle": "Glutes",
+    "secondaryMuscles": [
+      "Hamstrings"
+    ],
+    "targetMuscles": "Gluteus Maximus Awakening",
+    "movementType": "legs",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 12,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 12,
+      "max": 15
+    },
+    "restSec": 15,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 4.2,
+    "instructions": [
+      "Lie on back with knees bent and feet flat.",
+      "Drive through heels to lift hips, squeeze glutes at the top for 2 seconds.",
+      "Lower back down."
+    ],
+    "commonMistakes": [
+      "Pushing through toes instead of heels"
+    ],
+    "coachTips": [
+      "Wakes up dormant glutes from sitting before squatting or running."
+    ],
+    "breathingTip": "Exhale at peak squeeze.",
+    "safeAlternativeIds": [],
+    "progressionNote": "Put a mini-band above knees.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "warmup-inchworm-to-pushup",
+    "name": "Inchworm Walkouts",
+    "category": "warmup",
+    "primaryMuscle": "Core",
+    "secondaryMuscles": [
+      "Hamstrings",
+      "Shoulders",
+      "Chest"
+    ],
+    "targetMuscles": "Hamstrings, Core, Shoulder Girdle",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility",
+      "general_fitness"
+    ],
+    "contraindications": [
+      "wrist"
+    ],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 6,
+      "max": 8
+    },
+    "defaultRepRange": {
+      "min": 6,
+      "max": 8
+    },
+    "restSec": 20,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5.5,
+    "instructions": [
+      "Stand tall, hinge at hips and touch floor.",
+      "Walk hands forward until in a high plank position.",
+      "Optional: 1 push-up.",
+      "Walk feet forward toward hands or walk hands back to stand."
+    ],
+    "commonMistakes": [
+      "Bending knees completely and losing hamstring stretch"
+    ],
+    "coachTips": [
+      "Full body active warmup that raises heart rate."
+    ],
+    "breathingTip": "Exhale walking out, inhale returning.",
+    "safeAlternativeIds": [
+      "warmup-cat-cow"
+    ],
+    "progressionNote": "Perform with knees straight to enhance hamstring stretch.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "warmup-bodyweight-squats",
+    "name": "Air Squats (Tempo Warmup)",
+    "category": "warmup",
+    "primaryMuscle": "Quads",
+    "secondaryMuscles": [
+      "Glutes",
+      "Ankles"
+    ],
+    "targetMuscles": "Quads, Glutes, Knee Tendons",
+    "movementType": "legs",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "general_fitness"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 12,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 12,
+      "max": 15
+    },
+    "restSec": 20,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 5,
+    "instructions": [
+      "Stand with feet shoulder-width, toes turned out 15 degrees.",
+      "Squat smoothly to parallel with arms reaching forward for balance.",
+      "Stand tall and squeeze glutes."
+    ],
+    "commonMistakes": [
+      "Rushing without reaching full depth"
+    ],
+    "coachTips": [
+      "Pause for 1 second in the hole to open up the hip capsule."
+    ],
+    "breathingTip": "Inhale down, exhale up.",
+    "safeAlternativeIds": [],
+    "progressionNote": "Add 2-second pause at bottom.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "warmup-torso-twists",
+    "name": "Standing Torso Twists",
+    "category": "warmup",
+    "primaryMuscle": "Core",
+    "secondaryMuscles": [
+      "Spine"
+    ],
+    "targetMuscles": "Thoracic Spine & Obliques",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 15,
+      "max": 20
+    },
+    "defaultRepRange": {
+      "min": 15,
+      "max": 20
+    },
+    "restSec": 15,
+    "isTimed": false,
+    "durationSec": 30,
+    "intensity": "low",
+    "caloriesPerMinute": 3.5,
+    "instructions": [
+      "Stand with feet wider than hips, arms bent at chest height.",
+      "Rotate torso left and right, pivoting on back foot with each turn.",
+      "Keep hips loose."
+    ],
+    "commonMistakes": [
+      "Locking feet flat causing knee twisting"
+    ],
+    "coachTips": [
+      "Pivot your feet smoothly to allow the hips to rotate freely."
+    ],
+    "breathingTip": "Exhale with each turn.",
+    "safeAlternativeIds": [],
+    "progressionNote": "Keep arms relaxed like empty coat sleeves.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "warmup-scapular-pushups",
+    "name": "Scapular Push-Ups",
+    "category": "warmup",
+    "primaryMuscle": "Back",
+    "secondaryMuscles": [
+      "Serratus Anterior",
+      "Chest"
+    ],
+    "targetMuscles": "Serratus Anterior & Scapular Gliding",
+    "movementType": "push",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [
+      "wrist"
+    ],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 15,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 3.5,
+    "instructions": [
+      "Hold a high plank position with arms completely straight.",
+      "Pinch shoulder blades together without bending elbows, lowering chest an inch.",
+      "Push shoulder blades wide apart rounding upper back."
+    ],
+    "commonMistakes": [
+      "Bending elbows (this is NOT a standard push-up)"
+    ],
+    "coachTips": [
+      "Teaches scapular protraction and retraction for shoulder stability."
+    ],
+    "breathingTip": "Inhale retracting; exhale protracting.",
+    "safeAlternativeIds": [
+      "warmup-band-pull-aparts"
+    ],
+    "progressionNote": "Can be done from knees or standing against a wall.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "warmup-shoulder-dislocates-band",
+    "name": "Band Shoulder Pass-Throughs (Dislocates)",
+    "category": "warmup",
+    "primaryMuscle": "Shoulders",
+    "secondaryMuscles": [
+      "Chest",
+      "Upper Back"
+    ],
+    "targetMuscles": "Shoulder Rotational Capsule",
+    "movementType": "mobility",
+    "equipment": [
+      "resistance_band"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [
+      "shoulder"
+    ],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 15,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 3.5,
+    "instructions": [
+      "Hold a wide grip on a light resistance band or broomstick with arms straight.",
+      "Raise band overhead and pass it smoothly behind back to lower back.",
+      "Reverse back over to front."
+    ],
+    "commonMistakes": [
+      "Bending elbows to force the bar over"
+    ],
+    "coachTips": [
+      "Widen your hands if your shoulders feel tight."
+    ],
+    "breathingTip": "Inhale as band goes up; exhale as it passes behind.",
+    "safeAlternativeIds": [
+      "warmup-arm-circles"
+    ],
+    "progressionNote": "Narrow grip gradually as mobility expands.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "warmup-high-knees-marching",
+    "name": "Marching High Knees (Low Impact)",
+    "category": "warmup",
+    "primaryMuscle": "Cardio",
+    "secondaryMuscles": [
+      "Hip Flexors",
+      "Calves"
+    ],
+    "targetMuscles": "Hip Flexors & Core Coordination",
+    "movementType": "cardio",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "general_fitness"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 20,
+      "max": 30
+    },
+    "defaultRepRange": {
+      "min": 20,
+      "max": 30
+    },
+    "restSec": 15,
+    "isTimed": true,
+    "durationSec": 30,
+    "intensity": "low",
+    "caloriesPerMinute": 4.5,
+    "instructions": [
+      "March in place bringing each knee up to hip level.",
+      "Pump opposite arm with each march.",
+      "Engage core to maintain tall posture."
+    ],
+    "commonMistakes": [
+      "Leaning backwards"
+    ],
+    "coachTips": [
+      "Low-impact option to elevate body temperature without jumping."
+    ],
+    "breathingTip": "Steady, comfortable breathing.",
+    "safeAlternativeIds": [],
+    "progressionNote": "Increase speed to a light jog in place.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "warmup-butt-kicks",
+    "name": "Butt Kicks (Quad Activation)",
+    "category": "warmup",
+    "primaryMuscle": "Quads",
+    "secondaryMuscles": [
+      "Hamstrings",
+      "Calves"
+    ],
+    "targetMuscles": "Quads Dynamic Stretch & Calves",
+    "movementType": "cardio",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "general_fitness"
+    ],
+    "contraindications": [
+      "knee"
+    ],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 20,
+      "max": 30
+    },
+    "defaultRepRange": {
+      "min": 20,
+      "max": 30
+    },
+    "restSec": 15,
+    "isTimed": true,
+    "durationSec": 30,
+    "intensity": "low",
+    "caloriesPerMinute": 5,
+    "instructions": [
+      "Jog or march in place kicking heels up towards glutes with each step.",
+      "Keep thighs pointing straight down."
+    ],
+    "commonMistakes": [
+      "Knees flaring forward instead of pointing down"
+    ],
+    "coachTips": [
+      "Stretches quads dynamically while lubricating knee joints."
+    ],
+    "breathingTip": "Rhythmic breathing.",
+    "safeAlternativeIds": [
+      "warmup-high-knees-marching"
+    ],
+    "progressionNote": "Stay bouncy on balls of feet.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "warmup-wrist-rolls-and-press",
+    "name": "Wrist Rolls & Palm Presses",
+    "category": "warmup",
+    "primaryMuscle": "Mobility",
+    "secondaryMuscles": [
+      "Forearms"
+    ],
+    "targetMuscles": "Wrist Tendons & Synovial Prep",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 15,
+      "max": 20
+    },
+    "defaultRepRange": {
+      "min": 15,
+      "max": 20
+    },
+    "restSec": 15,
+    "isTimed": false,
+    "durationSec": 30,
+    "intensity": "low",
+    "caloriesPerMinute": 2.8,
+    "instructions": [
+      "Interlace fingers and roll wrists in circles 10 times in each direction.",
+      "Press palms together at chest in prayer position and press gently downward.",
+      "Reverse back of hands together."
+    ],
+    "commonMistakes": [
+      "Forcing through painful ranges"
+    ],
+    "coachTips": [
+      "Crucial for bench press, pushups, and front squats."
+    ],
+    "breathingTip": "Slow relaxed breathing.",
+    "safeAlternativeIds": [],
+    "progressionNote": "Gentle stretch only.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "warmup-ankle-rotations",
+    "name": "Standing Ankle Rotations",
+    "category": "warmup",
+    "primaryMuscle": "Mobility",
+    "secondaryMuscles": [
+      "Calves"
+    ],
+    "targetMuscles": "Ankle Joint & Peroneals",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 15,
+    "isTimed": false,
+    "durationSec": 30,
+    "intensity": "low",
+    "caloriesPerMinute": 2.8,
+    "instructions": [
+      "Lift one foot off floor and trace large circles with big toe.",
+      "10 circles clockwise, 10 circles counter-clockwise.",
+      "Switch feet."
+    ],
+    "commonMistakes": [
+      "Moving from knee instead of ankle"
+    ],
+    "coachTips": [
+      "Increases ankle range of motion for deeper squats."
+    ],
+    "breathingTip": "Calm breathing.",
+    "safeAlternativeIds": [],
+    "progressionNote": "Trace letters of the alphabet with toes for extra mobility.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  }
+]

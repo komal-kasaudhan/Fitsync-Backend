@@ -115,9 +115,20 @@ function getCurrentIndianSeason(customDate = new Date()) {
     return "winter";
 }
 
+/**
+ * Returns yesterday's date formatted as YYYY-MM-DD in Asia/Kolkata
+ */
+function getYesterdayKolkata(dateStr) {
+    const todayStr = dateStr || getTodayKolkata();
+    const d = new Date(`${todayStr}T12:00:00Z`);
+    d.setUTCDate(d.getUTCDate() - 1);
+    return getTodayKolkata(d);
+}
+
 module.exports = {
     TIMEZONE,
     getTodayKolkata,
+    getYesterdayKolkata,
     getKolkataHour,
     getTimeBucketKolkata,
     getWeekdayKolkata,
@@ -125,3 +136,4 @@ module.exports = {
     getLast7DaysKolkata,
     getCurrentIndianSeason
 };
+

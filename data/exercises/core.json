@@ -1,0 +1,497 @@
+[
+  {
+    "id": "plank",
+    "name": "Forearm Plank",
+    "category": "main",
+    "primaryMuscle": "Core",
+    "secondaryMuscles": [
+      "Glutes",
+      "Shoulders"
+    ],
+    "targetMuscles": "Transverse Abdominis, Rectus Abdominis",
+    "movementType": "core",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "fat_loss",
+      "general_fitness",
+      "endurance"
+    ],
+    "contraindications": [
+      "shoulder"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 30,
+      "max": 60
+    },
+    "defaultRepRange": {
+      "min": 30,
+      "max": 60
+    },
+    "restSec": 45,
+    "isTimed": true,
+    "durationSec": 45,
+    "intensity": "medium",
+    "caloriesPerMinute": 5,
+    "instructions": [
+      "Rest on forearms with elbows directly under shoulders.",
+      "Step feet back and extend legs, maintaining a straight line from heels to head.",
+      "Squeeze glutes and draw navel in towards spine.",
+      "Hold steadily without allowing hips to drop or rise."
+    ],
+    "commonMistakes": [
+      "Hips sagging towards the floor (compresses lumbar spine)"
+    ],
+    "coachTips": [
+      "Actively pull your elbows toward your toes to engage the deep transverse core."
+    ],
+    "breathingTip": "Breathe steadily in through nose, out through mouth; don't hold breath.",
+    "safeAlternativeIds": [
+      "dead-bug",
+      "bird-dog"
+    ],
+    "progressionNote": "Build up to a 60-second solid hold before adding movements.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "dead-bug",
+    "name": "Dead Bug (Back Friendly Core)",
+    "category": "main",
+    "primaryMuscle": "Core",
+    "secondaryMuscles": [
+      "Hip Flexors"
+    ],
+    "targetMuscles": "Deep Core & Anterior Pelvic Tilt Correction",
+    "movementType": "core",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility",
+      "general_fitness"
+    ],
+    "contraindications": [],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 4,
+    "instructions": [
+      "Lie flat on back with arms pointing to ceiling and knees bent at 90 degrees.",
+      "Press lower back completely flat against the floor.",
+      "Simultaneously lower right arm and left leg until hovering above floor.",
+      "Return to center and switch sides."
+    ],
+    "commonMistakes": [
+      "Allowing lower back to arch off the floor"
+    ],
+    "coachTips": [
+      "The golden rule: if your lower back peels off the floor, shorten your leg reach."
+    ],
+    "breathingTip": "Exhale as limbs extend; inhale returning to center.",
+    "safeAlternativeIds": [
+      "bird-dog",
+      "plank"
+    ],
+    "progressionNote": "Hold a resistance band for increased anti-extension tension.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "bird-dog",
+    "name": "Bird-Dog (Spine Health)",
+    "category": "main",
+    "primaryMuscle": "Core",
+    "secondaryMuscles": [
+      "Glutes",
+      "Lower Back",
+      "Shoulders"
+    ],
+    "targetMuscles": "Multifidus, Erector Spinae, Gluteus Maximus",
+    "movementType": "core",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility",
+      "general_fitness"
+    ],
+    "contraindications": [],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 4.2,
+    "instructions": [
+      "Start on hands and knees with wrists under shoulders, knees under hips.",
+      "Extend right arm forward and left leg backward until parallel to floor.",
+      "Hold for 2 seconds keeping hips square to floor.",
+      "Return to hands and knees and repeat on opposite side."
+    ],
+    "commonMistakes": [
+      "Rotating hips and flaring the extending leg wide"
+    ],
+    "coachTips": [
+      "Part of the famous McGill Big 3 for bulletproofing the lower back."
+    ],
+    "breathingTip": "Inhale to center; exhale as arm and leg reach out.",
+    "safeAlternativeIds": [
+      "dead-bug"
+    ],
+    "progressionNote": "Square hips so a cup of water could rest on your lower back.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "hanging-leg-raise",
+    "name": "Hanging Leg Raise",
+    "category": "main",
+    "primaryMuscle": "Core",
+    "secondaryMuscles": [
+      "Hip Flexors",
+      "Forearms"
+    ],
+    "targetMuscles": "Lower Rectus Abdominis",
+    "movementType": "core",
+    "equipment": [
+      "pull_up_bar",
+      "bodyweight"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "advanced",
+    "goalTags": [
+      "muscle_gain",
+      "strength"
+    ],
+    "contraindications": [
+      "shoulder",
+      "lower_back"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "high",
+    "caloriesPerMinute": 6.8,
+    "instructions": [
+      "Hang from a pull-up bar with arms extended.",
+      "Without swinging, curl knees or straight legs upward toward chest.",
+      "Tilt pelvis upward at the top to fully engage the abs.",
+      "Lower slowly with control."
+    ],
+    "commonMistakes": [
+      "Swinging body to kick legs up"
+    ],
+    "coachTips": [
+      "Tuck knees to chest first if straight legs cause swinging."
+    ],
+    "breathingTip": "Exhale bringing legs up; inhale lowering down.",
+    "safeAlternativeIds": [
+      "dead-bug"
+    ],
+    "progressionNote": "Progress from knee raises to toes-to-bar.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "side-plank",
+    "name": "Side Plank",
+    "category": "main",
+    "primaryMuscle": "Core",
+    "secondaryMuscles": [
+      "Obliques",
+      "Glutes",
+      "Shoulders"
+    ],
+    "targetMuscles": "Obliques, Quadratus Lumborum",
+    "movementType": "core",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "endurance",
+      "general_fitness"
+    ],
+    "contraindications": [
+      "shoulder"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 30,
+      "max": 45
+    },
+    "defaultRepRange": {
+      "min": 30,
+      "max": 45
+    },
+    "restSec": 45,
+    "isTimed": true,
+    "durationSec": 30,
+    "intensity": "medium",
+    "caloriesPerMinute": 4.8,
+    "instructions": [
+      "Lie on your side with forearm flat on ground beneath shoulder.",
+      "Stack feet and lift hips off the floor into a straight diagonal line.",
+      "Hold position, keeping neck neutral and glutes engaged."
+    ],
+    "commonMistakes": [
+      "Hips dropping toward the floor",
+      "Rolling chest forward"
+    ],
+    "coachTips": [
+      "Drive bottom hip upward to activate the lateral core."
+    ],
+    "breathingTip": "Steady calm breathing throughout the hold.",
+    "safeAlternativeIds": [
+      "bird-dog"
+    ],
+    "progressionNote": "Raise top leg for an elevated star side plank.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cable-woodchoppers",
+    "name": "Cable Woodchoppers",
+    "category": "main",
+    "primaryMuscle": "Core",
+    "secondaryMuscles": [
+      "Obliques",
+      "Shoulders"
+    ],
+    "targetMuscles": "Internal & External Obliques",
+    "movementType": "core",
+    "equipment": [
+      "cable_machine",
+      "resistance_band"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "muscle_gain",
+      "strength"
+    ],
+    "contraindications": [
+      "lower_back"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5.8,
+    "instructions": [
+      "Set cable high. Stand sideways to the machine gripping handle with both hands.",
+      "Rotate torso downward and diagonally across your body to outside opposite knee.",
+      "Pivot on back foot, control rotation back to start."
+    ],
+    "commonMistakes": [
+      "Pulling only with arms instead of rotating through core"
+    ],
+    "coachTips": [
+      "Pivot back foot like squishing a bug to keep knees safe during rotation."
+    ],
+    "breathingTip": "Exhale chopping across; inhale returning.",
+    "safeAlternativeIds": [
+      "dead-bug"
+    ],
+    "progressionNote": "Perform both high-to-low and low-to-high variations.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "bicycle-crunches",
+    "name": "Bicycle Crunches",
+    "category": "main",
+    "primaryMuscle": "Core",
+    "secondaryMuscles": [
+      "Obliques"
+    ],
+    "targetMuscles": "Rectus Abdominis, Obliques",
+    "movementType": "core",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "fat_loss",
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "neck"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 15,
+      "max": 20
+    },
+    "defaultRepRange": {
+      "min": 15,
+      "max": 20
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 6,
+    "instructions": [
+      "Lie on back with fingertips lightly touching ears, knees bent at 90 degrees.",
+      "Bring right elbow to left knee while extending right leg out straight.",
+      "Switch sides in a smooth pedaling motion."
+    ],
+    "commonMistakes": [
+      "Yanking on neck with hands",
+      "Rushing reps without full extension"
+    ],
+    "coachTips": [
+      "Think of bringing shoulder to knee, not just elbow."
+    ],
+    "breathingTip": "Rhythmic exhale as you twist to each side.",
+    "safeAlternativeIds": [
+      "dead-bug"
+    ],
+    "progressionNote": "Slow tempo (2 seconds per twist) triples core activation.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "ab-wheel-rollout",
+    "name": "Ab Wheel Rollout",
+    "category": "main",
+    "primaryMuscle": "Core",
+    "secondaryMuscles": [
+      "Lats",
+      "Shoulders"
+    ],
+    "targetMuscles": "Rectus Abdominis Anti-Extension",
+    "movementType": "core",
+    "equipment": [
+      "bodyweight"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "advanced",
+    "goalTags": [
+      "strength",
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "lower_back",
+      "shoulder"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 8,
+      "max": 10
+    },
+    "defaultRepRange": {
+      "min": 8,
+      "max": 10
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "high",
+    "caloriesPerMinute": 7.2,
+    "instructions": [
+      "Kneel on a soft mat holding ab wheel with both hands under shoulders.",
+      "Tuck pelvis and round upper back slightly.",
+      "Roll wheel forward as far as comfortable without lower back collapsing.",
+      "Contract abs to pull wheel back to starting position."
+    ],
+    "commonMistakes": [
+      "Lower back arching into hyperextension at full extension"
+    ],
+    "coachTips": [
+      "Only roll out as far as you can maintain a hollow rock pelvic tilt."
+    ],
+    "breathingTip": "Inhale rolling out; exhale contracting back.",
+    "safeAlternativeIds": [
+      "plank",
+      "dead-bug"
+    ],
+    "progressionNote": "Roll out to a wall boundary to control depth.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  }
+]

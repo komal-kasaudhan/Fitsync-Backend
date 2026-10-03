@@ -12,11 +12,17 @@ router.post('/plan/generate', auth, workoutController.generateWorkoutPlan);
 router.post('/plan/regenerate', auth, workoutController.generateWorkoutPlan);
 router.get('/plan/current', auth, workoutController.getCurrentPlan);
 router.get('/plan', auth, workoutController.getCurrentPlan);
+router.get('/day/:dayIndex', auth, workoutController.getDayWorkout);
 router.get('/today', auth, workoutController.getTodayWorkout);
 
-// Session completion & skip adaptation
+// Session completion, feedback & skip adaptation
 router.post('/session/complete', auth, workoutController.completeSession);
+router.post('/session/feedback', auth, workoutController.saveSessionFeedback);
 router.post('/session/skip', auth, workoutController.skipSession);
+
+// Exercise manual image update
+router.put('/exercises/:id/image', auth, workoutController.updateExerciseImage);
+
 
 // FEATURE F: Workout Stats & Weight logging
 router.get('/stats', auth, workoutController.getWorkoutStats);

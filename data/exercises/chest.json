@@ -1,0 +1,496 @@
+[
+  {
+    "id": "barbell-bench-press",
+    "name": "Barbell Bench Press",
+    "category": "main",
+    "primaryMuscle": "Chest",
+    "secondaryMuscles": [
+      "Triceps",
+      "Front Delts"
+    ],
+    "targetMuscles": "Pectoralis Major, Triceps Brachii, Anterior Deltoids",
+    "movementType": "push",
+    "equipment": [
+      "barbell",
+      "bench"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "strength",
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "shoulder",
+      "wrist"
+    ],
+    "defaultSets": 4,
+    "defaultReps": {
+      "min": 6,
+      "max": 10
+    },
+    "defaultRepRange": {
+      "min": 6,
+      "max": 10
+    },
+    "restSec": 90,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "high",
+    "caloriesPerMinute": 7.5,
+    "instructions": [
+      "Lie flat on the bench with eyes directly under the racked bar.",
+      "Grip the bar slightly wider than shoulder-width, plant feet firmly on the floor.",
+      "Unrack and lower with control down to the mid-chest.",
+      "Press powerfully upward without locking out elbows aggressively."
+    ],
+    "commonMistakes": [
+      "Flaring elbows out at 90 degrees",
+      "Bouncing bar off sternum"
+    ],
+    "coachTips": [
+      "Retract shoulder blades and maintain a slight natural arch in the lower back.",
+      "Drive through your heels for stability."
+    ],
+    "breathingTip": "Inhale on the descent; exhale forcefully on the press.",
+    "safeAlternativeIds": [
+      "dumbbell-floor-press",
+      "incline-push-up"
+    ],
+    "progressionNote": "Add 2.5kg when you complete 4x10 reps with solid form.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "dumbbell-bench-press",
+    "name": "Dumbbell Bench Press",
+    "category": "main",
+    "primaryMuscle": "Chest",
+    "secondaryMuscles": [
+      "Triceps",
+      "Front Delts"
+    ],
+    "targetMuscles": "Pectoralis Major, Triceps",
+    "movementType": "push",
+    "equipment": [
+      "dumbbell",
+      "bench"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "muscle_gain",
+      "strength"
+    ],
+    "contraindications": [
+      "shoulder"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 8,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": 75,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 6.5,
+    "instructions": [
+      "Sit on the edge of a flat bench holding dumbbells on knees.",
+      "Kick back and bring the weights to the outside of your chest.",
+      "Press dumbbells up in a slight arc until arms are extended.",
+      "Lower slowly until elbows reach bench height."
+    ],
+    "commonMistakes": [
+      "Clinking dumbbells at top",
+      "Dropping weights abruptly"
+    ],
+    "coachTips": [
+      "Allows a deeper stretch than barbells and balances side-to-side asymmetries."
+    ],
+    "breathingTip": "Breathe in deeply as dumbbells lower; exhale as you push up.",
+    "safeAlternativeIds": [
+      "dumbbell-floor-press",
+      "standard-push-up"
+    ],
+    "progressionNote": "Progress by 1-2 kg per dumbbell when hitting the top rep range.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "incline-dumbbell-press",
+    "name": "Incline Dumbbell Press",
+    "category": "main",
+    "primaryMuscle": "Chest",
+    "secondaryMuscles": [
+      "Upper Chest",
+      "Front Delts",
+      "Triceps"
+    ],
+    "targetMuscles": "Clavicular Head (Upper Chest), Shoulders",
+    "movementType": "push",
+    "equipment": [
+      "dumbbell",
+      "bench"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "muscle_gain",
+      "strength"
+    ],
+    "contraindications": [
+      "shoulder"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 8,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": 75,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 6.8,
+    "instructions": [
+      "Set bench to a 30 to 45 degree angle.",
+      "Lie back and press dumbbells above upper chest.",
+      "Lower slowly until you feel a comfortable stretch in the upper pectorals.",
+      "Press back up smoothly."
+    ],
+    "commonMistakes": [
+      "Setting incline too steep turning it into shoulder press"
+    ],
+    "coachTips": [
+      "30 degrees is optimal to hit upper chest without straining anterior delts."
+    ],
+    "breathingTip": "Inhale on the way down; exhale as you press up.",
+    "safeAlternativeIds": [
+      "incline-push-up"
+    ],
+    "progressionNote": "Aim for clean controlled 3-second negatives before raising load.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "standard-push-up",
+    "name": "Standard Push-Up",
+    "category": "main",
+    "primaryMuscle": "Chest",
+    "secondaryMuscles": [
+      "Triceps",
+      "Anterior Deltoids",
+      "Core"
+    ],
+    "targetMuscles": "Chest, Triceps, Core",
+    "movementType": "push",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "fat_loss",
+      "muscle_gain",
+      "endurance"
+    ],
+    "contraindications": [
+      "wrist",
+      "shoulder"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 15
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 6,
+    "instructions": [
+      "Start in high plank position with hands slightly wider than shoulder-width.",
+      "Lower chest towards floor by bending elbows back at 45 degrees.",
+      "Push floor away firmly to return to starting position."
+    ],
+    "commonMistakes": [
+      "Sagging hips",
+      "Elbows flaring 90 degrees out"
+    ],
+    "coachTips": [
+      "Squeeze glutes and brace your core throughout every rep."
+    ],
+    "breathingTip": "Inhale going down; exhale pushing up.",
+    "safeAlternativeIds": [
+      "incline-push-up"
+    ],
+    "progressionNote": "Elevate feet to progress towards decline push-ups.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "incline-push-up",
+    "name": "Incline Push-Up (Joint-Friendly)",
+    "category": "main",
+    "primaryMuscle": "Chest",
+    "secondaryMuscles": [
+      "Triceps",
+      "Core"
+    ],
+    "targetMuscles": "Lower Chest, Triceps",
+    "movementType": "push",
+    "equipment": [
+      "bench",
+      "bodyweight"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "fat_loss",
+      "general_fitness"
+    ],
+    "contraindications": [],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 12,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 12,
+      "max": 15
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 4.8,
+    "instructions": [
+      "Place hands shoulder-width apart on a sturdy bench or raised platform.",
+      "Keep spine aligned as you lower your chest to the bench edge.",
+      "Push away to full arm extension."
+    ],
+    "commonMistakes": [
+      "Bending at the hips"
+    ],
+    "coachTips": [
+      "Excellent alternative if you have wrist stiffness or shoulder impingement."
+    ],
+    "breathingTip": "Smooth breathing in sync with repetitions.",
+    "safeAlternativeIds": [
+      "standard-push-up"
+    ],
+    "progressionNote": "Lower the platform height progressively to reach the floor.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "dumbbell-floor-press",
+    "name": "Dumbbell Floor Press (Shoulder Safe)",
+    "category": "main",
+    "primaryMuscle": "Chest",
+    "secondaryMuscles": [
+      "Triceps"
+    ],
+    "targetMuscles": "Pectorals, Triceps Brachii",
+    "movementType": "push",
+    "equipment": [
+      "dumbbell"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain",
+      "strength"
+    ],
+    "contraindications": [],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5.5,
+    "instructions": [
+      "Lie flat on the floor with knees bent and feet flat.",
+      "Hold dumbbells with triceps resting on the floor.",
+      "Press weights up until arms are extended over chest.",
+      "Lower slowly until upper arms lightly touch the floor, pause briefly, repeat."
+    ],
+    "commonMistakes": [
+      "Slamming elbows into the floor"
+    ],
+    "coachTips": [
+      "The floor limits shoulder extension, protecting the anterior capsule."
+    ],
+    "breathingTip": "Inhale down, exhale up.",
+    "safeAlternativeIds": [
+      "standard-push-up"
+    ],
+    "progressionNote": "Increase weight once you can complete 12 clean reps with 1s pause.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cable-chest-flye",
+    "name": "Cable Chest Flye",
+    "category": "main",
+    "primaryMuscle": "Chest",
+    "secondaryMuscles": [
+      "Anterior Deltoids"
+    ],
+    "targetMuscles": "Sternal Head of Pectoralis Major",
+    "movementType": "push",
+    "equipment": [
+      "cable_machine"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "shoulder"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 12,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 12,
+      "max": 15
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5.2,
+    "instructions": [
+      "Set cables at chest height, grab handles and step forward in a split stance.",
+      "With slightly bent elbows, bring handles together in a hugging motion.",
+      "Squeeze chest for 1 second, then control back to a stretch."
+    ],
+    "commonMistakes": [
+      "Bending elbows too much turning it into a press"
+    ],
+    "coachTips": [
+      "Imagine hugging a large barrel to keep arm angle locked."
+    ],
+    "breathingTip": "Exhale on contraction; inhale on stretch.",
+    "safeAlternativeIds": [
+      "dumbbell-floor-press"
+    ],
+    "progressionNote": "Focus on mind-muscle squeeze rather than maximum pin weight.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "chest-dips",
+    "name": "Chest Dips",
+    "category": "main",
+    "primaryMuscle": "Chest",
+    "secondaryMuscles": [
+      "Triceps",
+      "Front Delts"
+    ],
+    "targetMuscles": "Lower Pectorals, Triceps",
+    "movementType": "push",
+    "equipment": [
+      "bodyweight",
+      "bench"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "advanced",
+    "goalTags": [
+      "muscle_gain",
+      "strength"
+    ],
+    "contraindications": [
+      "shoulder",
+      "wrist"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 8,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": 90,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "high",
+    "caloriesPerMinute": 8,
+    "instructions": [
+      "Mount parallel bars and lean your torso slightly forward (30 degrees).",
+      "Lower body by bending elbows until upper arms are parallel to the ground.",
+      "Push back up focusing on chest activation."
+    ],
+    "commonMistakes": [
+      "Staying upright (targets triceps more than chest)",
+      "Going too deep into shoulder impingement"
+    ],
+    "coachTips": [
+      "Keep chin tucked and cross ankles for balance."
+    ],
+    "breathingTip": "Inhale descending; exhale pushing up.",
+    "safeAlternativeIds": [
+      "incline-push-up",
+      "dumbbell-bench-press"
+    ],
+    "progressionNote": "Add a dip belt with 2.5-5kg when bodyweight reaches 3x12.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  }
+]

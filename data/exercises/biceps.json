@@ -1,0 +1,348 @@
+[
+  {
+    "id": "barbell-bicep-curl",
+    "name": "Barbell Bicep Curl",
+    "category": "main",
+    "primaryMuscle": "Biceps",
+    "secondaryMuscles": [
+      "Forearms"
+    ],
+    "targetMuscles": "Biceps Brachii (Short & Long Head)",
+    "movementType": "pull",
+    "equipment": [
+      "barbell"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain",
+      "strength"
+    ],
+    "contraindications": [
+      "wrist",
+      "elbow"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 8,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5.5,
+    "instructions": [
+      "Stand tall holding barbell with an underhand shoulder-width grip.",
+      "Keep elbows pinned to sides and curl bar toward upper chest.",
+      "Squeeze biceps firmly at top, then lower with control over 2 seconds."
+    ],
+    "commonMistakes": [
+      "Swinging lower back to heave weight",
+      "Elbows drifting forward"
+    ],
+    "coachTips": [
+      "Keep upper arms perpendicular to the floor throughout."
+    ],
+    "breathingTip": "Exhale curling up; inhale lowering down.",
+    "safeAlternativeIds": [
+      "dumbbell-hammer-curl"
+    ],
+    "progressionNote": "Use an EZ curl bar if straight bar irritates wrists.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "dumbbell-hammer-curl",
+    "name": "Dumbbell Hammer Curl (Elbow Friendly)",
+    "category": "main",
+    "primaryMuscle": "Biceps",
+    "secondaryMuscles": [
+      "Brachialis",
+      "Forearms"
+    ],
+    "targetMuscles": "Brachialis & Brachioradialis",
+    "movementType": "pull",
+    "equipment": [
+      "dumbbell"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain",
+      "strength"
+    ],
+    "contraindications": [],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5.2,
+    "instructions": [
+      "Hold dumbbells with neutral grip (palms facing each other).",
+      "Curl weights upward keeping wrists rigid and neutral.",
+      "Squeeze at the top, then lower under control."
+    ],
+    "commonMistakes": [
+      "Turning palms up during the curl"
+    ],
+    "coachTips": [
+      "Neutral grip puts minimal stress on the inner elbow and builds forearm thickness."
+    ],
+    "breathingTip": "Exhale as you curl up, inhale as you release.",
+    "safeAlternativeIds": [
+      "cable-rope-curl"
+    ],
+    "progressionNote": "Can be done alternating or both arms simultaneously.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "incline-dumbbell-curl",
+    "name": "Incline Dumbbell Curl",
+    "category": "main",
+    "primaryMuscle": "Biceps",
+    "secondaryMuscles": [
+      "Forearms"
+    ],
+    "targetMuscles": "Biceps Long Head (Peak)",
+    "movementType": "pull",
+    "equipment": [
+      "dumbbell",
+      "bench"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "shoulder"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5,
+    "instructions": [
+      "Sit back on an incline bench set to 45-60 degrees with dumbbells hanging down.",
+      "Curl dumbbells while keeping upper arms pointed straight down.",
+      "Squeeze at the top and enjoy the deep stretch at the bottom."
+    ],
+    "commonMistakes": [
+      "Lifting shoulders up off the bench"
+    ],
+    "coachTips": [
+      "Places maximum stretch on the long head of the bicep."
+    ],
+    "breathingTip": "Inhale at stretch; exhale curling up.",
+    "safeAlternativeIds": [
+      "dumbbell-hammer-curl"
+    ],
+    "progressionNote": "Emphasize slow eccentrics for maximum muscle damage.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "preacher-curl",
+    "name": "Preacher Curl",
+    "category": "main",
+    "primaryMuscle": "Biceps",
+    "secondaryMuscles": [
+      "Forearms"
+    ],
+    "targetMuscles": "Biceps Short Head (Width)",
+    "movementType": "pull",
+    "equipment": [
+      "barbell",
+      "bench"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "elbow"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5.2,
+    "instructions": [
+      "Rest triceps flat against the preacher bench pad, grip EZ bar.",
+      "Curl bar up until forearms are near vertical.",
+      "Lower slowly until arms are almost straight, never hyperextending elbows."
+    ],
+    "commonMistakes": [
+      "Dropping weights too fast and over-extending elbow joints"
+    ],
+    "coachTips": [
+      "Stops cheating completely by locking the upper arm in place."
+    ],
+    "breathingTip": "Exhale up, inhale down.",
+    "safeAlternativeIds": [
+      "concentration-curl"
+    ],
+    "progressionNote": "Never drop weight quickly at the bottom.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cable-rope-curl",
+    "name": "Cable Rope Bicep Curl",
+    "category": "main",
+    "primaryMuscle": "Biceps",
+    "secondaryMuscles": [
+      "Forearms",
+      "Brachialis"
+    ],
+    "targetMuscles": "Biceps Brachii, Forearms",
+    "movementType": "pull",
+    "equipment": [
+      "cable_machine"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain"
+    ],
+    "contraindications": [],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 12,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 12,
+      "max": 15
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5,
+    "instructions": [
+      "Attach rope to low pulley, grip with neutral hands.",
+      "Curl up, spreading the rope ends apart at the top peak contraction.",
+      "Lower slowly under constant tension."
+    ],
+    "commonMistakes": [
+      "Elbows moving forward and backward"
+    ],
+    "coachTips": [
+      "Spreading the rope at the top intensifies the bicep contraction."
+    ],
+    "breathingTip": "Exhale up, inhale down.",
+    "safeAlternativeIds": [
+      "dumbbell-hammer-curl"
+    ],
+    "progressionNote": "Hold peak squeeze for 2 seconds.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "concentration-curl",
+    "name": "Concentration Curl",
+    "category": "main",
+    "primaryMuscle": "Biceps",
+    "secondaryMuscles": [],
+    "targetMuscles": "Biceps Brachii Isolation",
+    "movementType": "pull",
+    "equipment": [
+      "dumbbell",
+      "bench"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain"
+    ],
+    "contraindications": [],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 4.8,
+    "instructions": [
+      "Sit on bench with legs spread, brace back of elbow against inside of thigh.",
+      "Curl dumbbell toward face without moving upper arm.",
+      "Lower slowly with control."
+    ],
+    "commonMistakes": [
+      "Using torso to swing weight"
+    ],
+    "coachTips": [
+      "Pure isolation for the bicep peak."
+    ],
+    "breathingTip": "Exhale curling, inhale lowering.",
+    "safeAlternativeIds": [
+      "dumbbell-hammer-curl"
+    ],
+    "progressionNote": "Focus on squeeze at top.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  }
+]

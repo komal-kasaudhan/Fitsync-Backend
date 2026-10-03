@@ -1,0 +1,950 @@
+[
+  {
+    "id": "cooldown-childs-pose",
+    "name": "Child's Pose (Balasana)",
+    "category": "cooldown",
+    "primaryMuscle": "Mobility",
+    "secondaryMuscles": [
+      "Back",
+      "Lats",
+      "Hips"
+    ],
+    "targetMuscles": "Thoracic Spine, Lats, Hips",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility",
+      "general_fitness"
+    ],
+    "contraindications": [
+      "knee"
+    ],
+    "defaultSets": 1,
+    "defaultReps": {
+      "min": 45,
+      "max": 60
+    },
+    "defaultRepRange": {
+      "min": 45,
+      "max": 60
+    },
+    "restSec": 15,
+    "isTimed": true,
+    "durationSec": 45,
+    "intensity": "low",
+    "caloriesPerMinute": 2.5,
+    "instructions": [
+      "Kneel with big toes touching and knees spread wide.",
+      "Sit hips back onto heels and fold torso forward, resting forehead on mat.",
+      "Extend arms long on floor in front of you."
+    ],
+    "commonMistakes": [
+      "Tensing shoulders instead of letting gravity sink the chest"
+    ],
+    "coachTips": [
+      "Activates the parasympathetic nervous system for optimal post-workout recovery."
+    ],
+    "breathingTip": "Breathe deeply into the back of your ribcage.",
+    "safeAlternativeIds": [
+      "cooldown-corpse-pose-deep-breathing"
+    ],
+    "progressionNote": "Walk hands to the right for 30s, then to the left for 30s to stretch lats.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cooldown-standing-hamstring-stretch",
+    "name": "Standing Hamstring Scoop Stretch",
+    "category": "cooldown",
+    "primaryMuscle": "Hamstrings",
+    "secondaryMuscles": [
+      "Calves"
+    ],
+    "targetMuscles": "Hamstrings & Sciatic Nerve Flossing",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [
+      "lower_back"
+    ],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 30,
+      "max": 45
+    },
+    "defaultRepRange": {
+      "min": 30,
+      "max": 45
+    },
+    "restSec": 15,
+    "isTimed": true,
+    "durationSec": 30,
+    "intensity": "low",
+    "caloriesPerMinute": 2.8,
+    "instructions": [
+      "Extend one heel forward with foot flexed, other knee bent.",
+      "Hinge hips back and sweep arms down past shin.",
+      "Hold for 30 seconds feeling stretch in back of thigh, switch sides."
+    ],
+    "commonMistakes": [
+      "Rounding lower back instead of hinging hips"
+    ],
+    "coachTips": [
+      "Keep toes pulled toward shin to lengthen the calf as well."
+    ],
+    "breathingTip": "Inhale tall; exhale sinking deeper into the stretch.",
+    "safeAlternativeIds": [
+      "cooldown-seated-forward-bend"
+    ],
+    "progressionNote": "Place heel on a low step for deeper stretch.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cooldown-standing-quad-stretch",
+    "name": "Standing Quadriceps Stretch",
+    "category": "cooldown",
+    "primaryMuscle": "Quads",
+    "secondaryMuscles": [
+      "Hip Flexors"
+    ],
+    "targetMuscles": "Rectus Femoris & Quadriceps",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [
+      "knee"
+    ],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 30,
+      "max": 45
+    },
+    "defaultRepRange": {
+      "min": 30,
+      "max": 45
+    },
+    "restSec": 15,
+    "isTimed": true,
+    "durationSec": 30,
+    "intensity": "low",
+    "caloriesPerMinute": 2.8,
+    "instructions": [
+      "Stand on one foot, hold onto a wall for balance.",
+      "Grab ankle of other leg behind you and pull heel toward glute.",
+      "Keep knees touching and stand tall."
+    ],
+    "commonMistakes": [
+      "Arching lower back or flaring working knee out to the side"
+    ],
+    "coachTips": [
+      "Squeeze the glute of the stretched leg to release the quad deeper."
+    ],
+    "breathingTip": "Slow and relaxed breathing.",
+    "safeAlternativeIds": [
+      "cooldown-kneeling-hip-flexor-stretch"
+    ],
+    "progressionNote": "Tuck pelvis forward to intensify hip flexor stretch.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cooldown-cross-body-shoulder-stretch",
+    "name": "Cross-Body Posterior Shoulder Stretch",
+    "category": "cooldown",
+    "primaryMuscle": "Shoulders",
+    "secondaryMuscles": [
+      "Upper Back"
+    ],
+    "targetMuscles": "Posterior Deltoid & Infraspinatus",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 30,
+      "max": 45
+    },
+    "defaultRepRange": {
+      "min": 30,
+      "max": 45
+    },
+    "restSec": 15,
+    "isTimed": true,
+    "durationSec": 30,
+    "intensity": "low",
+    "caloriesPerMinute": 2.5,
+    "instructions": [
+      "Bring one arm across your chest at shoulder level.",
+      "Use opposite forearm to gently hug the arm closer to chest.",
+      "Hold for 30 seconds, then switch."
+    ],
+    "commonMistakes": [
+      "Shrugging the stretched shoulder up into ear"
+    ],
+    "coachTips": [
+      "Keep shoulder depressed down away from your ear."
+    ],
+    "breathingTip": "Exhale as you draw the arm in.",
+    "safeAlternativeIds": [
+      "cooldown-doorway-chest-stretch"
+    ],
+    "progressionNote": "Drop shoulder blade down for deeper rear delt stretch.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cooldown-overhead-tricep-stretch",
+    "name": "Overhead Triceps & Lat Stretch",
+    "category": "cooldown",
+    "primaryMuscle": "Triceps",
+    "secondaryMuscles": [
+      "Lats",
+      "Shoulders"
+    ],
+    "targetMuscles": "Triceps Long Head & Latissimus Dorsi",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [
+      "shoulder"
+    ],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 30,
+      "max": 45
+    },
+    "defaultRepRange": {
+      "min": 30,
+      "max": 45
+    },
+    "restSec": 15,
+    "isTimed": true,
+    "durationSec": 30,
+    "intensity": "low",
+    "caloriesPerMinute": 2.5,
+    "instructions": [
+      "Reach one hand down the center of your upper back, elbow pointed up.",
+      "Use other hand to gently guide elbow backward and down.",
+      "Hold for 30s each side."
+    ],
+    "commonMistakes": [
+      "Pushing head forward out of alignment"
+    ],
+    "coachTips": [
+      "Add a subtle side bend away from the elbow to also stretch the lat."
+    ],
+    "breathingTip": "Inhale into the ribs, exhale relaxing deeper.",
+    "safeAlternativeIds": [
+      "cooldown-childs-pose"
+    ],
+    "progressionNote": "Add lateral torso lean.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cooldown-doorway-chest-stretch",
+    "name": "Doorway Pectoral Stretch",
+    "category": "cooldown",
+    "primaryMuscle": "Chest",
+    "secondaryMuscles": [
+      "Anterior Delts",
+      "Biceps"
+    ],
+    "targetMuscles": "Pectoralis Major & Minor",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [
+      "shoulder"
+    ],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 30,
+      "max": 45
+    },
+    "defaultRepRange": {
+      "min": 30,
+      "max": 45
+    },
+    "restSec": 15,
+    "isTimed": true,
+    "durationSec": 30,
+    "intensity": "low",
+    "caloriesPerMinute": 2.5,
+    "instructions": [
+      "Place forearm on a doorframe or rack at 90 degrees.",
+      "Step forward with inside leg until you feel a comfortable stretch across the chest.",
+      "Hold for 30 seconds per side."
+    ],
+    "commonMistakes": [
+      "Twisting spine excessively"
+    ],
+    "coachTips": [
+      "Adjust elbow height up or down to target different chest fibers."
+    ],
+    "breathingTip": "Slow rhythmic breathing.",
+    "safeAlternativeIds": [
+      "cooldown-cross-body-shoulder-stretch"
+    ],
+    "progressionNote": "Vary arm angle (high, middle, low).",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cooldown-pigeon-pose",
+    "name": "Pigeon Pose Glute Stretch",
+    "category": "cooldown",
+    "primaryMuscle": "Glutes",
+    "secondaryMuscles": [
+      "Piriformis",
+      "Hips"
+    ],
+    "targetMuscles": "Piriformis, Deep Gluteal Rotators",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [
+      "knee"
+    ],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 45,
+      "max": 60
+    },
+    "defaultRepRange": {
+      "min": 45,
+      "max": 60
+    },
+    "restSec": 15,
+    "isTimed": true,
+    "durationSec": 45,
+    "intensity": "low",
+    "caloriesPerMinute": 2.8,
+    "instructions": [
+      "From push-up plank, bring right knee behind right wrist with shin angled.",
+      "Slide left leg straight back, hips square to floor.",
+      "Lower onto forearms if comfortable, hold 45 seconds, switch."
+    ],
+    "commonMistakes": [
+      "Rolling over onto right hip instead of keeping hips square"
+    ],
+    "coachTips": [
+      "If knee feels pinch, perform figure-4 stretch lying on your back."
+    ],
+    "breathingTip": "Deep belly breaths to melt hip tension.",
+    "safeAlternativeIds": [
+      "cooldown-butterfly-groin-stretch"
+    ],
+    "progressionNote": "Fold chest all the way to the floor.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cooldown-cobra-stretch",
+    "name": "Cobra Pose Abdominal Stretch",
+    "category": "cooldown",
+    "primaryMuscle": "Core",
+    "secondaryMuscles": [
+      "Chest",
+      "Hip Flexors"
+    ],
+    "targetMuscles": "Rectus Abdominis & Psoas",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [
+      "lower_back"
+    ],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 30,
+      "max": 45
+    },
+    "defaultRepRange": {
+      "min": 30,
+      "max": 45
+    },
+    "restSec": 15,
+    "isTimed": true,
+    "durationSec": 30,
+    "intensity": "low",
+    "caloriesPerMinute": 2.5,
+    "instructions": [
+      "Lie face down with hands under shoulders.",
+      "Press palms into floor, gently straightening arms to lift chest while keeping hips grounded.",
+      "Open chest and gaze slightly upward."
+    ],
+    "commonMistakes": [
+      "Crunching the lower back (jamming lumbar spine)"
+    ],
+    "coachTips": [
+      "Keep glutes lightly engaged to protect the lumbar vertebrae."
+    ],
+    "breathingTip": "Inhale lifting; exhale holding softly.",
+    "safeAlternativeIds": [
+      "cooldown-childs-pose"
+    ],
+    "progressionNote": "Perform Sphinx pose on forearms if lower back is sensitive.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cooldown-seated-spinal-twist",
+    "name": "Seated Spinal Twist",
+    "category": "cooldown",
+    "primaryMuscle": "Mobility",
+    "secondaryMuscles": [
+      "Glutes",
+      "Lower Back",
+      "Obliques"
+    ],
+    "targetMuscles": "Rotational Spinal Mobility",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 30,
+      "max": 45
+    },
+    "defaultRepRange": {
+      "min": 30,
+      "max": 45
+    },
+    "restSec": 15,
+    "isTimed": true,
+    "durationSec": 30,
+    "intensity": "low",
+    "caloriesPerMinute": 2.5,
+    "instructions": [
+      "Sit with legs extended. Cross right foot over left knee flat on floor.",
+      "Place left elbow against outside of right knee, right hand behind hips.",
+      "Gently twist torso to the right, looking over right shoulder."
+    ],
+    "commonMistakes": [
+      "Slumping back while twisting"
+    ],
+    "coachTips": [
+      "Sit tall on sit-bones before initiating the twist."
+    ],
+    "breathingTip": "Inhale lengthen spine, exhale twist deeper.",
+    "safeAlternativeIds": [
+      "cooldown-childs-pose"
+    ],
+    "progressionNote": "Close eyes and breathe smoothly.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cooldown-butterfly-groin-stretch",
+    "name": "Butterfly Groin & Adductor Stretch",
+    "category": "cooldown",
+    "primaryMuscle": "Mobility",
+    "secondaryMuscles": [
+      "Adductors",
+      "Groin",
+      "Hips"
+    ],
+    "targetMuscles": "Adductors Longus & Brevis",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [
+      "knee"
+    ],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 45,
+      "max": 60
+    },
+    "defaultRepRange": {
+      "min": 45,
+      "max": 60
+    },
+    "restSec": 15,
+    "isTimed": true,
+    "durationSec": 45,
+    "intensity": "low",
+    "caloriesPerMinute": 2.5,
+    "instructions": [
+      "Sit tall, bring soles of feet together, let knees fall open out to sides.",
+      "Hold ankles and gently pull heels closer to pelvis.",
+      "Keep spine long and fold slightly forward."
+    ],
+    "commonMistakes": [
+      "Forcefully bouncing knees down"
+    ],
+    "coachTips": [
+      "Let gravity pull your knees down naturally rather than pressing hard with elbows."
+    ],
+    "breathingTip": "Exhale melting into the hip opening.",
+    "safeAlternativeIds": [
+      "cooldown-childs-pose"
+    ],
+    "progressionNote": "Gently hinge chest forward over feet.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cooldown-kneeling-hip-flexor-stretch",
+    "name": "Half-Kneeling Hip Flexor Stretch",
+    "category": "cooldown",
+    "primaryMuscle": "Mobility",
+    "secondaryMuscles": [
+      "Quads",
+      "Psoas"
+    ],
+    "targetMuscles": "Iliopsoas & Rectus Femoris",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [
+      "knee"
+    ],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 30,
+      "max": 45
+    },
+    "defaultRepRange": {
+      "min": 30,
+      "max": 45
+    },
+    "restSec": 15,
+    "isTimed": true,
+    "durationSec": 30,
+    "intensity": "low",
+    "caloriesPerMinute": 2.8,
+    "instructions": [
+      "Kneel on right knee with left foot forward in a 90-degree lunge.",
+      "Tuck pelvis under (posterior pelvic tilt) and squeeze right glute.",
+      "Shift forward slightly until stretch is felt in front of right hip."
+    ],
+    "commonMistakes": [
+      "Hyperextending lower back to lunge forward too far"
+    ],
+    "coachTips": [
+      "The pelvic tuck is the secret: you only need to shift forward 2 inches."
+    ],
+    "breathingTip": "Inhale tall, exhale squeeze glute.",
+    "safeAlternativeIds": [
+      "cooldown-standing-quad-stretch"
+    ],
+    "progressionNote": "Reach right arm overhead and side-bend left.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cooldown-downward-facing-dog",
+    "name": "Downward-Facing Dog (Adho Mukha Svanasana)",
+    "category": "cooldown",
+    "primaryMuscle": "Calves",
+    "secondaryMuscles": [
+      "Hamstrings",
+      "Shoulders",
+      "Back"
+    ],
+    "targetMuscles": "Calves, Hamstrings, Posterior Fascia",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [
+      "wrist",
+      "shoulder"
+    ],
+    "defaultSets": 1,
+    "defaultReps": {
+      "min": 45,
+      "max": 60
+    },
+    "defaultRepRange": {
+      "min": 45,
+      "max": 60
+    },
+    "restSec": 15,
+    "isTimed": true,
+    "durationSec": 45,
+    "intensity": "low",
+    "caloriesPerMinute": 3.2,
+    "instructions": [
+      "From plank, press hips up and back into an inverted V.",
+      "Press chest toward thighs, push heels gently toward floor.",
+      "Paddle feet alternating heels for deeper calf stretch."
+    ],
+    "commonMistakes": [
+      "Rounding upper back and dumping weight into wrists"
+    ],
+    "coachTips": [
+      "Bend knees slightly if hamstrings are tight to keep spine long."
+    ],
+    "breathingTip": "Slow rhythmic nasal breathing.",
+    "safeAlternativeIds": [
+      "cooldown-childs-pose"
+    ],
+    "progressionNote": "Pedal heels slowly: 3s hold per side.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cooldown-standing-calf-wall-stretch",
+    "name": "Wall Calf Stretch (Gastrocnemius)",
+    "category": "cooldown",
+    "primaryMuscle": "Calves",
+    "secondaryMuscles": [
+      "Achilles Tendon"
+    ],
+    "targetMuscles": "Gastrocnemius & Achilles",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 30,
+      "max": 45
+    },
+    "defaultRepRange": {
+      "min": 30,
+      "max": 45
+    },
+    "restSec": 15,
+    "isTimed": true,
+    "durationSec": 30,
+    "intensity": "low",
+    "caloriesPerMinute": 2.5,
+    "instructions": [
+      "Stand facing a wall with hands flat on it.",
+      "Step one leg back straight with heel firmly grounded.",
+      "Bend front knee and lean toward wall until back calf stretches."
+    ],
+    "commonMistakes": [
+      "Turning back foot outwards"
+    ],
+    "coachTips": [
+      "Keep back heel completely flat on the floor."
+    ],
+    "breathingTip": "Exhale leaning forward.",
+    "safeAlternativeIds": [
+      "cooldown-downward-facing-dog"
+    ],
+    "progressionNote": "Bend rear knee slightly to target soleus.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cooldown-seated-forward-bend",
+    "name": "Seated Forward Bend (Paschimottanasana)",
+    "category": "cooldown",
+    "primaryMuscle": "Hamstrings",
+    "secondaryMuscles": [
+      "Lower Back",
+      "Calves"
+    ],
+    "targetMuscles": "Entire Posterior Chain",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [
+      "lower_back"
+    ],
+    "defaultSets": 1,
+    "defaultReps": {
+      "min": 45,
+      "max": 60
+    },
+    "defaultRepRange": {
+      "min": 45,
+      "max": 60
+    },
+    "restSec": 15,
+    "isTimed": true,
+    "durationSec": 45,
+    "intensity": "low",
+    "caloriesPerMinute": 2.5,
+    "instructions": [
+      "Sit with legs extended straight in front.",
+      "Inhale arms overhead, exhale folding forward from hips reaching toward feet.",
+      "Rest hands on shins, ankles, or toes."
+    ],
+    "commonMistakes": [
+      "Yanking hard on toes rounding the cervical spine"
+    ],
+    "coachTips": [
+      "Think of reaching chest forward toward toes, not forehead to knees."
+    ],
+    "breathingTip": "Inhale lengthen, exhale fold.",
+    "safeAlternativeIds": [
+      "cooldown-childs-pose"
+    ],
+    "progressionNote": "Loop a towel around feet if toes are out of reach.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cooldown-wrist-extensor-stretch",
+    "name": "Kneeling Wrist Extensor Stretch",
+    "category": "cooldown",
+    "primaryMuscle": "Mobility",
+    "secondaryMuscles": [
+      "Forearms"
+    ],
+    "targetMuscles": "Wrist Extensors & Forearm Fascia",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "mobility"
+    ],
+    "contraindications": [],
+    "defaultSets": 2,
+    "defaultReps": {
+      "min": 30,
+      "max": 30
+    },
+    "defaultRepRange": {
+      "min": 30,
+      "max": 30
+    },
+    "restSec": 15,
+    "isTimed": true,
+    "durationSec": 30,
+    "intensity": "low",
+    "caloriesPerMinute": 2,
+    "instructions": [
+      "Extend arm with palm facing body, fingers pointing down.",
+      "Gently pull back of hand toward forearm with other hand.",
+      "Hold for 30s per hand."
+    ],
+    "commonMistakes": [
+      "Over-pulling aggressively"
+    ],
+    "coachTips": [
+      "Relieves tightness after heavy pulling or typing."
+    ],
+    "breathingTip": "Gentle calm breathing.",
+    "safeAlternativeIds": [],
+    "progressionNote": "Rotate hand slightly to find tight angles.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cooldown-corpse-pose-deep-breathing",
+    "name": "Corpse Pose Deep Breathing (Savasana)",
+    "category": "cooldown",
+    "primaryMuscle": "Mobility",
+    "secondaryMuscles": [
+      "Full Body"
+    ],
+    "targetMuscles": "Autonomic Nervous System Recovery",
+    "movementType": "mobility",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "general_fitness"
+    ],
+    "contraindications": [],
+    "defaultSets": 1,
+    "defaultReps": {
+      "min": 60,
+      "max": 120
+    },
+    "defaultRepRange": {
+      "min": 60,
+      "max": 120
+    },
+    "restSec": 0,
+    "isTimed": true,
+    "durationSec": 60,
+    "intensity": "low",
+    "caloriesPerMinute": 2,
+    "instructions": [
+      "Lie flat on back with legs relaxed open and arms at sides, palms facing up.",
+      "Close eyes and take deep belly breaths (4s inhale, 6s exhale).",
+      "Allow heart rate and blood pressure to settle."
+    ],
+    "commonMistakes": [
+      "Checking phone immediately"
+    ],
+    "coachTips": [
+      "The best 60-90 seconds to transition the body from fight-or-flight to rest-and-digest."
+    ],
+    "breathingTip": "4 seconds in through nose, 6 seconds slow exhale through mouth.",
+    "safeAlternativeIds": [
+      "cooldown-childs-pose"
+    ],
+    "progressionNote": "Relax all facial and jaw muscles completely.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  }
+]

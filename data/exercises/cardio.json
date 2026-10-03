@@ -1,0 +1,504 @@
+[
+  {
+    "id": "burpees",
+    "name": "Burpees",
+    "category": "main",
+    "primaryMuscle": "Cardio",
+    "secondaryMuscles": [
+      "Chest",
+      "Quads",
+      "Core"
+    ],
+    "targetMuscles": "Full Body Conditioning",
+    "movementType": "cardio",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "fat_loss",
+      "endurance"
+    ],
+    "contraindications": [
+      "wrist",
+      "knee",
+      "lower_back"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 15
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "high",
+    "caloriesPerMinute": 11.5,
+    "instructions": [
+      "From standing, drop hands to floor and kick feet back into a push-up plank.",
+      "Lower chest to floor, push back up immediately.",
+      "Jump feet forward to hands and explode upward with hands overhead."
+    ],
+    "commonMistakes": [
+      "Sagging lower back when jumping out to plank"
+    ],
+    "coachTips": [
+      "Step back instead of jumping back to decrease joint impact."
+    ],
+    "breathingTip": "Inhale going down; exhale as you jump up.",
+    "safeAlternativeIds": [
+      "jumping-jacks",
+      "high-knees"
+    ],
+    "progressionNote": "Aim for maximum reps in 45-second intervals.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "jumping-jacks",
+    "name": "Jumping Jacks",
+    "category": "main",
+    "primaryMuscle": "Cardio",
+    "secondaryMuscles": [
+      "Calves",
+      "Shoulders"
+    ],
+    "targetMuscles": "Cardiovascular System, Calves",
+    "movementType": "cardio",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "fat_loss",
+      "general_fitness"
+    ],
+    "contraindications": [
+      "ankle"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 30,
+      "max": 50
+    },
+    "defaultRepRange": {
+      "min": 30,
+      "max": 50
+    },
+    "restSec": 30,
+    "isTimed": true,
+    "durationSec": 45,
+    "intensity": "medium",
+    "caloriesPerMinute": 8,
+    "instructions": [
+      "Stand with feet together and arms at sides.",
+      "Jump feet wide while raising arms overhead clapping hands.",
+      "Jump feet back together and lower arms smoothly."
+    ],
+    "commonMistakes": [
+      "Landing hard on heels"
+    ],
+    "coachTips": [
+      "Stay light on the balls of your feet to cushion knee and ankle impact."
+    ],
+    "breathingTip": "Rhythmic breathing in cadence with jumps.",
+    "safeAlternativeIds": [
+      "high-knees"
+    ],
+    "progressionNote": "Increase speed or wear light ankle weights.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "mountain-climbers",
+    "name": "Mountain Climbers",
+    "category": "main",
+    "primaryMuscle": "Cardio",
+    "secondaryMuscles": [
+      "Core",
+      "Shoulders",
+      "Hip Flexors"
+    ],
+    "targetMuscles": "Cardio, Core, Shoulders",
+    "movementType": "cardio",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "fat_loss",
+      "endurance"
+    ],
+    "contraindications": [
+      "wrist"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 20,
+      "max": 30
+    },
+    "defaultRepRange": {
+      "min": 20,
+      "max": 30
+    },
+    "restSec": 45,
+    "isTimed": true,
+    "durationSec": 30,
+    "intensity": "high",
+    "caloriesPerMinute": 9.5,
+    "instructions": [
+      "Start in high pushup plank position with hands under shoulders.",
+      "Drive right knee towards chest without letting hips pike up.",
+      "Quickly switch legs, driving left knee forward as right leg returns.",
+      "Continue alternating at a rapid running pace."
+    ],
+    "commonMistakes": [
+      "Bouncing hips up in the air"
+    ],
+    "coachTips": [
+      "Keep shoulders directly over wrists and maintain a flat back."
+    ],
+    "breathingTip": "Breathe rapidly and rhythmically.",
+    "safeAlternativeIds": [
+      "dead-bug"
+    ],
+    "progressionNote": "Perform cross-body climbers (knee to opposite elbow) for oblique burn.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "kettlebell-swings",
+    "name": "Kettlebell Russian Swings",
+    "category": "main",
+    "primaryMuscle": "Cardio",
+    "secondaryMuscles": [
+      "Glutes",
+      "Hamstrings",
+      "Lower Back"
+    ],
+    "targetMuscles": "Posterior Chain Power & Cardiovascular",
+    "movementType": "cardio",
+    "equipment": [
+      "kettlebell",
+      "dumbbell"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "fat_loss",
+      "strength"
+    ],
+    "contraindications": [
+      "lower_back"
+    ],
+    "defaultSets": 4,
+    "defaultReps": {
+      "min": 15,
+      "max": 20
+    },
+    "defaultRepRange": {
+      "min": 15,
+      "max": 20
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "high",
+    "caloriesPerMinute": 12,
+    "instructions": [
+      "Stand with feet shoulder-width, kettlebell on floor a foot ahead of you.",
+      "Hike bell back between legs like a football center hike.",
+      "Snap hips forward explosively to stand, propelling bell to chest level.",
+      "Guide bell back down and hinge hips for next rep."
+    ],
+    "commonMistakes": [
+      "Squatting down instead of hip hinging",
+      "Lifting with shoulders"
+    ],
+    "coachTips": [
+      "Arms are just ropes; all the power comes from a violent hip snap."
+    ],
+    "breathingTip": "Inhale on hike; sharp explosive exhale through teeth at the hip snap.",
+    "safeAlternativeIds": [
+      "jumping-jacks"
+    ],
+    "progressionNote": "Progress to heavier kettlebells or one-arm swings.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "high-knees",
+    "name": "High Knees Sprinting in Place",
+    "category": "main",
+    "primaryMuscle": "Cardio",
+    "secondaryMuscles": [
+      "Hip Flexors",
+      "Calves",
+      "Core"
+    ],
+    "targetMuscles": "Cardiovascular System, Legs",
+    "movementType": "cardio",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "fat_loss",
+      "endurance"
+    ],
+    "contraindications": [
+      "knee"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 30,
+      "max": 40
+    },
+    "defaultRepRange": {
+      "min": 30,
+      "max": 40
+    },
+    "restSec": 45,
+    "isTimed": true,
+    "durationSec": 30,
+    "intensity": "high",
+    "caloriesPerMinute": 10,
+    "instructions": [
+      "Run in place driving knees up to hip height with every stride.",
+      "Pump arms in opposition to legs.",
+      "Stay light on balls of feet."
+    ],
+    "commonMistakes": [
+      "Leaning backward while lifting knees"
+    ],
+    "coachTips": [
+      "Keep chest tall and maintain forward momentum."
+    ],
+    "breathingTip": "Fast, rhythmic breathing.",
+    "safeAlternativeIds": [
+      "jumping-jacks"
+    ],
+    "progressionNote": "Increase foot turnaround speed.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "jump-rope",
+    "name": "Jump Rope Skipping",
+    "category": "main",
+    "primaryMuscle": "Cardio",
+    "secondaryMuscles": [
+      "Calves",
+      "Forearms",
+      "Shoulders"
+    ],
+    "targetMuscles": "Cardiovascular System, Calves",
+    "movementType": "cardio",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "fat_loss",
+      "endurance"
+    ],
+    "contraindications": [
+      "ankle",
+      "knee"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 50,
+      "max": 100
+    },
+    "defaultRepRange": {
+      "min": 50,
+      "max": 100
+    },
+    "restSec": 45,
+    "isTimed": true,
+    "durationSec": 60,
+    "intensity": "high",
+    "caloriesPerMinute": 11,
+    "instructions": [
+      "Hold handles at hip height with elbows tight to ribs.",
+      "Rotate wrists to turn the rope.",
+      "Hop just an inch off the ground, bounding lightly on toes."
+    ],
+    "commonMistakes": [
+      "Jumping too high and flaring arms wide"
+    ],
+    "coachTips": [
+      "The rope turns from the wrists, not whole arm circles."
+    ],
+    "breathingTip": "Breathe in through nose, out through mouth in cadence.",
+    "safeAlternativeIds": [
+      "jumping-jacks"
+    ],
+    "progressionNote": "Advance to double-unders as footwork sharpens.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "treadmill-hiit-sprints",
+    "name": "Treadmill HIIT Sprints",
+    "category": "main",
+    "primaryMuscle": "Cardio",
+    "secondaryMuscles": [
+      "Hamstrings",
+      "Quads",
+      "Glutes"
+    ],
+    "targetMuscles": "Cardiovascular VO2 Max & Anaerobic Power",
+    "movementType": "cardio",
+    "equipment": [
+      "treadmill"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "advanced",
+    "goalTags": [
+      "fat_loss",
+      "endurance"
+    ],
+    "contraindications": [
+      "knee",
+      "hamstrings",
+      "ankle"
+    ],
+    "defaultSets": 5,
+    "defaultReps": {
+      "min": 20,
+      "max": 30
+    },
+    "defaultRepRange": {
+      "min": 20,
+      "max": 30
+    },
+    "restSec": 60,
+    "isTimed": true,
+    "durationSec": 30,
+    "intensity": "high",
+    "caloriesPerMinute": 13.5,
+    "instructions": [
+      "Warm up for 3 minutes at a light jog.",
+      "Sprint at 85-95% maximum effort for 30 seconds.",
+      "Step off to rails or slow belt to walk for 60 seconds active rest.",
+      "Repeat for 5-8 rounds."
+    ],
+    "commonMistakes": [
+      "Holding onto console handles while sprinting"
+    ],
+    "coachTips": [
+      "Pump your arms and drive your knees forward."
+    ],
+    "breathingTip": "Deep recovery breathing during rest intervals.",
+    "safeAlternativeIds": [
+      "jumping-jacks",
+      "kettlebell-swings"
+    ],
+    "progressionNote": "Increase incline to 2-3% to mimic outdoor track running.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "rowing-machine",
+    "name": "Rowing Machine Intervals",
+    "category": "main",
+    "primaryMuscle": "Cardio",
+    "secondaryMuscles": [
+      "Back",
+      "Legs",
+      "Arms"
+    ],
+    "targetMuscles": "Full Body Cardiovascular",
+    "movementType": "cardio",
+    "equipment": [
+      "cable_machine"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "fat_loss",
+      "endurance"
+    ],
+    "contraindications": [
+      "lower_back"
+    ],
+    "defaultSets": 4,
+    "defaultReps": {
+      "min": 45,
+      "max": 60
+    },
+    "defaultRepRange": {
+      "min": 45,
+      "max": 60
+    },
+    "restSec": 60,
+    "isTimed": true,
+    "durationSec": 60,
+    "intensity": "high",
+    "caloriesPerMinute": 11,
+    "instructions": [
+      "Strap feet in, grab handle with overhand grip.",
+      "Drive back with legs first, then lean torso back slightly, then pull handle to sternum.",
+      "Reverse sequence smoothly: extend arms, hinge forward, bend knees."
+    ],
+    "commonMistakes": [
+      "Pulling with arms before legs have extended"
+    ],
+    "coachTips": [
+      "60% legs, 20% core, 20% arms."
+    ],
+    "breathingTip": "Exhale on drive; inhale on return recovery.",
+    "safeAlternativeIds": [
+      "kettlebell-swings"
+    ],
+    "progressionNote": "Maintain consistent 500m split times across all rounds.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  }
+]

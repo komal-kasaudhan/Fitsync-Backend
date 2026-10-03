@@ -51,9 +51,33 @@ function parseGeminiJson(rawText) {
     return JSON.parse(clean);
 }
 
+const FIRST_TIME_MOTIVATIONAL_LINES = [
+    "Welcome to FitSync! Consistency beats intensity every single time. Let's conquer today's goals together!",
+    "Your journey starts with your next meal and workout. Stay committed and drink plenty of water today.",
+    "A journey of a thousand miles begins with a single clean meal. Start strong with your nutrition targets!",
+    "Small daily improvements over time lead to stunning results. Focus on hitting your protein goal today.",
+    "Welcome to day one! Track your meals, complete your workout, and trust the process.",
+    "The secret of getting ahead is getting started. Fuel your body with high-quality nutrients today.",
+    "Consistency is what transforms average into excellence. Let's make today count towards your goal!",
+    "Greatness is forged one disciplined choice at a time. Prioritize your hydration and protein today.",
+    "Welcome aboard! Focus on progress, not perfection. Hit your daily water and calorie targets.",
+    "Your body can stand almost anything; it's your mind you have to convince. Let's crush today's plan!",
+    "Every healthy choice you make today is an investment in your future self. Eat clean and stay hydrated.",
+    "Believe in the power of daily habits. Start with a protein-rich meal and active movement today.",
+    "You don't have to be extreme, just consistent. Log your first meal and hit your daily targets.",
+    "Motivation gets you going, but discipline keeps you growing. Let's build your fitness foundation today!",
+    "Today is your clean slate. Focus on nutritious whole foods and give your workout 100%.",
+    "Champions are built when no one is watching. Stay focused on your macros and rest well tonight.",
+    "Your potential is endless. Nourish your muscles with clean protein and maintain steady hydration.",
+    "Step by step, day by day. Every macro logged brings you closer to your dream physique.",
+    "Welcome to FitSync! Stay mindful of your portions and celebrate every small win today.",
+    "Energy flows where focus goes. Direct your focus to hitting your targets today and feeling your best!",
+    "The hard days are the days that count the most. Keep your vision clear and your habits strong!"
+];
+
 /**
- * Feature C: Dynamic AI nutrition insight
- * Returns { message: string, suggestedFoods: string[] }
+ * Feature C & Task 5: Dynamic AI nutrition insight with yesterday's feedback
+ * Returns { message: string, tone: string, suggestedFoods: string[], isFirstTime?: boolean }
  */
 async function generateDynamicNutritionInsight({
     remainingProtein,
@@ -65,35 +89,56 @@ async function generateDynamicNutritionInsight({
     targetCalories,
     dietType = "Veg",
     timeBucket = "afternoon",
-    goal = "Maintain"
+    goal = "Maintain",
+    yesterdaySummary = null,
+    isFirstTime = false,
+    userId = "",
+    date = ""
 }) {
-    // 1. Rule-based fallback template generator
-    const getFallback = () => {
-        const isVeg = !dietType.toLowerCase().includes("non");
-        let foods = [];
-        let msg = "";
+    const isVeg = !dietType.toLowerCase().includes("non");
+    const defaultFoods = isVeg
+        ? (timeBucket === "morning" ? ["Paneer Bhurji", "High-Protein Oats", "Greek Yogurt"] : ["Soya Chunks Curry", "Dal Tadka & Rice", "Tofu Stir-Fry"])
+        : (timeBucket === "morning" ? ["3 Boiled Eggs", "Masala Omelette", "Greek Yogurt"] : ["Grilled Chicken Breast", "Egg Curry & Rice", "Tuna Salad"]);
 
-        if (remainingProtein <= 5) {
-            msg = `Great job! You've reached your protein goal today (${targetProtein}g). Focus on hydration and recovery.`;
-            foods = ["Water with lemon", "Coconut water", "Herbal tea"];
-        } else if (timeBucket === "morning") {
-            foods = isVeg ? ["Paneer Bhurji", "High-Protein Oats", "Greek Yogurt"] : ["3 Boiled Eggs", "Masala Omelette", "Greek Yogurt"];
-            msg = `You have ${remainingProtein}g of protein left. Kickstart your day with ${foods[0]} or ${foods[1]}!`;
-        } else if (timeBucket === "afternoon") {
-            foods = isVeg ? ["Soya Chunks Curry", "Dal Tadka & Rice", "Tofu Stir-Fry"] : ["Grilled Chicken Breast", "Egg Curry & Rice", "Tuna Salad"];
-            msg = `${remainingProtein}g protein remaining today. Fuel your afternoon with a hearty serving of ${foods[0]}.`;
-        } else if (timeBucket === "evening") {
-            foods = isVeg ? ["Sprouted Moong Chaat", "Whey Protein Shake", "Roasted Makhana"] : ["Boiled Eggs", "Chicken Shawarma Salad", "Whey Shake"];
-            msg = `Post-workout fuel: You need ${remainingProtein}g more protein. A quick ${foods[0]} will bridge the gap!`;
+    // First time user: rotate from 20+ lines seeded by userId + date
+    if (isFirstTime || !yesterdaySummary) {
+        const seedStr = `${userId || "user"}_${date || "today"}_first_time`;
+        let hash = 0;
+        for (let i = 0; i < seedStr.length; i++) hash = (hash << 5) - hash + seedStr.charCodeAt(i);
+        const index = Math.abs(hash) % FIRST_TIME_MOTIVATIONAL_LINES.length;
+
+        return {
+            message: FIRST_TIME_MOTIVATIONAL_LINES[index],
+            tone: "encouraging",
+            suggestedFoods: defaultFoods,
+            isFirstTime: true
+        };
+    }
+
+    // 1. Rule-based fallback template generator referencing yesterday
+    const getFallback = () => {
+        let msg = "";
+        let tone = "encouraging";
+
+        if (yesterdaySummary.missedProtein) {
+            tone = "corrective";
+            msg = `You missed protein yesterday (${yesterdaySummary.consumedProtein}g). Prioritize ${defaultFoods[0]} today to hit your ${goal.toLowerCase()} goal.`;
+        } else if (yesterdaySummary.hitProtein) {
+            tone = "celebratory";
+            msg = `Great job hitting protein yesterday! Maintain momentum with ${remainingProtein}g left today; try ${defaultFoods[0]}.`;
+        } else if (yesterdaySummary.missedWorkout) {
+            tone = "motivational";
+            msg = `Missed yesterday's workout? Reset today with good hydration and a protein-rich ${defaultFoods[0]}.`;
         } else {
-            // Night
-            foods = isVeg ? ["Cottage Cheese Sweet Bowl", "Warm Turmeric Milk", "Soya Granules"] : ["Casein / Whey Shake", "Boiled Egg Whites", "Greek Yogurt"];
-            msg = `Wind down with ${remainingProtein}g protein remaining. A serving of ${foods[0]} supports overnight muscle recovery.`;
+            tone = "encouraging";
+            msg = `With ${remainingProtein}g protein left today, fuel your ${goal.toLowerCase()} with a hearty serving of ${defaultFoods[0]}.`;
         }
 
         return {
             message: msg.slice(0, 160),
-            suggestedFoods: foods
+            tone,
+            suggestedFoods: defaultFoods,
+            isFirstTime: false
         };
     };
 
@@ -106,16 +151,26 @@ Current User Status:
 - Time of Day: ${timeBucket}
 - Fitness Goal: ${goal}
 - Diet Preference: ${dietType}
-- Target: ${targetCalories} kcal, ${targetProtein}g protein
+- Target Today: ${targetCalories} kcal, ${targetProtein}g protein
 - Remaining Today: ${remainingProtein}g protein, ${remainingCalories} kcal, ${remainingCarbs}g carbs, ${remainingFat}g fat, ${remainingWater}L water.
+
+Yesterday's Summary:
+- Calories Consumed: ${yesterdaySummary.consumedCalories} / ${yesterdaySummary.targetCalories} kcal
+- Protein Consumed: ${yesterdaySummary.consumedProtein}g / ${yesterdaySummary.targetProtein}g (Goal met: ${yesterdaySummary.hitProtein ? "Yes" : "No"})
+- Water Consumed: ${yesterdaySummary.consumedWater}L
+- Workout Completed: ${yesterdaySummary.workoutCompleted ? "Yes" : "No"}
+- Workout Feedback: ${yesterdaySummary.workoutFeedback || "None"}
+- Current Streak: ${yesterdaySummary.streak || 0} days
 
 Task:
 Provide exactly ONE short, warm, highly actionable tip (STRICTLY MAXIMUM 25 WORDS).
-State how much protein is left and suggest a specific healthy food matching their ${dietType} diet and the ${timeBucket} time of day.
+Reference yesterday's performance (e.g. if protein was missed yesterday, advise making up for it today; if workout was completed, encourage recovery).
+Suggest a specific food matching their ${dietType} diet and the ${timeBucket} time of day.
 Return your response in STRICT JSON format:
 {
-  "message": "Your short tip under 25 words mentioning the exact protein number and a specific food.",
-  "suggestedFoods": ["Food 1", "Food 2", "Food 3"]
+  "message": "Your short tip under 25 words referencing yesterday and recommending a food.",
+  "tone": "motivational",
+  "suggestedFoods": ["Food 1", "Food 2"]
 }
 Output only valid JSON, without extra commentary or markdown.`;
 
@@ -125,7 +180,9 @@ Output only valid JSON, without extra commentary or markdown.`;
         if (parsed && typeof parsed.message === "string" && Array.isArray(parsed.suggestedFoods)) {
             return {
                 message: parsed.message.trim(),
-                suggestedFoods: parsed.suggestedFoods.slice(0, 4)
+                tone: parsed.tone || "encouraging",
+                suggestedFoods: parsed.suggestedFoods.slice(0, 4),
+                isFirstTime: false
             };
         }
         return getFallback();
@@ -134,6 +191,7 @@ Output only valid JSON, without extra commentary or markdown.`;
         return getFallback();
     }
 }
+
 
 /**
  * Feature I: Multi-turn Ask AI Fitness & Nutrition Coach
@@ -193,40 +251,59 @@ Coach:`;
 }
 
 /**
- * Feature E: Optional Gemini workout plan optimizer
+ * Feature E & Task 2: Optional Gemini workout plan optimizer
  */
-async function optimizeWorkoutPlanWithGemini(candidateDays, userProfile) {
+async function optimizeWorkoutPlanWithGemini(candidateDays, userProfile, yesterdayFeedback = null) {
     if (!process.env.GEMINI_API_KEY) {
         return null;
     }
 
-    const prompt = `You are a master strength coach.
+    const feedbackContext = yesterdayFeedback
+        ? `Yesterday's Workout Feedback: Difficulty was '${yesterdayFeedback.difficulty || "just_right"}', Soreness: '${yesterdayFeedback.soreness || "none"}', Pain areas: ${JSON.stringify(yesterdayFeedback.painAreas || [])}. Adapt sets and rest accordingly.`
+        : "No previous workout feedback available.";
+
+    const prompt = `You are an elite master strength and conditioning coach.
 User Context:
 - Goal: ${userProfile.goal}
 - Fitness Level: ${userProfile.level}
 - Duration: ${userProfile.duration} mins
 - Location: ${userProfile.location}
+- ${feedbackContext}
 
-Here are the 7 days of training with candidate exercise IDs:
+Candidate Days and Exercises (STRICT RULE: ONLY choose IDs from this list):
 ${JSON.stringify(candidateDays.map(d => ({
     dayIndex: d.dayIndex,
     focus: d.focus,
     isRestDay: d.isRestDay,
-    candidateExerciseIds: d.exercises.map(e => e.exerciseId)
-})))}
+    candidateExercises: (d.exercises || []).map(e => ({
+        exerciseId: e.exerciseId,
+        name: e.name,
+        defaultSets: e.sets,
+        defaultReps: e.reps,
+        defaultRestSec: e.restSec
+    }))
+})), null, 2)}
 
 Task:
-Return a JSON array of 7 objects. For each training day, choose and order the best 4-5 exercise IDs from candidateExerciseIds and include a 1-sentence motivational coachNote.
-Strict JSON format:
+For each training day, choose 6-7 exercises from candidateExercises, ordering from compound to isolation.
+Fine-tune sets, reps, and restSec according to the user's goal and feedback. Provide a 1-sentence coachNote.
+STRICT JSON format:
 [
   {
     "dayIndex": 0,
-    "orderedExerciseIds": ["<id1>", "<id2>", ...],
-    "coachNote": "Focus on controlled eccentrics on all compound lifts."
-  },
-  ...
+    "coachNote": "Focus on explosive leg drive and tight core bracing.",
+    "exercises": [
+      {
+        "exerciseId": "<id strictly from candidateExercises>",
+        "sets": 3,
+        "reps": "8-10",
+        "restSec": 75,
+        "note": "Control the descent"
+      }
+    ]
+  }
 ]
-Output ONLY valid JSON.`;
+Output ONLY valid JSON. Never invent IDs outside candidateExercises.`;
 
     try {
         const raw = await generateWithFallback(prompt, 25000);
@@ -236,6 +313,7 @@ Output ONLY valid JSON.`;
         return null;
     }
 }
+
 
 /**
  * Feature A: Rank and provide one-line reasons for top 5 meal recommendations

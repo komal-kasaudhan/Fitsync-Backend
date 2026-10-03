@@ -1,0 +1,488 @@
+[
+  {
+    "id": "overhead-barbell-press",
+    "name": "Overhead Barbell Press",
+    "category": "main",
+    "primaryMuscle": "Shoulders",
+    "secondaryMuscles": [
+      "Triceps",
+      "Upper Chest",
+      "Core"
+    ],
+    "targetMuscles": "Anterior & Lateral Deltoids, Triceps",
+    "movementType": "push",
+    "equipment": [
+      "barbell"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "strength",
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "shoulder",
+      "lower_back"
+    ],
+    "defaultSets": 4,
+    "defaultReps": {
+      "min": 6,
+      "max": 8
+    },
+    "defaultRepRange": {
+      "min": 6,
+      "max": 8
+    },
+    "restSec": 90,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "high",
+    "caloriesPerMinute": 7.2,
+    "instructions": [
+      "Stand tall holding barbell across front of shoulders at clavicle height.",
+      "Squeeze glutes and core firmly.",
+      "Press bar straight overhead, tucking chin slightly until bar passes forehead.",
+      "Lock out overhead with biceps by ears."
+    ],
+    "commonMistakes": [
+      "Leaning backwards excessively",
+      "Bending knees to push-press"
+    ],
+    "coachTips": [
+      "A rigid core prevents lower back hyperextension."
+    ],
+    "breathingTip": "Breathe in and brace at the bottom; exhale at the top lockout.",
+    "safeAlternativeIds": [
+      "seated-dumbbell-shoulder-press",
+      "pike-push-up"
+    ],
+    "progressionNote": "Progress with micro-plates (1.25kg) for steady shoulder gains.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "seated-dumbbell-shoulder-press",
+    "name": "Seated Dumbbell Shoulder Press",
+    "category": "main",
+    "primaryMuscle": "Shoulders",
+    "secondaryMuscles": [
+      "Triceps",
+      "Traps"
+    ],
+    "targetMuscles": "Anterior & Lateral Deltoids",
+    "movementType": "push",
+    "equipment": [
+      "dumbbell",
+      "bench"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain",
+      "strength"
+    ],
+    "contraindications": [
+      "shoulder"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 8,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 6.2,
+    "instructions": [
+      "Sit on an upright bench with dumbbells at shoulder height, palms forward.",
+      "Press dumbbells overhead until arms are extended but not locked.",
+      "Lower with control back to ear level."
+    ],
+    "commonMistakes": [
+      "Allowing lower back to arch off the backrest"
+    ],
+    "coachTips": [
+      "Keep bench at 80-85 degrees rather than 90 to protect the rotator cuff."
+    ],
+    "breathingTip": "Inhale on descent; exhale pushing up.",
+    "safeAlternativeIds": [
+      "dumbbell-front-raise",
+      "pike-push-up"
+    ],
+    "progressionNote": "Increase by 1-2kg per dumbbell when 3x12 is achieved.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "standing-dumbbell-lateral-raise",
+    "name": "Standing Dumbbell Lateral Raise",
+    "category": "main",
+    "primaryMuscle": "Shoulders",
+    "secondaryMuscles": [
+      "Traps"
+    ],
+    "targetMuscles": "Lateral (Side) Deltoid",
+    "movementType": "push",
+    "equipment": [
+      "dumbbell"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "shoulder"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 12,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 12,
+      "max": 15
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5,
+    "instructions": [
+      "Stand with dumbbells at sides with a slight forward torso lean.",
+      "Raise arms out to sides leading with elbows until parallel to the floor.",
+      "Pause briefly at top, then lower with a controlled 2-second negative."
+    ],
+    "commonMistakes": [
+      "Using momentum and shrugging shoulders up to ears"
+    ],
+    "coachTips": [
+      "Pour the water: tilt pinkies slightly up at the peak for maximum side delt recruitment."
+    ],
+    "breathingTip": "Exhale lifting up; inhale lowering down.",
+    "safeAlternativeIds": [
+      "cable-lateral-raise"
+    ],
+    "progressionNote": "Strict control and tempo matter far more than heavy weights here.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "cable-lateral-raise",
+    "name": "Cable Lateral Raise",
+    "category": "main",
+    "primaryMuscle": "Shoulders",
+    "secondaryMuscles": [
+      "Traps"
+    ],
+    "targetMuscles": "Lateral Deltoid",
+    "movementType": "push",
+    "equipment": [
+      "cable_machine"
+    ],
+    "locations": [
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "shoulder"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 12,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 12,
+      "max": 15
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 5,
+    "instructions": [
+      "Set pulley at lowest height. Stand sideways and grab handle with far hand.",
+      "Raise arm out to the side until parallel to floor.",
+      "Lower slowly under continuous cable tension."
+    ],
+    "commonMistakes": [
+      "Leaning too far away from the stack"
+    ],
+    "coachTips": [
+      "Provides constant tension even at the bottom of the movement."
+    ],
+    "breathingTip": "Exhale up, inhale down.",
+    "safeAlternativeIds": [
+      "standing-dumbbell-lateral-raise"
+    ],
+    "progressionNote": "Increase reps to 15-20 before moving up pin weight.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "bent-over-rear-delt-fly",
+    "name": "Bent-Over Dumbbell Rear Delt Fly",
+    "category": "main",
+    "primaryMuscle": "Shoulders",
+    "secondaryMuscles": [
+      "Upper Back",
+      "Rhomboids"
+    ],
+    "targetMuscles": "Posterior Deltoid",
+    "movementType": "pull",
+    "equipment": [
+      "dumbbell"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain",
+      "mobility"
+    ],
+    "contraindications": [
+      "lower_back"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 12,
+      "max": 15
+    },
+    "defaultRepRange": {
+      "min": 12,
+      "max": 15
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 4.8,
+    "instructions": [
+      "Hinge forward at hips with flat back until torso is almost parallel to floor.",
+      "Hold light dumbbells beneath chest with slight elbow bend.",
+      "Raise arms out to sides squeezing the back of your shoulders.",
+      "Lower under control."
+    ],
+    "commonMistakes": [
+      "Swinging upper body to lift weight"
+    ],
+    "coachTips": [
+      "Can be done seated on the edge of a bench to eliminate lower back fatigue."
+    ],
+    "breathingTip": "Exhale as arms raise; inhale lowering.",
+    "safeAlternativeIds": [
+      "face-pull"
+    ],
+    "progressionNote": "Focus on feeling the burn in the rear shoulder cap.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "arnold-press",
+    "name": "Arnold Dumbbell Press",
+    "category": "main",
+    "primaryMuscle": "Shoulders",
+    "secondaryMuscles": [
+      "Triceps",
+      "Front Delts",
+      "Side Delts"
+    ],
+    "targetMuscles": "All 3 Deltoid Heads",
+    "movementType": "push",
+    "equipment": [
+      "dumbbell",
+      "bench"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "shoulder",
+      "wrist"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 6,
+    "instructions": [
+      "Hold dumbbells in front of chest with palms facing you (like top of bicep curl).",
+      "As you press upward, rotate palms away from you 180 degrees.",
+      "Lock out overhead with palms forward.",
+      "Reverse rotation smoothly on the way down."
+    ],
+    "commonMistakes": [
+      "Rushing rotation and losing control"
+    ],
+    "coachTips": [
+      "Hits anterior delts through full rotational range of motion."
+    ],
+    "breathingTip": "Inhale rotating down; exhale pressing up.",
+    "safeAlternativeIds": [
+      "seated-dumbbell-shoulder-press"
+    ],
+    "progressionNote": "Use lighter weights than standard shoulder presses to maintain form.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "pike-push-up",
+    "name": "Pike Push-Up (Bodyweight Shoulder Builder)",
+    "category": "main",
+    "primaryMuscle": "Shoulders",
+    "secondaryMuscles": [
+      "Triceps",
+      "Upper Chest",
+      "Core"
+    ],
+    "targetMuscles": "Anterior Deltoids, Triceps",
+    "movementType": "push",
+    "equipment": [
+      "bodyweight",
+      "none"
+    ],
+    "locations": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "goalTags": [
+      "strength",
+      "fat_loss"
+    ],
+    "contraindications": [
+      "wrist",
+      "shoulder"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 8,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": 60,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "medium",
+    "caloriesPerMinute": 6.5,
+    "instructions": [
+      "Start in downward dog or pushup position, walk feet forward so hips form an inverted V.",
+      "Lower top of head toward the floor between your hands.",
+      "Press through palms to push back up into the pike position."
+    ],
+    "commonMistakes": [
+      "Flaring elbows wide instead of tracking back"
+    ],
+    "coachTips": [
+      "Elevate feet onto a chair to scale up toward handstand pushups."
+    ],
+    "breathingTip": "Inhale going down, exhale pushing up.",
+    "safeAlternativeIds": [
+      "seated-dumbbell-shoulder-press"
+    ],
+    "progressionNote": "Progress by elevating feet on progressively higher surfaces.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  },
+  {
+    "id": "dumbbell-front-raise",
+    "name": "Dumbbell Front Raise",
+    "category": "main",
+    "primaryMuscle": "Shoulders",
+    "secondaryMuscles": [
+      "Upper Chest"
+    ],
+    "targetMuscles": "Anterior Deltoid",
+    "movementType": "push",
+    "equipment": [
+      "dumbbell"
+    ],
+    "locations": [
+      "gym",
+      "home"
+    ],
+    "difficulty": "beginner",
+    "goalTags": [
+      "muscle_gain"
+    ],
+    "contraindications": [
+      "shoulder"
+    ],
+    "defaultSets": 3,
+    "defaultReps": {
+      "min": 10,
+      "max": 12
+    },
+    "defaultRepRange": {
+      "min": 10,
+      "max": 12
+    },
+    "restSec": 45,
+    "isTimed": false,
+    "durationSec": 0,
+    "intensity": "low",
+    "caloriesPerMinute": 4.8,
+    "instructions": [
+      "Stand tall holding dumbbells in front of thighs with overhand grip.",
+      "Raise one or both arms straight out in front until eye level.",
+      "Lower slowly under control."
+    ],
+    "commonMistakes": [
+      "Leaning torso backward to cheat"
+    ],
+    "coachTips": [
+      "Keep core braced and resist swinging."
+    ],
+    "breathingTip": "Exhale up, inhale down.",
+    "safeAlternativeIds": [
+      "seated-dumbbell-shoulder-press"
+    ],
+    "progressionNote": "Pause for a split-second at eye level.",
+    "imageUrl": null,
+    "gifUrl": null,
+    "videoUrl": null
+  }
+]

@@ -3,15 +3,19 @@ const DailyNutrition = require('../models/DailyNutrition');
 const MealLog = require('../models/MealLog');
 const NutritionTarget = require('../models/NutritionTarget');
 const Onboarding = require('../models/onboarding.model');
+const WorkoutPlan = require('../models/WorkoutPlan');
 const AiCache = require('../models/AiCache');
 const { generateDynamicNutritionInsight } = require('../service/geminiService');
 const nutritionCalculationService = require('../service/nutritionCalculationService');
 const {
     getTodayKolkata,
+    getYesterdayKolkata,
+    getWeekdayKolkata,
     getLast7DaysKolkata,
     getTimeBucketKolkata
 } = require('../utils/dateUtils');
 const crypto = require('crypto');
+
 
 /**
  * GET /api/nutrition/today?date=YYYY-MM-DD
@@ -239,23 +243,99 @@ exports.getDynamicInsight = async (req, res) => {
         const roundedProtein = Math.round(remainingProtein / 5) * 5;
         const roundedCalories = Math.round(remainingCalories / 50) * 50;
 
-        // 4. Cache key (user + date + rounded remaining macros + time bucket)
+        // 4. Determine yesterday and check if user has previous data (first-time detection)
+        const yesterday = getYesterdayKolkata(date);
+        const priorNutritionCount = await DailyNutrition.countDocuments({
+            $or: [{ userId }, { user: userId }],
+            date: { $lt: date }
+        });
+        const priorMealCount = await MealLog.countDocuments({
+            userId,
+            date: { $lt: date }
+        });
+
+        const isFirstTime = (priorNutritionCount === 0 && priorMealCount === 0);
+
+        // 5. Build yesterday's summary if not first-time
+        let yesterdaySummary = null;
+        if (!isFirstTime) {
+            const yesterdayDaily = await DailyNutrition.findOne({
+                $or: [{ userId }, { user: userId }],
+                date: yesterday
+            });
+            const yesterdayMeals = await MealLog.find({ userId, date: yesterday });
+
+            let yCalories = yesterdayDaily?.consumedCalories || yesterdayDaily?.consumed?.calories || 0;
+            let yProtein = yesterdayDaily?.consumedProtein || yesterdayDaily?.consumed?.protein || 0;
+            let yWaterMl = yesterdayDaily?.consumedWater || yesterdayDaily?.consumed?.waterMl || 0;
+
+            if (yesterdayMeals && yesterdayMeals.length > 0) {
+                let mCal = 0;
+                let mProt = 0;
+                yesterdayMeals.forEach(m => {
+                    const nut = m.totalMealNutrition || {};
+                    mCal += nut.calories || m.calories || 0;
+                    mProt += nut.protein || m.protein || 0;
+                });
+                if (mCal > 0) {
+                    yCalories = Math.max(yCalories, mCal);
+                    yProtein = Math.max(yProtein, mProt);
+                }
+            }
+
+            const yTargetCalories = yesterdayDaily?.targetCalories || targetCalories;
+            const yTargetProtein = yesterdayDaily?.targetProtein || targetProtein;
+            const hitProtein = yProtein >= (yTargetProtein * 0.9);
+            const missedProtein = !hitProtein;
+            const yWaterL = parseFloat((yWaterMl / 1000).toFixed(1));
+
+            // Fetch yesterday's workout session details from WorkoutPlan
+            const plan = await WorkoutPlan.findOne({ userId, status: "Active" });
+            const yesterdayWeekday = getWeekdayKolkata(yesterday);
+            const yesterdayRoutine = (plan?.routines || []).find(r => r.dayName === yesterdayWeekday || r.day === yesterdayWeekday);
+
+            const workoutCompleted = Boolean(yesterdayRoutine?.completed);
+            const workoutSkipped = Boolean(yesterdayRoutine?.skipped);
+            const workoutFeedback = yesterdayRoutine?.feedback?.difficulty
+                || plan?.adaptationStatus?.recentFeedback?.difficulty
+                || "None";
+            const streak = (plan?.routines || []).filter(r => r.completed).length;
+
+            yesterdaySummary = {
+                date: yesterday,
+                consumedCalories: Math.round(yCalories),
+                targetCalories: yTargetCalories,
+                consumedProtein: Math.round(yProtein * 10) / 10,
+                targetProtein: yTargetProtein,
+                hitProtein,
+                missedProtein,
+                consumedWater: yWaterL,
+                workoutCompleted,
+                workoutSkipped,
+                workoutFeedback,
+                streak
+            };
+        }
+
+        // 6. Cache key (user + date + rounded remaining macros + time bucket + isFirstTime)
         const cacheHash = crypto
             .createHash('md5')
-            .update(`insight_${userId}_${date}_${roundedProtein}_${roundedCalories}_${timeBucket}`)
+            .update(`insight_${userId}_${date}_${roundedProtein}_${roundedCalories}_${timeBucket}_${isFirstTime ? 'first' : 'regular'}`)
             .digest('hex');
 
         const cached = await AiCache.findOne({ keyHash: cacheHash });
         if (cached && cached.response) {
             return res.status(200).json({
                 message: cached.response.message,
+                tone: cached.response.tone || "encouraging",
                 remainingProtein,
                 remainingCalories,
-                suggestedFoods: cached.response.suggestedFoods || []
+                suggestedFoods: cached.response.suggestedFoods || [],
+                isFirstTime: Boolean(cached.response.isFirstTime)
             });
         }
 
-        // 5. Generate fresh insight (with strict Gemini JSON + fallback)
+        // 7. Generate fresh insight (with strict Gemini JSON + fallback)
         const rawDiet = (onboarding?.goal || "").toLowerCase();
         const dietType = rawDiet.includes("non") ? "NonVeg" : rawDiet.includes("egg") ? "Eggitarian" : "Veg";
 
@@ -269,10 +349,14 @@ exports.getDynamicInsight = async (req, res) => {
             targetCalories,
             dietType,
             timeBucket,
-            goal: onboarding?.goal || "Maintain"
+            goal: onboarding?.goal || "Maintain",
+            yesterdaySummary,
+            isFirstTime,
+            userId: String(userId),
+            date
         });
 
-        // 6. Save in AiCache with 24 hours TTL
+        // 8. Save in AiCache with 24 hours TTL
         const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
         await AiCache.findOneAndUpdate(
             { keyHash: cacheHash },
@@ -289,9 +373,11 @@ exports.getDynamicInsight = async (req, res) => {
 
         return res.status(200).json({
             message: insightData.message,
+            tone: insightData.tone || "encouraging",
             remainingProtein,
             remainingCalories,
-            suggestedFoods: insightData.suggestedFoods
+            suggestedFoods: insightData.suggestedFoods || [],
+            isFirstTime: Boolean(insightData.isFirstTime)
         });
     } catch (error) {
         console.error("❌ Error in getDynamicInsight:", error);
@@ -301,3 +387,4 @@ exports.getDynamicInsight = async (req, res) => {
         });
     }
 };
+

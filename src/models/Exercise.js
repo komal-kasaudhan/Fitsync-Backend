@@ -3,11 +3,23 @@ const mongoose = require('mongoose');
 
 const ExerciseSchema = new mongoose.Schema(
     {
-        name: {
+        id: {
             type: String,
             required: true,
             unique: true,
             trim: true,
+            index: true
+        },
+        name: {
+            type: String,
+            required: true,
+            trim: true,
+            index: true
+        },
+        category: {
+            type: String,
+            enum: ['main', 'warmup', 'cooldown'],
+            default: 'main',
             index: true
         },
         primaryMuscle: {
@@ -19,6 +31,10 @@ const ExerciseSchema = new mongoose.Schema(
             type: String,
             trim: true
         }],
+        targetMuscles: {
+            type: String,
+            default: ""
+        },
         movementType: {
             type: String,
             enum: ['push', 'pull', 'legs', 'core', 'cardio', 'mobility', 'Push', 'Pull', 'Legs', 'Core', 'Cardio', 'Mobility'],
@@ -56,6 +72,10 @@ const ExerciseSchema = new mongoose.Schema(
             type: Number,
             default: 3
         },
+        defaultReps: {
+            min: { type: Number, default: 8 },
+            max: { type: Number, default: 12 }
+        },
         defaultRepRange: {
             min: { type: Number, default: 8 },
             max: { type: Number, default: 12 }
@@ -72,25 +92,54 @@ const ExerciseSchema = new mongoose.Schema(
             type: Number,
             default: 0
         },
+        intensity: {
+            type: String,
+            enum: ['low', 'medium', 'high'],
+            default: 'medium'
+        },
+        caloriesPerMinute: {
+            type: Number,
+            default: 6.0
+        },
         instructions: [{
+            type: String
+        }],
+        commonMistakes: [{
+            type: String
+        }],
+        coachTips: [{
             type: String
         }],
         tips: [{
             type: String
         }],
-        imageUrl: {
+        breathingTip: {
             type: String,
             default: ""
         },
-        gifUrl: {
+        safeAlternativeIds: [{
+            type: String
+        }],
+        progressionNote: {
             type: String,
             default: ""
+        },
+        imageUrl: {
+            type: String,
+            default: null
+        },
+        gifUrl: {
+            type: String,
+            default: null
+        },
+        videoUrl: {
+            type: String,
+            default: null
         },
         // Backward-compatibility aliases
         targetArea: { type: String },
         primaryTarget: { type: String },
         secondaryTarget: { type: String },
-        coachTips: [{ type: String }],
         stepsList: [{ type: String }],
         mistakesList: [{ type: String }]
     },
@@ -98,5 +147,6 @@ const ExerciseSchema = new mongoose.Schema(
 );
 
 ExerciseSchema.index({ primaryMuscle: 1, difficulty: 1, locations: 1 });
+ExerciseSchema.index({ category: 1, primaryMuscle: 1 });
 
 module.exports = mongoose.model('Exercise', ExerciseSchema);

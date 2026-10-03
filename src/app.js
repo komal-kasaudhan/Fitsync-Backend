@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const path = require("path");
 
 const authRoutes = require("./routes/auth.routes");
 const onboardingRoutes = require("./routes/onboarding.routes");
@@ -10,8 +11,14 @@ const aiRoutes = require("./routes/aiRoutes");
 const equipmentRoutes = require("./routes/equipment.routes");
 const userRoutes = require("./routes/user.routes");
 const targetRoutes = require("./routes/target.routes");
+const adminRoutes = require("./routes/admin.routes");
 
 const app = express();
+
+// Serve static exercise images automatically
+app.use('/exercise-images', express.static(path.join(__dirname, '../public/exercise-images')));
+app.use(express.static(path.join(__dirname, '../public')));
+
 
 // Enable CORS for all origins and headers
 app.use(cors({
@@ -89,6 +96,8 @@ if (aiRoutes) {
     app.use("/api/ai", aiRoutes);
     app.use("/api/v1/nutrition/ai", aiRoutes);
 }
+if (adminRoutes) app.use("/api/admin", adminRoutes);
+
 
 // 404 Route Handler
 app.use((req, res) => {
