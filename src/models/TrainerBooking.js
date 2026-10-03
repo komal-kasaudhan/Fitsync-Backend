@@ -29,6 +29,21 @@ const trainerBookingSchema = new mongoose.Schema({
         type: String, // e.g. "08:00-09:00"
         required: true
     },
+    slotStart: {
+        type: Date
+    },
+    durationMin: {
+        type: Number,
+        default: 60
+    },
+    packageId: {
+        type: String,
+        default: null
+    },
+    notes: {
+        type: String,
+        default: ""
+    },
     mode: {
         type: String,
         enum: ["online", "offline"],

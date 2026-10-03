@@ -3,9 +3,12 @@ const mongoose = require('mongoose');
 const { getInitialPartnerStatus } = require('../utils/partnerUtils');
 
 const packagePricingSchema = new mongoose.Schema({
+    id: { type: String, default: () => new mongoose.Types.ObjectId().toString() },
     name: { type: String, required: true },
-    sessionsCount: { type: Number, required: true, min: 1 },
+    sessions: { type: Number, default: 1, min: 1 },
+    sessionsCount: { type: Number, default: 1, min: 1 },
     price: { type: Number, required: true, min: 0 },
+    validityDays: { type: Number, default: 30 },
     description: { type: String, default: "" }
 }, { _id: false });
 
@@ -94,6 +97,8 @@ const trainerProfileSchema = new mongoose.Schema({
         default: 10
     },
     pricing: {
+        sessionOnline: { type: Number, min: 0 },
+        sessionOffline: { type: Number, min: 0 },
         online: { type: Number, default: 500, min: 0 },
         offline: { type: Number, default: 800, min: 0 },
         packages: { type: [packagePricingSchema], default: [] }

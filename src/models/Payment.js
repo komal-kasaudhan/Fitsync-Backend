@@ -10,12 +10,17 @@ const paymentSchema = new mongoose.Schema({
     },
     referenceType: {
         type: String,
-        enum: ["GymBooking", "TrainerBooking", "Order"],
+        enum: ["GymBooking", "TrainerBooking", "Order", "GymMembership"],
         default: "GymBooking",
         index: true
     },
     bookingId: {
         type: mongoose.Schema.Types.ObjectId,
+        index: true
+    },
+    membershipId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'GymMembership',
         index: true
     },
     marketplaceOrderId: {

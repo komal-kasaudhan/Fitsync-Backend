@@ -17,6 +17,7 @@ router.get('/stats', adminController.getPlatformStats);
 // Gyms management
 router.get('/gyms', adminController.getGyms);
 router.get('/gyms/pending', (req, res, next) => { req.query.status = "pending"; next(); }, adminController.getGyms);
+router.get('/gyms/:id', adminController.getGymDetail);
 router.put('/gyms/:id/status', adminController.updateGymStatus);
 router.put('/gyms/:id/approve', (req, res, next) => { req.body.status = "approved"; next(); }, adminController.updateGymStatus);
 router.put('/gyms/:id/reject', (req, res, next) => { req.body.status = "rejected"; next(); }, adminController.updateGymStatus);
@@ -24,6 +25,7 @@ router.put('/gyms/:id/suspend', (req, res, next) => { req.body.status = "suspend
 
 // Trainers management
 router.get('/trainers', adminController.getTrainers);
+router.get('/trainers/:id', adminController.getTrainerDetail);
 router.put('/trainers/:id/status', adminController.updateTrainerStatus);
 router.put('/trainers/:id/approve', (req, res, next) => { req.body.status = "approved"; next(); }, adminController.updateTrainerStatus);
 router.put('/trainers/:id/reject', (req, res, next) => { req.body.status = "rejected"; next(); }, adminController.updateTrainerStatus);

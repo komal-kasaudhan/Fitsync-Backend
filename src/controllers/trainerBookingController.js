@@ -26,10 +26,40 @@ function generateJitsiMeetingLink() {
 exports.createBooking = async (req, res) => {
     try {
         const userId = req.user.id;
-        const { trainerId, date, slot, mode = "online", offlineAddress = "" } = req.body;
+        const {
+            trainerId,
+            date,
+            slot,
+            slotStart,
+            durationMin = 60,
+            packageId,
+            notes = "",
+            mode = "online",
+            offlineAddress = ""
+        } = req.body;
 
-        if (!trainerId || !date || !slot) {
-            return res.status(400).json({ success: false, message: "trainerId, date, and slot are required" });
+        let bookingDate = date;
+        let bookingSlot = slot;
+        let parsedSlotStart = null;
+
+        if (slotStart) {
+            const d = new Date(slotStart);
+            if (!isNaN(d.getTime())) {
+                parsedSlotStart = d;
+                if (!bookingDate) {
+                    bookingDate = d.toISOString().split('T')[0];
+                }
+                if (!bookingSlot) {
+                    const startH = d.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour12: false, hour: '2-digit', minute: '2-digit' });
+                    const endD = new Date(d.getTime() + (Number(durationMin) || 60) * 60 * 1000);
+                    const endH = endD.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour12: false, hour: '2-digit', minute: '2-digit' });
+                    bookingSlot = `${startH}-${endH}`;
+                }
+            }
+        }
+
+        if (!trainerId || !bookingDate || !bookingSlot) {
+            return res.status(400).json({ success: false, message: "trainerId, and either (date + slot) or slotStart are required" });
         }
 
         const trainer = await TrainerProfile.findById(trainerId);
@@ -53,20 +83,27 @@ exports.createBooking = async (req, res) => {
             return res.status(400).json({ success: false, message: "This trainer only offers offline sessions" });
         }
 
-        const price = mode === "offline" ? Number(trainer.pricing.offline || 800) : Number(trainer.pricing.online || 500);
+        // Check if booking via package
+        let price;
+        if (packageId && Array.isArray(trainer.pricing?.packages)) {
+            const pkg = trainer.pricing.packages.find(p => p.name === packageId || p.id === packageId);
+            price = pkg ? pkg.price : (mode === "offline" ? Number(trainer.pricing?.sessionOffline || trainer.pricing?.offline || 800) : Number(trainer.pricing?.sessionOnline || trainer.pricing?.online || 500));
+        } else {
+            price = mode === "offline" ? Number(trainer.pricing?.sessionOffline || trainer.pricing?.offline || 800) : Number(trainer.pricing?.sessionOnline || trainer.pricing?.online || 500);
+        }
 
         // Atomic slot lock check
         const existingBooking = await TrainerBooking.findOne({
             trainerProfileId: trainer._id,
-            date: date,
-            slot: slot,
+            date: bookingDate,
+            slot: bookingSlot,
             status: { $in: ["confirmed", "completed"] }
         });
 
         if (existingBooking) {
             return res.status(409).json({
                 success: false,
-                message: `Slot '${slot}' on ${date} is already booked. Please choose another time.`
+                message: `Slot '${bookingSlot}' on ${bookingDate} is already booked. Please choose another time.`
             });
         }
 
@@ -85,8 +122,12 @@ exports.createBooking = async (req, res) => {
                 userId,
                 trainerProfileId: trainer._id,
                 trainerUserId: trainer.userId,
-                date,
-                slot,
+                date: bookingDate,
+                slot: bookingSlot,
+                slotStart: parsedSlotStart,
+                durationMin: Number(durationMin) || 60,
+                packageId: packageId || null,
+                notes: notes.trim(),
                 mode,
                 price,
                 meetingLink,

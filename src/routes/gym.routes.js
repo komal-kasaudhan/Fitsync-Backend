@@ -2,7 +2,6 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth.middleware');
-const requireRole = require('../middleware/role.middleware');
 const upload = require('../middleware/gymUpload.middleware');
 const gymController = require('../controllers/gymController');
 const reviewController = require('../controllers/reviewController');
@@ -26,12 +25,23 @@ router.get('/:id', gymController.getGymById);
 router.put('/:id', gymController.updateGym);
 router.get('/:id/slots', gymController.getGymSlots);
 
-// Gym Owner / Admin operations
-router.get('/:id/bookings', gymController.getGymBookingsForOwner);
-router.post('/:id/check-in', gymController.checkInBooking);
-router.get('/:id/earnings', gymController.getGymEarnings);
+// Enquiries (User can submit without booking; Owner can view)
+router.post('/:id/enquiry', gymController.createEnquiry);
+router.get('/:id/enquiries', gymController.getEnquiriesForOwner);
 
-// Reviews (only users with attended bookings can submit)
+// Gym Owner / Admin member management
+router.get('/:id/members', gymController.getGymMembers);
+router.get('/:id/members/expiring-soon', gymController.getMembersExpiringSoon);
+
+// Check-in (supports both memberCode and session booking checkInCode)
+router.post('/:id/check-in', gymController.checkInBooking);
+
+// Earnings
+router.get('/:id/earnings', gymController.getGymEarnings);
+router.get('/:id/earnings-by-plan', gymController.getEarningsByPlan);
+router.get('/:id/bookings', gymController.getGymBookingsForOwner);
+
+// Reviews (only users with attended bookings/memberships can submit)
 router.post('/:id/reviews', reviewController.createGymReview);
 router.get('/:id/reviews', reviewController.getGymReviews);
 

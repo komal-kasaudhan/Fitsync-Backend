@@ -2,15 +2,75 @@
 const mongoose = require('mongoose');
 const Gym = require('../models/Gym');
 const GymBooking = require('../models/GymBooking');
+const GymMembership = require('../models/GymMembership');
+const GymVisit = require('../models/GymVisit');
+const GymEnquiry = require('../models/GymEnquiry');
 const User = require('../models/user.model');
 const Payment = require('../models/Payment');
+const Notification = require('../models/Notification');
 const { getKolkataDate, getKolkataWeekday, getKolkataTimeString } = require('../utils/kolkataTime');
 const { getInitialPartnerStatus } = require('../utils/partnerUtils');
+const { validateOpeningHours, validatePlans, calculateStartingPrice, timeToMinutes } = require('../utils/gymValidators');
+
+/**
+ * Helper to format gym document with startingPrice and startingPlanType
+ */
+function formatGymResponse(gym) {
+    const rawPlans = (Array.isArray(gym.plans) && gym.plans.length > 0) ? gym.plans : [];
+    let plans = rawPlans;
+    if (plans.length === 0 && Array.isArray(gym.sessionTypes) && gym.sessionTypes.length > 0) {
+        plans = gym.sessionTypes.map((st, i) => ({
+            id: `legacy_${st.type || i}`,
+            name: st.name || (st.type === "dayPass" ? "Day Pass" : st.type === "weekly" ? "Weekly Pass" : "Monthly Membership"),
+            type: st.type === "dayPass" ? "day_pass" : (st.type || "custom"),
+            durationDays: st.type === "dayPass" ? 1 : st.type === "weekly" ? 7 : 30,
+            price: Number(st.price) || 0,
+            mrp: Number(st.price) ? Math.round(st.price * 1.2) : null,
+            description: st.description || "",
+            inclusions: ["Full Gym Access"],
+            isActive: true,
+            maxFreezeDays: st.type === "monthly" ? 7 : 0
+        }));
+    }
+
+    const { startingPrice, startingPlanType } = calculateStartingPrice(plans);
+
+    return {
+        _id: gym._id,
+        ownerId: gym.ownerId,
+        name: gym.name,
+        description: gym.description || "",
+        address: gym.address,
+        city: gym.city,
+        pincode: gym.pincode,
+        location: gym.location,
+        distanceKm: gym.distanceKm !== undefined ? gym.distanceKm : undefined,
+        phone: gym.phone || "",
+        photos: gym.photos || [],
+        amenities: gym.amenities || [],
+        openingHours: gym.openingHours || [],
+        holidays: gym.holidays || [],
+        womenOnlyHours: gym.womenOnlyHours || { enabled: false, shifts: [] },
+        plans,
+        startingPrice,
+        startingPlanType,
+        enableSlots: Boolean(gym.enableSlots),
+        capacityPerSlot: Number(gym.capacityPerSlot || 20),
+        status: gym.status,
+        rejectionReason: gym.rejectionReason || "",
+        ratingAvg: Number(gym.ratingAvg || 0),
+        ratingCount: Number(gym.ratingCount || 0),
+        isFeatured: Boolean(gym.isFeatured),
+        featuredUntil: gym.featuredUntil || null,
+        createdAt: gym.createdAt,
+        updatedAt: gym.updatedAt
+    };
+}
 
 /**
  * POST /api/gyms
  * Register a new gym (starts as 'pending')
- * Automatically adds 'gym_owner' role to user if not already present
+ * Requires opening hours and at least one active membership plan
  */
 exports.createGym = async (req, res) => {
     try {
@@ -27,7 +87,11 @@ exports.createGym = async (req, res) => {
             phone = "",
             photos = [],
             amenities = [],
-            openingHours = [],
+            openingHours,
+            holidays = [],
+            womenOnlyHours,
+            plans,
+            enableSlots = false,
             sessionTypes = [],
             capacityPerSlot = 20
         } = req.body;
@@ -36,6 +100,25 @@ exports.createGym = async (req, res) => {
             return res.status(400).json({
                 success: false,
                 message: "name, address, city, and pincode are required"
+            });
+        }
+
+        // Validate Opening Hours (strictly required)
+        const hoursValidation = validateOpeningHours(openingHours);
+        if (!hoursValidation.valid) {
+            return res.status(400).json({
+                success: false,
+                message: hoursValidation.message
+            });
+        }
+
+        // Validate Plans (at least one active plan required)
+        const plansToValidate = (Array.isArray(plans) && plans.length > 0) ? plans : sessionTypes;
+        const plansValidation = validatePlans(plansToValidate);
+        if (!plansValidation.valid) {
+            return res.status(400).json({
+                success: false,
+                message: plansValidation.message
             });
         }
 
@@ -74,7 +157,11 @@ exports.createGym = async (req, res) => {
             phone: phone.trim(),
             photos: Array.isArray(photos) ? photos : [],
             amenities: Array.isArray(amenities) ? amenities : [],
-            openingHours: Array.isArray(openingHours) ? openingHours : [],
+            openingHours: hoursValidation.normalizedHours,
+            holidays: Array.isArray(holidays) ? holidays : [],
+            womenOnlyHours: womenOnlyHours || { enabled: false, shifts: [] },
+            plans: plansValidation.normalizedPlans,
+            enableSlots: Boolean(enableSlots),
             sessionTypes: Array.isArray(sessionTypes) ? sessionTypes : [],
             capacityPerSlot: Number(capacityPerSlot) || 20,
             status: getInitialPartnerStatus()
@@ -88,7 +175,7 @@ exports.createGym = async (req, res) => {
         return res.status(201).json({
             success: true,
             message: "Gym submitted successfully and is pending admin approval",
-            gym
+            gym: formatGymResponse(gym.toObject())
         });
     } catch (error) {
         console.error("❌ Error creating gym:", error);
@@ -111,64 +198,67 @@ exports.updateGym = async (req, res) => {
 
         const gym = await Gym.findById(id);
         if (!gym) {
-            return res.status(404).json({
-                success: false,
-                message: "Gym not found"
-            });
+            return res.status(404).json({ success: false, message: "Gym not found" });
         }
 
         const isOwner = gym.ownerId.toString() === userId.toString();
         const isAdmin = roles.includes('admin');
-
         if (!isOwner && !isAdmin) {
-            return res.status(403).json({
-                success: false,
-                message: "Unauthorized: only the gym owner or an admin can update this gym"
-            });
+            return res.status(403).json({ success: false, message: "Access denied. Only the gym owner or admin can update this gym." });
         }
 
-        const updatableFields = [
-            'name', 'description', 'address', 'city', 'pincode',
-            'phone', 'photos', 'amenities', 'openingHours',
-            'sessionTypes', 'capacityPerSlot'
-        ];
+        const updates = req.body;
+        // Never allow updating ownerId or status through this endpoint
+        delete updates.ownerId;
+        delete updates.status;
+        delete updates.ratingAvg;
+        delete updates.ratingCount;
 
-        updatableFields.forEach(field => {
-            if (req.body[field] !== undefined) {
-                gym[field] = req.body[field];
+        // Opening hours validation if provided
+        if (updates.openingHours) {
+            const hoursVal = validateOpeningHours(updates.openingHours);
+            if (!hoursVal.valid) {
+                return res.status(400).json({ success: false, message: hoursVal.message });
             }
-        });
-
-        // Handle coordinates update if supplied
-        if (req.body.location && Array.isArray(req.body.location.coordinates)) {
-            const [lng, lat] = req.body.location.coordinates;
-            gym.location = { type: "Point", coordinates: [Number(lng), Number(lat)] };
-        } else if (req.body.latitude !== undefined && req.body.longitude !== undefined) {
-            gym.location = {
-                type: "Point",
-                coordinates: [Number(req.body.longitude), Number(req.body.latitude)]
-            };
+            updates.openingHours = hoursVal.normalizedHours;
         }
 
+        // Plans validation if provided
+        if (updates.plans) {
+            const plansVal = validatePlans(updates.plans);
+            if (!plansVal.valid) {
+                return res.status(400).json({ success: false, message: plansVal.message });
+            }
+            updates.plans = plansVal.normalizedPlans;
+        }
+
+        // Coordinates update if provided
+        if (updates.latitude !== undefined && updates.longitude !== undefined) {
+            updates.location = {
+                type: "Point",
+                coordinates: [Number(updates.longitude), Number(updates.latitude)]
+            };
+            delete updates.latitude;
+            delete updates.longitude;
+        }
+
+        Object.assign(gym, updates);
         await gym.save();
 
         return res.status(200).json({
             success: true,
             message: "Gym updated successfully",
-            gym
+            gym: formatGymResponse(gym.toObject())
         });
     } catch (error) {
         console.error("❌ Error updating gym:", error);
-        return res.status(500).json({
-            success: false,
-            message: error.message || "Failed to update gym"
-        });
+        return res.status(500).json({ success: false, message: error.message || "Failed to update gym" });
     }
 };
 
 /**
- * GET /api/gyms/mine
- * Get all gyms owned by the authenticated user
+ * GET /api/gyms/mine (and /my)
+ * Fetch gyms owned by current authenticated user
  */
 exports.getMyGyms = async (req, res) => {
     try {
@@ -178,37 +268,25 @@ exports.getMyGyms = async (req, res) => {
         return res.status(200).json({
             success: true,
             count: gyms.length,
-            gyms: gyms.map(gym => ({
-                ...gym,
-                photos: gym.photos || [],
-                amenities: gym.amenities || [],
-                openingHours: gym.openingHours || [],
-                sessionTypes: gym.sessionTypes || [],
-                status: gym.status,
-                rejectionReason: gym.rejectionReason || "",
-                ratingAvg: Number(gym.ratingAvg || 0),
-                ratingCount: Number(gym.ratingCount || 0)
-            }))
+            gyms: gyms.map(g => formatGymResponse(g))
         });
     } catch (error) {
-        console.error("❌ Error getting my gyms:", error);
-        return res.status(500).json({
-            success: false,
-            message: error.message || "Failed to fetch gyms"
-        });
+        console.error("❌ Error fetching owner gyms:", error);
+        return res.status(500).json({ success: false, message: error.message || "Failed to fetch gyms" });
     }
 };
 
 /**
  * GET /api/gyms/nearby
- * Search gyms near coordinates with $geoNear
- * Query params: lat, lng, radiusKm (default 5, max 25), amenities, maxPrice, openNow, sort, page, limit
+ * GeoJSON $geoNear query
  */
 exports.getNearbyGyms = async (req, res) => {
     try {
         const {
             lat,
+            latitude,
             lng,
+            longitude,
             radiusKm = 5,
             amenities,
             maxPrice,
@@ -218,206 +296,147 @@ exports.getNearbyGyms = async (req, res) => {
             limit = 10
         } = req.query;
 
-        if (lat === undefined || lng === undefined) {
+        const userLat = Number(lat !== undefined ? lat : latitude);
+        const userLng = Number(lng !== undefined ? lng : longitude);
+
+        if (isNaN(userLat) || isNaN(userLng)) {
             return res.status(400).json({
                 success: false,
-                message: "Valid latitude and longitude query parameters are required"
+                message: "Valid latitude (lat) and longitude (lng) query parameters are required"
             });
         }
 
-        const latitude = parseFloat(lat);
-        const longitude = parseFloat(lng);
-
-        if (isNaN(latitude) || isNaN(longitude) || latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
-            return res.status(400).json({
-                success: false,
-                message: "Coordinates out of bounds: latitude must be between -90 and 90, longitude between -180 and 180"
-            });
-        }
-
-        // Clamp radius between 0.1 and 25 km
-        const radiusNum = Math.min(Math.max(parseFloat(radiusKm) || 5, 0.1), 25);
-        const maxDistanceMeters = radiusNum * 1000;
-
-        const pageNum = Math.max(parseInt(page) || 1, 1);
-        const limitNum = Math.max(Math.min(parseInt(limit) || 10, 50), 1);
+        const radius = Math.min(Math.max(Number(radiusKm) || 5, 0.5), 25);
+        const maxDistanceMeters = radius * 1000;
+        const pageNum = Math.max(parseInt(page, 10) || 1, 1);
+        const limitNum = Math.min(Math.max(parseInt(limit, 10) || 10, 1), 50);
         const skip = (pageNum - 1) * limitNum;
 
-        // Base match query: ONLY approved gyms appear publicly
-        const geoNearQuery = { status: "approved" };
+        const geoNearStage = {
+            $geoNear: {
+                near: {
+                    type: "Point",
+                    coordinates: [userLng, userLat]
+                },
+                distanceField: "distanceMeters",
+                maxDistance: maxDistanceMeters,
+                spherical: true,
+                query: { status: "approved" }
+            }
+        };
 
+        const matchConditions = {};
         if (amenities) {
-            const amenitiesList = amenities.split(',').map(a => a.trim().toLowerCase()).filter(Boolean);
-            if (amenitiesList.length > 0) {
-                geoNearQuery.amenities = { $all: amenitiesList };
-            }
+            const amenityList = String(amenities).split(',').map(a => a.trim().toLowerCase());
+            matchConditions.amenities = { $all: amenityList };
         }
 
-        if (maxPrice) {
-            const maxPriceNum = parseFloat(maxPrice);
-            if (!isNaN(maxPriceNum)) {
-                geoNearQuery["sessionTypes.price"] = { $lte: maxPriceNum };
-            }
+        const pipeline = [geoNearStage];
+        if (Object.keys(matchConditions).length > 0) {
+            pipeline.push({ $match: matchConditions });
         }
 
-        const pipeline = [
-            {
-                $geoNear: {
-                    near: {
-                        type: "Point",
-                        coordinates: [longitude, latitude]
-                    },
-                    distanceField: "distanceMeters",
-                    maxDistance: maxDistanceMeters,
-                    spherical: true,
-                    query: geoNearQuery
-                }
-            },
-            {
-                $addFields: {
-                    distanceKm: {
-                        $round: [{ $divide: ["$distanceMeters", 1000] }, 2]
-                    }
-                }
+        pipeline.push({
+            $addFields: {
+                distanceKm: { $round: [{ $divide: ["$distanceMeters", 1000] }, 2] }
             }
-        ];
+        });
 
-        // Sort options (Featured gyms boosted at the top)
+        // Sorting
+        let sortStage = { isFeatured: -1, distanceKm: 1 };
         if (sort === "rating") {
-            pipeline.push({ $sort: { isFeatured: -1, ratingAvg: -1, ratingCount: -1, distanceKm: 1 } });
-        } else if (sort === "price") {
-            pipeline.push({
-                $addFields: {
-                    minPrice: { $min: "$sessionTypes.price" }
-                }
-            });
-            pipeline.push({ $sort: { isFeatured: -1, minPrice: 1, distanceKm: 1 } });
-        } else {
-            // Default: distance ascending, with featured boosted
-            pipeline.push({ $sort: { isFeatured: -1, distanceKm: 1 } });
+            sortStage = { isFeatured: -1, ratingAvg: -1, distanceKm: 1 };
+        } else if (sort === "price_asc") {
+            sortStage = { isFeatured: -1, startingPrice: 1, distanceKm: 1 };
+        }
+        pipeline.push({ $sort: sortStage });
+
+        const countPipeline = [...pipeline, { $count: "total" }];
+        const countResult = await Gym.aggregate(countPipeline);
+        const total = countResult[0]?.total || 0;
+
+        pipeline.push({ $skip: skip });
+        pipeline.push({ $limit: limitNum });
+
+        const gyms = await Gym.aggregate(pipeline);
+
+        let formattedGyms = gyms.map(g => formatGymResponse(g));
+
+        // Filter maxPrice if provided
+        if (maxPrice !== undefined && !isNaN(Number(maxPrice))) {
+            const maxP = Number(maxPrice);
+            formattedGyms = formattedGyms.filter(g => g.startingPrice !== null && g.startingPrice <= maxP);
         }
 
-        // Execute pipeline for matching gyms
-        let results = await Gym.aggregate(pipeline);
-
-        // Filter openNow in Asia/Kolkata if requested
-        if (openNow === 'true' || openNow === '1') {
+        // Filter openNow if requested
+        if (openNow === 'true' || openNow === true) {
             const currentDay = getKolkataWeekday();
-            const currentTime = getKolkataTimeString();
+            const currentHHMM = getKolkataTimeString();
+            const currentMin = timeToMinutes(currentHHMM);
 
-            results = results.filter(gym => {
-                if (!Array.isArray(gym.openingHours) || gym.openingHours.length === 0) return true;
-                const todayHours = gym.openingHours.find(h => h.day === currentDay);
-                if (!todayHours || todayHours.isClosed) return false;
-                return currentTime >= todayHours.open && currentTime <= todayHours.close;
+            formattedGyms = formattedGyms.filter(g => {
+                const dayHours = (g.openingHours || []).find(h => h.day === currentDay);
+                if (!dayHours || dayHours.isClosed) return false;
+                const shifts = dayHours.shifts && dayHours.shifts.length > 0 ? dayHours.shifts : [{ open: dayHours.open, close: dayHours.close }];
+                return shifts.some(s => currentMin >= timeToMinutes(s.open) && currentMin <= timeToMinutes(s.close));
             });
         }
-
-        const total = results.length;
-        const totalPages = Math.ceil(total / limitNum) || 1;
-        const pagedResults = results.slice(skip, skip + limitNum);
-
-        const cleanGyms = pagedResults.map(gym => ({
-            _id: gym._id,
-            name: gym.name,
-            description: gym.description || "",
-            address: gym.address,
-            city: gym.city,
-            pincode: gym.pincode,
-            location: gym.location,
-            phone: gym.phone || "",
-            photos: gym.photos || [],
-            amenities: gym.amenities || [],
-            openingHours: gym.openingHours || [],
-            sessionTypes: gym.sessionTypes || [],
-            capacityPerSlot: Number(gym.capacityPerSlot || 20),
-            status: gym.status,
-            ratingAvg: Number(gym.ratingAvg || 0),
-            ratingCount: Number(gym.ratingCount || 0),
-            isFeatured: Boolean(gym.isFeatured),
-            distanceKm: Number(gym.distanceKm !== undefined ? gym.distanceKm : 0)
-        }));
 
         return res.status(200).json({
             success: true,
-            count: cleanGyms.length,
+            count: formattedGyms.length,
             total,
             page: pageNum,
-            totalPages,
-            radiusKm: radiusNum,
-            gyms: cleanGyms
+            totalPages: Math.ceil(total / limitNum) || 1,
+            radiusKm: radius,
+            gyms: formattedGyms
         });
     } catch (error) {
         console.error("❌ Error searching nearby gyms:", error);
-        return res.status(500).json({
-            success: false,
-            message: error.message || "Failed to search nearby gyms"
-        });
+        return res.status(500).json({ success: false, message: error.message || "Failed to search nearby gyms" });
     }
 };
 
 /**
  * GET /api/gyms/:id
- * Get single gym details
+ * Get single gym details (publicly viewable without booking)
  */
 exports.getGymById = async (req, res) => {
     try {
         const { id } = req.params;
-        const userId = req.user.id;
-        const roles = req.user.roles || [];
+        const userId = req.user?.id;
+        const roles = req.user?.roles || [];
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({
-                success: false,
-                message: "Invalid gym ID format"
-            });
+            return res.status(400).json({ success: false, message: "Invalid gym ID format" });
         }
 
         const gym = await Gym.findById(id).lean();
         if (!gym) {
-            return res.status(404).json({
-                success: false,
-                message: "Gym not found"
-            });
+            return res.status(404).json({ success: false, message: "Gym not found" });
         }
 
-        // If not approved, only owner or admin can view
         if (gym.status !== "approved") {
-            const isOwner = gym.ownerId.toString() === userId.toString();
+            const isOwner = userId && gym.ownerId.toString() === userId.toString();
             const isAdmin = roles.includes('admin');
             if (!isOwner && !isAdmin) {
-                return res.status(403).json({
-                    success: false,
-                    message: "This gym is not currently public"
-                });
+                return res.status(403).json({ success: false, message: "This gym is not currently public" });
             }
         }
 
         return res.status(200).json({
             success: true,
-            gym: {
-                ...gym,
-                photos: gym.photos || [],
-                amenities: gym.amenities || [],
-                openingHours: gym.openingHours || [],
-                sessionTypes: gym.sessionTypes || [],
-                ratingAvg: Number(gym.ratingAvg || 0),
-                ratingCount: Number(gym.ratingCount || 0),
-                capacityPerSlot: Number(gym.capacityPerSlot || 20)
-            }
+            gym: formatGymResponse(gym)
         });
     } catch (error) {
         console.error("❌ Error fetching gym details:", error);
-        return res.status(500).json({
-            success: false,
-            message: error.message || "Failed to fetch gym"
-        });
+        return res.status(500).json({ success: false, message: error.message || "Failed to fetch gym" });
     }
 };
 
 /**
  * GET /api/gyms/:id/slots?date=YYYY-MM-DD
- * Get available time slots for a specific date
+ * Available slots for date (or indicates full-day access if enableSlots is false)
  */
 exports.getGymSlots = async (req, res) => {
     try {
@@ -426,22 +445,30 @@ exports.getGymSlots = async (req, res) => {
 
         const gym = await Gym.findById(id).lean();
         if (!gym) {
-            return res.status(404).json({
-                success: false,
-                message: "Gym not found"
-            });
+            return res.status(404).json({ success: false, message: "Gym not found" });
         }
 
-        // Determine weekday for requested date
         const targetDate = new Date(`${date}T00:00:00+05:30`);
         const weekday = new Intl.DateTimeFormat('en-US', {
             timeZone: 'Asia/Kolkata',
             weekday: 'long'
         }).format(targetDate);
 
-        // Find gym opening hours for this day
-        const dayHours = (gym.openingHours || []).find(h => h.day === weekday);
+        // Check holiday
+        const holiday = (gym.holidays || []).find(h => h.date === date);
+        if (holiday) {
+            return res.status(200).json({
+                success: true,
+                date,
+                day: weekday,
+                isClosed: true,
+                holidayReason: holiday.reason,
+                message: `Gym is closed on ${date} for ${holiday.reason}`,
+                slots: []
+            });
+        }
 
+        const dayHours = (gym.openingHours || []).find(h => h.day === weekday);
         if (!dayHours || dayHours.isClosed) {
             return res.status(200).json({
                 success: true,
@@ -453,65 +480,58 @@ exports.getGymSlots = async (req, res) => {
             });
         }
 
-        const openTime = dayHours.open || "06:00";
-        const closeTime = dayHours.close || "22:00";
+        const shifts = dayHours.shifts && dayHours.shifts.length > 0 ? dayHours.shifts : [{ open: dayHours.open || "06:00", close: dayHours.close || "22:00" }];
 
-        const startHour = parseInt(openTime.split(':')[0], 10);
-        const endHour = parseInt(closeTime.split(':')[0], 10);
-
-        // Generate 1-hour slots
-        const slotRanges = [];
-        for (let h = startHour; h < endHour; h++) {
-            const sStart = `${String(h).padStart(2, '0')}:00`;
-            const sEnd = `${String(h + 1).padStart(2, '0')}:00`;
-            slotRanges.push(`${sStart}-${sEnd}`);
+        // If slots are not enabled, a day pass is valid for the full day during opening hours
+        if (!gym.enableSlots) {
+            return res.status(200).json({
+                success: true,
+                date,
+                day: weekday,
+                isClosed: false,
+                enableSlots: false,
+                message: "Day passes and memberships are valid anytime during opening shifts on this date.",
+                openingShifts: shifts,
+                slots: [
+                    {
+                        slot: "All Day Access",
+                        availableCapacity: gym.capacityPerSlot || 50,
+                        isBookable: true
+                    }
+                ]
+            });
         }
 
-        // Fetch booked counts for each slot on this date
-        const bookings = await GymBooking.aggregate([
-            {
-                $match: {
-                    gymId: new mongoose.Types.ObjectId(id),
-                    date: date,
-                    status: { $in: ["confirmed", "attended"] }
-                }
-            },
-            {
-                $group: {
-                    _id: "$slot",
-                    count: { $sum: 1 }
-                }
+        // Generate hourly slots inside opening shifts
+        const capacityPerSlot = gym.capacityPerSlot || 20;
+        const rawSlots = [];
+        for (const shift of shifts) {
+            const startHour = parseInt(shift.open.split(':')[0], 10);
+            const endHour = parseInt(shift.close.split(':')[0], 10);
+            for (let hour = startHour; hour < endHour; hour++) {
+                const sStart = `${String(hour).padStart(2, '0')}:00`;
+                const sEnd = `${String(hour + 1).padStart(2, '0')}:00`;
+                rawSlots.push(`${sStart}-${sEnd}`);
             }
+        }
+
+        const bookedCounts = await GymBooking.aggregate([
+            { $match: { gymId: gym._id, date, status: { $in: ["confirmed", "attended"] } } },
+            { $group: { _id: "$timeSlot", count: { $sum: 1 } } }
         ]);
 
-        const bookingMap = {};
-        bookings.forEach(b => {
-            if (b._id) bookingMap[b._id] = b.count;
-        });
+        const bookedMap = new Map();
+        bookedCounts.forEach(b => bookedMap.set(b._id, b.count));
 
-        const todayKolkata = getKolkataDate();
-        const currentTimeKolkata = getKolkataTimeString();
-        const capacity = Number(gym.capacityPerSlot || 20);
-
-        const slots = slotRanges.map(slotStr => {
-            const booked = bookingMap[slotStr] || 0;
-            const available = Math.max(0, capacity - booked);
-            const slotStart = slotStr.split('-')[0];
-
-            let isPast = false;
-            if (date < todayKolkata) {
-                isPast = true;
-            } else if (date === todayKolkata && currentTimeKolkata >= slotStart) {
-                isPast = true;
-            }
-
+        const slots = rawSlots.map(slotStr => {
+            const booked = bookedMap.get(slotStr) || 0;
+            const availableCapacity = Math.max(0, capacityPerSlot - booked);
             return {
                 slot: slotStr,
-                capacity: capacity,
-                booked: Number(booked),
-                available: Number(available),
-                isAvailable: available > 0 && !isPast,
-                isPast: isPast
+                totalCapacity: capacityPerSlot,
+                bookedCount: booked,
+                availableCapacity,
+                isFull: availableCapacity <= 0
             };
         });
 
@@ -520,52 +540,407 @@ exports.getGymSlots = async (req, res) => {
             date,
             day: weekday,
             isClosed: false,
-            capacityPerSlot: capacity,
+            enableSlots: true,
+            totalSlots: slots.length,
             slots
         });
     } catch (error) {
-        console.error("❌ Error fetching gym slots:", error);
-        return res.status(500).json({
-            success: false,
-            message: error.message || "Failed to fetch slots"
-        });
+        return res.status(500).json({ success: false, message: error.message });
     }
 };
 
 /**
- * Image upload handler: returns full URL
+ * POST /api/gyms/:id/enquiry
+ * Submit enquiry for a gym
  */
-exports.uploadGymPhoto = async (req, res) => {
+exports.createEnquiry = async (req, res) => {
     try {
-        if (!req.file) {
-            return res.status(400).json({
-                success: false,
-                message: "No image file provided"
-            });
+        const { id } = req.params;
+        const userId = req.user?.id || null;
+        const { name, phone, message = "", preferredTime = "", wantsTrial = false } = req.body;
+
+        if (!name || !phone) {
+            return res.status(400).json({ success: false, message: "name and phone are required" });
         }
 
-        const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
-        const host = req.get('host');
-        const fullUrl = `${protocol}://${host}/uploads/${req.file.filename}`;
+        const gym = await Gym.findById(id);
+        if (!gym) {
+            return res.status(404).json({ success: false, message: "Gym not found" });
+        }
+
+        const enquiry = await GymEnquiry.create({
+            gymId: gym._id,
+            userId,
+            name: name.trim(),
+            phone: phone.trim(),
+            message: message.trim(),
+            preferredTime: preferredTime.trim(),
+            wantsTrial: Boolean(wantsTrial)
+        });
+
+        // Notify gym owner
+        await Notification.create({
+            userId: gym.ownerId,
+            title: "New Gym Enquiry 📩",
+            message: `${name} (${phone}) sent an enquiry for ${gym.name}: "${message || (wantsTrial ? 'Free trial requested' : 'General details requested')}"`,
+            type: "gym_enquiry",
+            data: { gymId: gym._id, enquiryId: enquiry._id }
+        });
+
+        return res.status(201).json({
+            success: true,
+            message: "Enquiry submitted successfully. The gym owner has been notified.",
+            enquiry
+        });
+    } catch (error) {
+        console.error("❌ Error creating enquiry:", error);
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+/**
+ * GET /api/gyms/:id/enquiries
+ * Owner/Admin: View all enquiries for a gym
+ */
+exports.getEnquiriesForOwner = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user.id;
+        const roles = req.user.roles || [];
+
+        const gym = await Gym.findById(id);
+        if (!gym) {
+            return res.status(404).json({ success: false, message: "Gym not found" });
+        }
+
+        const isOwner = gym.ownerId.toString() === userId.toString();
+        const isAdmin = roles.includes('admin');
+        if (!isOwner && !isAdmin) {
+            return res.status(403).json({ success: false, message: "Access denied" });
+        }
+
+        const enquiries = await GymEnquiry.find({ gymId: id }).sort({ createdAt: -1 }).lean();
 
         return res.status(200).json({
             success: true,
-            message: "Image uploaded successfully",
-            url: fullUrl,
-            filename: req.file.filename
+            count: enquiries.length,
+            enquiries
         });
     } catch (error) {
-        console.error("❌ Error uploading photo:", error);
-        return res.status(500).json({
-            success: false,
-            message: error.message || "Failed to upload image"
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+/**
+ * GET /api/gyms/:id/members
+ * Owner/Admin: List gym members with status and expiry (paginated)
+ */
+exports.getGymMembers = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user.id;
+        const roles = req.user.roles || [];
+
+        const gym = await Gym.findById(id);
+        if (!gym) {
+            return res.status(404).json({ success: false, message: "Gym not found" });
+        }
+
+        const isOwner = gym.ownerId.toString() === userId.toString();
+        const isAdmin = roles.includes('admin');
+        if (!isOwner && !isAdmin) {
+            return res.status(403).json({ success: false, message: "Access denied" });
+        }
+
+        const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+        const limit = Math.max(parseInt(req.query.limit, 10) || 10, 1);
+        const skip = (page - 1) * limit;
+
+        const filter = { gymId: id };
+        if (req.query.status) {
+            filter.status = req.query.status;
+        }
+
+        const total = await GymMembership.countDocuments(filter);
+        const members = await GymMembership.find(filter)
+            .populate('userId', 'name email')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .lean();
+
+        return res.status(200).json({
+            success: true,
+            count: members.length,
+            total,
+            page,
+            totalPages: Math.ceil(total / limit) || 1,
+            members: members.map(m => ({
+                id: m._id,
+                user: m.userId,
+                planName: m.planName,
+                planType: m.planType,
+                startDate: m.startDate,
+                endDate: m.endDate,
+                status: m.status,
+                isFrozen: m.isFrozen,
+                memberCode: m.memberCode,
+                createdAt: m.createdAt
+            }))
         });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+/**
+ * GET /api/gyms/:id/members/expiring-soon
+ * Memberships expiring within 7 days
+ */
+exports.getMembersExpiringSoon = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user.id;
+        const roles = req.user.roles || [];
+
+        const gym = await Gym.findById(id);
+        if (!gym) return res.status(404).json({ success: false, message: "Gym not found" });
+
+        const isOwner = gym.ownerId.toString() === userId.toString();
+        const isAdmin = roles.includes('admin');
+        if (!isOwner && !isAdmin) return res.status(403).json({ success: false, message: "Access denied" });
+
+        const now = new Date();
+        const sevenDaysLater = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+        const members = await GymMembership.find({
+            gymId: id,
+            status: "active",
+            endDate: { $gte: now, $lte: sevenDaysLater }
+        })
+            .populate('userId', 'name email')
+            .sort({ endDate: 1 })
+            .lean();
+
+        return res.status(200).json({
+            success: true,
+            count: members.length,
+            members: members.map(m => ({
+                id: m._id,
+                user: m.userId,
+                planName: m.planName,
+                endDate: m.endDate,
+                daysRemaining: Math.ceil((new Date(m.endDate) - now) / (1000 * 60 * 60 * 24)),
+                memberCode: m.memberCode
+            }))
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+/**
+ * POST /api/gyms/:id/check-in
+ * Check-in by member code or session booking code
+ * Rejects if expired, frozen, or outside opening hours
+ */
+exports.checkInBooking = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user.id;
+        const roles = req.user.roles || [];
+        const code = (req.body.memberCode || req.body.checkInCode || req.body.code || "").trim();
+
+        if (!code) {
+            return res.status(400).json({ success: false, message: "memberCode or checkInCode is required" });
+        }
+
+        const gym = await Gym.findById(id);
+        if (!gym) return res.status(404).json({ success: false, message: "Gym not found" });
+
+        const isOwner = gym.ownerId.toString() === userId.toString();
+        const isAdmin = roles.includes('admin');
+        if (!isOwner && !isAdmin) {
+            return res.status(403).json({ success: false, message: "Only the gym owner or admin can perform check-ins" });
+        }
+
+        const now = new Date();
+        const currentDay = getKolkataWeekday();
+        const currentHHMM = getKolkataTimeString();
+        const currentMin = timeToMinutes(currentHHMM);
+
+        // 1. Check if it matches a Gym Membership
+        const membership = await GymMembership.findOne({ gymId: id, memberCode: code }).populate('userId', 'name email');
+        if (membership) {
+            if (membership.status === "cancelled") {
+                return res.status(400).json({ success: false, message: "Check-in rejected: Membership has been cancelled" });
+            }
+            if (membership.isFrozen) {
+                return res.status(400).json({ success: false, message: "Check-in rejected: Membership is currently frozen" });
+            }
+            if (membership.status === "expired" || now > membership.endDate) {
+                return res.status(400).json({
+                    success: false,
+                    message: `Check-in rejected: Membership has expired on ${membership.endDate.toISOString().split('T')[0]}`
+                });
+            }
+            if (now < membership.startDate) {
+                return res.status(400).json({
+                    success: false,
+                    message: `Check-in rejected: Membership has not started yet (valid from ${membership.startDate.toISOString().split('T')[0]})`
+                });
+            }
+
+            // Check gym opening hours right now
+            const holiday = (gym.holidays || []).find(h => h.date === getKolkataDate());
+            if (holiday) {
+                return res.status(400).json({ success: false, message: `Check-in rejected: Gym is closed today for ${holiday.reason}` });
+            }
+
+            const dayHours = (gym.openingHours || []).find(h => h.day === currentDay);
+            if (!dayHours || dayHours.isClosed) {
+                return res.status(400).json({ success: false, message: `Check-in rejected: Gym is closed on ${currentDay}` });
+            }
+
+            const shifts = dayHours.shifts && dayHours.shifts.length > 0 ? dayHours.shifts : [{ open: dayHours.open, close: dayHours.close }];
+            const isWithinShift = shifts.some(s => currentMin >= timeToMinutes(s.open) && currentMin <= timeToMinutes(s.close));
+            if (!isWithinShift) {
+                const shiftDescriptions = shifts.map(s => `${s.open}-${s.close}`).join(', ');
+                return res.status(400).json({
+                    success: false,
+                    message: `Check-in rejected: Gym is currently closed (current time: ${currentHHMM}). Opening shifts today: ${shiftDescriptions}`
+                });
+            }
+
+            // All checks pass - Record GymVisit
+            const visit = await GymVisit.create({
+                membershipId: membership._id,
+                gymId: gym._id,
+                userId: membership.userId?._id || membership.userId,
+                memberCode: code,
+                checkInTime: now,
+                notes: req.body.notes || "Member check-in"
+            });
+
+            return res.status(200).json({
+                success: true,
+                message: "Member check-in successful! Welcome to the gym.",
+                visit: {
+                    id: visit._id,
+                    checkInTime: visit.checkInTime,
+                    memberCode: visit.memberCode
+                },
+                member: {
+                    id: membership.userId?._id,
+                    name: membership.userId?.name || "Member",
+                    plan: membership.planName,
+                    planType: membership.planType,
+                    validUntil: membership.endDate
+                }
+            });
+        }
+
+        // 2. Check if it matches a Single Session GymBooking
+        const booking = await GymBooking.findOne({ gymId: id, checkInCode: code });
+        if (booking) {
+            if (booking.status === "attended") {
+                return res.status(400).json({ success: false, message: "Code has already been checked in" });
+            }
+            if (booking.status !== "confirmed") {
+                return res.status(400).json({ success: false, message: `Check-in rejected: Booking is currently ${booking.status}` });
+            }
+
+            booking.status = "attended";
+            booking.attendedAt = now;
+            await booking.save();
+
+            return res.status(200).json({
+                success: true,
+                message: "Session booking check-in successful!",
+                booking: {
+                    id: booking._id,
+                    date: booking.date,
+                    timeSlot: booking.timeSlot,
+                    status: booking.status
+                }
+            });
+        }
+
+        return res.status(404).json({
+            success: false,
+            message: "No active membership or booking found with the provided code for this gym"
+        });
+    } catch (error) {
+        console.error("❌ Error during check-in:", error);
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+/**
+ * GET /api/gyms/:id/earnings-by-plan
+ * Revenue breakdown grouped by plan
+ */
+exports.getEarningsByPlan = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user.id;
+        const roles = req.user.roles || [];
+
+        const gym = await Gym.findById(id);
+        if (!gym) return res.status(404).json({ success: false, message: "Gym not found" });
+
+        const isOwner = gym.ownerId.toString() === userId.toString();
+        const isAdmin = roles.includes('admin');
+        if (!isOwner && !isAdmin) return res.status(403).json({ success: false, message: "Access denied" });
+
+        const breakdown = await GymMembership.aggregate([
+            { $match: { gymId: gym._id, status: { $in: ["active", "expired", "upcoming"] } } },
+            {
+                $group: {
+                    _id: { planType: "$planType", planName: "$planName" },
+                    memberCount: { $sum: 1 },
+                    totalRevenue: { $sum: "$price" }
+                }
+            },
+            { $sort: { totalRevenue: -1 } }
+        ]);
+
+        const earningsByPlan = breakdown.map(b => {
+            const platformFee = Number((b.totalRevenue * 0.15).toFixed(2));
+            const ownerEarnings = Number((b.totalRevenue - platformFee).toFixed(2));
+            return {
+                planName: b._id.planName,
+                planType: b._id.planType,
+                memberCount: b.memberCount,
+                totalRevenue: Number(b.totalRevenue.toFixed(2)),
+                platformFee,
+                ownerEarnings
+            };
+        });
+
+        const totalRevenue = earningsByPlan.reduce((acc, p) => acc + p.totalRevenue, 0);
+        const totalPlatformFee = Number((totalRevenue * 0.15).toFixed(2));
+        const totalOwnerEarnings = Number((totalRevenue - totalPlatformFee).toFixed(2));
+        const totalMembers = earningsByPlan.reduce((acc, p) => acc + p.memberCount, 0);
+
+        return res.status(200).json({
+            success: true,
+            summary: {
+                totalRevenue,
+                totalPlatformFee,
+                totalOwnerEarnings,
+                totalMembers
+            },
+            earningsByPlan
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
     }
 };
 
 /**
  * GET /api/gyms/:id/bookings
- * Owner/Admin: List bookings for this gym
+ * List session bookings for owner
  */
 exports.getGymBookingsForOwner = async (req, res) => {
     try {
@@ -574,116 +949,34 @@ exports.getGymBookingsForOwner = async (req, res) => {
         const roles = req.user.roles || [];
 
         const gym = await Gym.findById(id);
-        if (!gym) {
-            return res.status(404).json({ success: false, message: "Gym not found" });
-        }
+        if (!gym) return res.status(404).json({ success: false, message: "Gym not found" });
 
         const isOwner = gym.ownerId.toString() === userId.toString();
         const isAdmin = roles.includes('admin');
-        if (!isOwner && !isAdmin) {
-            return res.status(403).json({ success: false, message: "Unauthorized to access this gym's bookings" });
-        }
+        if (!isOwner && !isAdmin) return res.status(403).json({ success: false, message: "Access denied" });
 
         const filter = { gymId: id };
-        if (req.query.date) filter.date = req.query.date;
         if (req.query.status) filter.status = req.query.status;
+        if (req.query.date) filter.date = req.query.date;
 
         const bookings = await GymBooking.find(filter)
             .populate('userId', 'name email')
-            .sort({ date: -1, createdAt: -1 })
+            .sort({ date: -1, timeSlot: 1 })
             .lean();
 
         return res.status(200).json({
             success: true,
             count: bookings.length,
-            bookings: bookings.map(b => ({
-                ...b,
-                price: Number(b.price || 0),
-                refundAmount: Number(b.refundAmount || 0)
-            }))
+            bookings
         });
     } catch (error) {
-        console.error("❌ Error fetching owner gym bookings:", error);
-        return res.status(500).json({ success: false, message: error.message });
-    }
-};
-
-/**
- * POST /api/gyms/:id/check-in
- * Owner/Admin: Verify 6-digit check-in code and mark booking attended
- */
-exports.checkInBooking = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const userId = req.user.id;
-        const roles = req.user.roles || [];
-        const { checkInCode } = req.body;
-
-        if (!checkInCode) {
-            return res.status(400).json({ success: false, message: "6-digit checkInCode is required" });
-        }
-
-        const gym = await Gym.findById(id);
-        if (!gym) {
-            return res.status(404).json({ success: false, message: "Gym not found" });
-        }
-
-        const isOwner = gym.ownerId.toString() === userId.toString();
-        const isAdmin = roles.includes('admin');
-        if (!isOwner && !isAdmin) {
-            return res.status(403).json({ success: false, message: "Unauthorized: only the gym owner can check in visitors" });
-        }
-
-        const booking = await GymBooking.findOne({
-            gymId: id,
-            checkInCode: checkInCode.trim(),
-            status: "confirmed"
-        }).populate('userId', 'name email');
-
-        if (!booking) {
-            return res.status(400).json({
-                success: false,
-                message: "Invalid check-in code or booking is not in confirmed state"
-            });
-        }
-
-        booking.status = "attended";
-        booking.attendedAt = new Date();
-        await booking.save();
-
-        // Create notification for the user
-        const Notification = require('../models/Notification');
-        await Notification.create({
-            userId: booking.userId._id,
-            title: "Check-in Successful! 🏋️",
-            message: `Your check-in at ${gym.name} was verified successfully. Have a great workout! You can now write a review.`,
-            type: "checkin",
-            data: { gymId: gym._id, bookingId: booking._id }
-        });
-
-        return res.status(200).json({
-            success: true,
-            message: "Check-in successful! Session marked as attended.",
-            booking: {
-                _id: booking._id,
-                userName: booking.userId.name,
-                userEmail: booking.userId.email,
-                sessionType: booking.sessionType,
-                date: booking.date,
-                slot: booking.slot,
-                status: booking.status,
-                attendedAt: booking.attendedAt
-            }
-        });
-    } catch (error) {
-        console.error("❌ Error verifying check-in:", error);
         return res.status(500).json({ success: false, message: error.message });
     }
 };
 
 /**
  * GET /api/gyms/:id/earnings
- * Owner/Admin: Get earnings summary for a gym
+ * Historical session booking revenue
  */
 exports.getGymEarnings = async (req, res) => {
     try {
@@ -692,89 +985,58 @@ exports.getGymEarnings = async (req, res) => {
         const roles = req.user.roles || [];
 
         const gym = await Gym.findById(id);
-        if (!gym) {
-            return res.status(404).json({ success: false, message: "Gym not found" });
-        }
+        if (!gym) return res.status(404).json({ success: false, message: "Gym not found" });
 
         const isOwner = gym.ownerId.toString() === userId.toString();
         const isAdmin = roles.includes('admin');
-        if (!isOwner && !isAdmin) {
-            return res.status(403).json({ success: false, message: "Unauthorized to access this gym's earnings" });
-        }
+        if (!isOwner && !isAdmin) return res.status(403).json({ success: false, message: "Access denied" });
 
-        const totalBookings = await GymBooking.countDocuments({ gymId: id });
-        const confirmedBookings = await GymBooking.countDocuments({ gymId: id, status: "confirmed" });
-        const attendedBookings = await GymBooking.countDocuments({ gymId: id, status: "attended" });
-        const cancelledBookings = await GymBooking.countDocuments({ gymId: id, status: "cancelled" });
-
-        // Aggregate payments for this gym's bookings
-        const gymBookings = await GymBooking.find({
-            gymId: id,
-            status: { $in: ["confirmed", "attended"] }
-        }).select('_id');
-
-        const bookingIds = gymBookings.map(b => b._id);
-
-        const paymentStats = await Payment.aggregate([
-            {
-                $match: {
-                    bookingId: { $in: bookingIds },
-                    status: "captured"
-                }
-            },
+        const bookingStats = await GymBooking.aggregate([
+            { $match: { gymId: gym._id, status: { $in: ["confirmed", "attended"] } } },
             {
                 $group: {
                     _id: null,
-                    totalRevenue: { $sum: "$amount" },
-                    totalPartnerEarnings: { $sum: "$partnerAmount" },
-                    totalPlatformFee: { $sum: "$platformFee" }
+                    totalRevenue: { $sum: "$price" },
+                    bookingsCount: { $sum: 1 }
                 }
             }
         ]);
 
-        const stats = paymentStats[0] || {
-            totalRevenue: 0,
-            totalPartnerEarnings: 0,
-            totalPlatformFee: 0
-        };
-
-        const recentPayments = await Payment.find({
-            bookingId: { $in: bookingIds },
-            status: "captured"
-        })
-            .populate('userId', 'name email')
-            .sort({ createdAt: -1 })
-            .limit(10)
-            .lean();
+        const stats = bookingStats[0] || { totalRevenue: 0, bookingsCount: 0 };
+        const platformFee = Number((stats.totalRevenue * 0.15).toFixed(2));
+        const ownerEarnings = Number((stats.totalRevenue - platformFee).toFixed(2));
 
         return res.status(200).json({
             success: true,
-            gym: {
-                id: gym._id,
-                name: gym.name
-            },
-            summary: {
-                totalBookings: Number(totalBookings),
-                confirmedBookings: Number(confirmedBookings),
-                attendedBookings: Number(attendedBookings),
-                cancelledBookings: Number(cancelledBookings),
-                totalRevenue: Number(stats.totalRevenue.toFixed(2)),
-                totalPartnerEarnings: Number(stats.totalPartnerEarnings.toFixed(2)),
-                totalPlatformFee: Number(stats.totalPlatformFee.toFixed(2))
-            },
-            recentTransactions: recentPayments.map(p => ({
-                id: p._id,
-                orderId: p.orderId,
-                paymentId: p.paymentId,
-                user: p.userId ? { name: p.userId.name, email: p.userId.email } : null,
-                amount: Number(p.amount),
-                partnerAmount: Number(p.partnerAmount),
-                platformFee: Number(p.platformFee),
-                createdAt: p.createdAt
-            }))
+            earnings: {
+                totalRevenue: stats.totalRevenue,
+                platformFee,
+                ownerEarnings,
+                bookingsCount: stats.bookingsCount
+            }
         });
     } catch (error) {
-        console.error("❌ Error getting gym earnings:", error);
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+/**
+ * POST /api/gyms/upload
+ * Photo upload
+ */
+exports.uploadGymPhoto = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ success: false, message: "No image file provided" });
+        }
+        const fullUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+        return res.status(200).json({
+            success: true,
+            message: "Gym image uploaded successfully",
+            url: fullUrl,
+            filename: req.file.filename
+        });
+    } catch (error) {
         return res.status(500).json({ success: false, message: error.message });
     }
 };

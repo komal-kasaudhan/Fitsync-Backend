@@ -18,7 +18,6 @@ const notificationSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ["booking_confirmed", "booking_cancelled", "checkin", "gym_approved", "gym_rejected", "gym_suspended", "general"],
         default: "general"
     },
     data: {

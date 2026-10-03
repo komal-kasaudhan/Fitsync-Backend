@@ -7,7 +7,7 @@ const Review = require('../models/Review');
 const { getKolkataDate, getKolkataWeekday, getKolkataTimeString } = require('../utils/kolkataTime');
 const { getInitialPartnerStatus } = require('../utils/partnerUtils');
 
-const NUTRITIONIST_DISCLAIMER = "Nutrition guidance is provided for general health and wellness purposes only and is not a medical diagnosis or treatment.";
+const NUTRITIONIST_DISCLAIMER = "Not a medical diagnosis";
 
 /**
  * POST /api/trainers

@@ -2,6 +2,15 @@ const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+function calculateNeedsOnboarding(user) {
+    const roles = Array.isArray(user.roles) && user.roles.length > 0 ? user.roles : ["user"];
+    const nonOnboardingRoles = ["admin", "gym_owner", "trainer", "seller"];
+    if (roles.some(r => nonOnboardingRoles.includes(r))) {
+        return false;
+    }
+    return !user.onboardingCompleted;
+}
+
 const signup = async (req, res) => {
     console.log(" Signup controller hit");
     console.log("Body:", req.body);
@@ -29,11 +38,13 @@ const signup = async (req, res) => {
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create user
+        // Create user (roles is ALWAYS ['user'] on signup)
         const user = await User.create({
             name,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            roles: ["user"],
+            onboardingCompleted: false
         });
 
         // Generate JWT token
@@ -57,7 +68,8 @@ const signup = async (req, res) => {
                 id: user._id,
                 name: user.name,
                 email: user.email,
-                roles: user.roles || ["user"]
+                roles: user.roles || ["user"],
+                needsOnboarding: calculateNeedsOnboarding(user)
             }
         });
 
@@ -115,7 +127,8 @@ const login = async(req,res) => {
                 id: user._id,
                 name: user.name,
                 email: user.email,
-                roles: user.roles || ["user"]
+                roles: user.roles || ["user"],
+                needsOnboarding: calculateNeedsOnboarding(user)
             }
         });
     }catch(error){

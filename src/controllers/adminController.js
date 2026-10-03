@@ -207,15 +207,53 @@ exports.getGyms = async (req, res) => {
             gyms: gyms.map(g => ({
                 _id: g._id,
                 name: g.name,
+                description: g.description || "",
                 city: g.city,
                 address: g.address,
+                pincode: g.pincode,
+                location: g.location,
+                phone: g.phone || "",
+                photos: g.photos || [],
+                amenities: g.amenities || [],
+                openingHours: g.openingHours || [],
+                holidays: g.holidays || [],
+                womenOnlyHours: g.womenOnlyHours || { enabled: false, shifts: [] },
+                plans: (Array.isArray(g.plans) && g.plans.length > 0) ? g.plans : (g.sessionTypes || []),
+                enableSlots: Boolean(g.enableSlots),
+                capacityPerSlot: Number(g.capacityPerSlot || 20),
                 status: g.status,
                 rejectionReason: g.rejectionReason || "",
                 ratingAvg: Number(g.ratingAvg || 0),
                 ratingCount: Number(g.ratingCount || 0),
                 owner: g.ownerId ? { id: g.ownerId._id, name: g.ownerId.name, email: g.ownerId.email } : null,
-                createdAt: g.createdAt
+                createdAt: g.createdAt,
+                updatedAt: g.updatedAt
             }))
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+exports.getGymDetail = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const gym = await Gym.findById(id).populate('ownerId', 'name email').lean();
+        if (!gym) {
+            return res.status(404).json({ success: false, message: "Gym not found" });
+        }
+        return res.status(200).json({
+            success: true,
+            gym: {
+                ...gym,
+                openingHours: gym.openingHours || [],
+                holidays: gym.holidays || [],
+                womenOnlyHours: gym.womenOnlyHours || { enabled: false, shifts: [] },
+                plans: (Array.isArray(gym.plans) && gym.plans.length > 0) ? gym.plans : (gym.sessionTypes || []),
+                ratingAvg: Number(gym.ratingAvg || 0),
+                ratingCount: Number(gym.ratingCount || 0),
+                owner: gym.ownerId ? { id: gym.ownerId._id, name: gym.ownerId.name, email: gym.ownerId.email } : null
+            }
         });
     } catch (error) {
         return res.status(500).json({ success: false, message: error.message });
@@ -273,6 +311,31 @@ exports.getTrainers = async (req, res) => {
                 ratingAvg: Number(t.ratingAvg || 0),
                 createdAt: t.createdAt
             }))
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+exports.getTrainerDetail = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const TrainerProfile = mongoose.model('TrainerProfile');
+        const trainer = await TrainerProfile.findById(id).populate('userId', 'name email').lean();
+        if (!trainer) {
+            return res.status(404).json({ success: false, message: "Trainer not found" });
+        }
+        return res.status(200).json({
+            success: true,
+            trainer: {
+                ...trainer,
+                certifications: trainer.certifications || [],
+                specialties: trainer.specialties || [],
+                photos: trainer.photos || [],
+                ratingAvg: Number(trainer.ratingAvg || 0),
+                ratingCount: Number(trainer.ratingCount || 0),
+                user: trainer.userId ? { id: trainer.userId._id, name: trainer.userId.name, email: trainer.userId.email } : null
+            }
         });
     } catch (error) {
         return res.status(500).json({ success: false, message: error.message });

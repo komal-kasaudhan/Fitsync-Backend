@@ -257,7 +257,16 @@ async function seedTrainers() {
                     city: data.city,
                     location: data.location,
                     serviceRadiusKm: 15,
-                    pricing: data.pricing,
+                    pricing: {
+                        sessionOnline: data.pricing.online,
+                        sessionOffline: data.pricing.offline,
+                        online: data.pricing.online,
+                        offline: data.pricing.offline,
+                        packages: [
+                            { name: "5 Sessions Starter Pack", sessions: 5, sessionsCount: 5, price: Math.round(data.pricing.online * 4.5), validityDays: 30, description: "5 personalized sessions" },
+                            { name: "12 Sessions Transformation", sessions: 12, sessionsCount: 12, price: Math.round(data.pricing.online * 10), validityDays: 60, description: "Comprehensive coaching" }
+                        ]
+                    },
                     weeklyAvailability: DEFAULT_WEEKLY,
                     status: "approved", // approved so they show in searches
                     ratingAvg: data.ratingAvg,

@@ -35,6 +35,7 @@ temp/
 tmp/
 coverage/
 .nyc_output/
+scratch/
 public/uploads/gym-*
 
 # OS Files

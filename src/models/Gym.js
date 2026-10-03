@@ -1,26 +1,92 @@
 // 📄 Path: src/models/Gym.js
 const mongoose = require('mongoose');
 
+const shiftSchema = new mongoose.Schema({
+    open: {
+        type: String, // HH:MM e.g. "06:00"
+        required: true,
+        trim: true
+    },
+    close: {
+        type: String, // HH:MM e.g. "10:00"
+        required: true,
+        trim: true
+    }
+}, { _id: false });
+
 const openingHourSchema = new mongoose.Schema({
     day: {
         type: String,
         enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
         required: true
     },
-    open: {
-        type: String, // HH:MM e.g. "06:00"
-        default: "06:00"
-    },
-    close: {
-        type: String, // HH:MM e.g. "22:00"
-        default: "22:00"
-    },
     isClosed: {
         type: Boolean,
         default: false
+    },
+    shifts: {
+        type: [shiftSchema],
+        default: []
+    },
+    // Backward compatibility for single open/close
+    open: {
+        type: String,
+        default: "06:00"
+    },
+    close: {
+        type: String,
+        default: "22:00"
     }
 }, { _id: false });
 
+const planSchema = new mongoose.Schema({
+    id: {
+        type: String,
+        default: () => new mongoose.Types.ObjectId().toString()
+    },
+    name: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    type: {
+        type: String,
+        enum: ["day_pass", "weekly", "monthly", "quarterly", "half_yearly", "yearly", "custom"],
+        required: true
+    },
+    durationDays: {
+        type: Number,
+        required: true,
+        min: 1
+    },
+    price: {
+        type: Number,
+        required: true,
+        min: 0
+    },
+    mrp: {
+        type: Number,
+        default: null
+    },
+    description: {
+        type: String,
+        default: ""
+    },
+    inclusions: {
+        type: [String],
+        default: []
+    },
+    isActive: {
+        type: Boolean,
+        default: true
+    },
+    maxFreezeDays: {
+        type: Number,
+        default: 0
+    }
+}, { _id: false });
+
+// Preserved for legacy compatibility
 const sessionTypeSchema = new mongoose.Schema({
     type: {
         type: String,
@@ -39,6 +105,44 @@ const sessionTypeSchema = new mongoose.Schema({
     description: {
         type: String,
         default: ""
+    }
+}, { _id: false });
+
+const holidaySchema = new mongoose.Schema({
+    date: {
+        type: String, // "YYYY-MM-DD"
+        required: true
+    },
+    reason: {
+        type: String,
+        default: "Public Holiday"
+    }
+}, { _id: false });
+
+const womenOnlyShiftSchema = new mongoose.Schema({
+    day: {
+        type: String,
+        enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        required: true
+    },
+    open: {
+        type: String,
+        required: true
+    },
+    close: {
+        type: String,
+        required: true
+    }
+}, { _id: false });
+
+const womenOnlyHoursSchema = new mongoose.Schema({
+    enabled: {
+        type: Boolean,
+        default: false
+    },
+    shifts: {
+        type: [womenOnlyShiftSchema],
+        default: []
     }
 }, { _id: false });
 
@@ -92,11 +196,28 @@ const gymSchema = new mongoose.Schema({
     },
     amenities: {
         type: [String],
-        default: [] // e.g. ["ac", "shower", "parking", "steam_bath", "cardio", "weights", "lockers", "wifi"]
+        default: []
     },
     openingHours: {
         type: [openingHourSchema],
+        required: true,
         default: []
+    },
+    holidays: {
+        type: [holidaySchema],
+        default: []
+    },
+    womenOnlyHours: {
+        type: womenOnlyHoursSchema,
+        default: () => ({ enabled: false, shifts: [] })
+    },
+    plans: {
+        type: [planSchema],
+        default: []
+    },
+    enableSlots: {
+        type: Boolean,
+        default: false
     },
     sessionTypes: {
         type: [sessionTypeSchema],
@@ -138,6 +259,30 @@ const gymSchema = new mongoose.Schema({
 
 // Geospatial 2dsphere index for location queries ($geoNear)
 gymSchema.index({ location: "2dsphere" });
+
+/**
+ * Helper to normalize and ensure plans are populated from legacy sessionTypes if empty
+ */
+gymSchema.methods.getNormalizedPlans = function() {
+    if (Array.isArray(this.plans) && this.plans.length > 0) {
+        return this.plans;
+    }
+    if (Array.isArray(this.sessionTypes) && this.sessionTypes.length > 0) {
+        return this.sessionTypes.map((st, i) => ({
+            id: `legacy_${st.type || i}`,
+            name: st.name || (st.type === "dayPass" ? "Day Pass" : st.type === "weekly" ? "Weekly Pass" : "Monthly Membership"),
+            type: st.type === "dayPass" ? "day_pass" : (st.type || "custom"),
+            durationDays: st.type === "dayPass" ? 1 : st.type === "weekly" ? 7 : 30,
+            price: Number(st.price) || 0,
+            mrp: Number(st.price) ? Math.round(st.price * 1.2) : null,
+            description: st.description || "",
+            inclusions: ["Full Gym Access"],
+            isActive: true,
+            maxFreezeDays: st.type === "monthly" ? 7 : 0
+        }));
+    }
+    return [];
+};
 
 const Gym = mongoose.model('Gym', gymSchema);
 module.exports = Gym;
