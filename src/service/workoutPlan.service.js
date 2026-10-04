@@ -509,17 +509,13 @@ class WorkoutPlanService {
     }
 
     /**
-     * Retrieve active workout plan (ALWAYS returns all 7 days; auto-generates if empty or missing)
+     * Retrieve active workout plan (NEVER auto-generates; returns null if none exists)
      */
     async getCurrentPlan(userId) {
-        let plan = await WorkoutPlan.findOne({ userId, status: "Active" });
-
-        // Auto-generate if plan does not exist or has fewer than 7 routines
-        if (!plan || !Array.isArray(plan.routines) || plan.routines.length < 7) {
-            console.log(`ℹ️ [WorkoutPlan] No complete active plan for user ${userId}. Auto-generating 7-day plan...`);
-            plan = await this.generatePlan(userId);
+        const plan = await WorkoutPlan.findOne({ userId, status: "Active" });
+        if (!plan || !Array.isArray(plan.routines) || plan.routines.length === 0) {
+            return null;
         }
-
         return plan;
     }
 
@@ -528,6 +524,8 @@ class WorkoutPlanService {
      */
     async getDayWorkout(userId, dayIndex) {
         const plan = await this.getCurrentPlan(userId);
+        if (!plan) return null;
+
         const idx = Number(dayIndex);
         let routine = plan.routines.find(r => Number(r.dayIndex) === idx);
         if (!routine && !isNaN(idx) && plan.routines[idx]) {
@@ -536,6 +534,7 @@ class WorkoutPlanService {
         if (!routine) {
             routine = plan.routines[0];
         }
+        if (!routine) return null;
 
         return {
             dayIndex: routine.dayIndex !== undefined ? routine.dayIndex : 0,
@@ -565,11 +564,16 @@ class WorkoutPlanService {
      * Retrieve today's workout for real current weekday in Asia/Kolkata
      */
     async getTodayWorkout(userId) {
+        const plan = await this.getCurrentPlan(userId);
+        if (!plan) return null;
+
         const todayWeekday = getWeekdayKolkata(); // e.g. "Monday"
         const todayIndex = WEEKDAY_NAMES.indexOf(todayWeekday);
         const validIndex = todayIndex >= 0 ? todayIndex : 0;
 
         const dayData = await this.getDayWorkout(userId, validIndex);
+        if (!dayData) return null;
+
         return {
             ...dayData,
             date: getTodayKolkata(),
@@ -582,6 +586,9 @@ class WorkoutPlanService {
      */
     async saveSessionFeedback(userId, { dayIndex, difficulty, soreness, energy, painAreas = [], notes = "" }) {
         const plan = await this.getCurrentPlan(userId);
+        if (!plan) {
+            throw new Error("No active workout plan found");
+        }
         const idx = Number(dayIndex);
         let routine = plan.routines.find(r => Number(r.dayIndex) === idx);
         if (!routine && !isNaN(idx) && plan.routines[idx]) {

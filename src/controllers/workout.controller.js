@@ -86,9 +86,20 @@ exports.getCurrentPlan = async (req, res) => {
         const userId = req.user?._id || req.user?.id || req.userId;
         const plan = await workoutPlanService.getCurrentPlan(userId);
 
+        if (!plan) {
+            return res.status(200).json({
+                success: true,
+                hasPlan: false,
+                days: [],
+                plan: null
+            });
+        }
+
         return res.status(200).json({
             success: true,
-            plan
+            hasPlan: true,
+            plan,
+            days: plan.routines || []
         });
     } catch (error) {
         console.error("❌ Error in getCurrentPlan:", error);
@@ -106,7 +117,21 @@ exports.getDayWorkout = async (req, res) => {
         const { dayIndex } = req.params;
         const dayWorkout = await workoutPlanService.getDayWorkout(userId, dayIndex);
 
-        return res.status(200).json(dayWorkout);
+        if (!dayWorkout) {
+            return res.status(200).json({
+                success: true,
+                hasPlan: false,
+                days: [],
+                dayWorkout: null,
+                message: "No active workout plan found"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            hasPlan: true,
+            ...dayWorkout
+        });
     } catch (error) {
         console.error("❌ Error in getDayWorkout:", error);
         return res.status(500).json({ success: false, message: error.message || "Failed to load day workout" });
@@ -122,7 +147,21 @@ exports.getTodayWorkout = async (req, res) => {
         const userId = req.user?._id || req.user?.id || req.userId;
         const todayWorkout = await workoutPlanService.getTodayWorkout(userId);
 
-        return res.status(200).json(todayWorkout);
+        if (!todayWorkout) {
+            return res.status(200).json({
+                success: true,
+                hasPlan: false,
+                days: [],
+                todayWorkout: null,
+                message: "No active workout plan found"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            hasPlan: true,
+            ...todayWorkout
+        });
     } catch (error) {
         console.error("❌ Error in getTodayWorkout:", error);
         return res.status(500).json({ success: false, message: error.message || "Failed to load today's workout" });
@@ -276,6 +315,7 @@ exports.getWorkoutStats = async (req, res) => {
 
         // 2. Fetch workout plan and routines
         const plan = await workoutPlanService.getCurrentPlan(userId);
+        const hasPlan = Boolean(plan && Array.isArray(plan.routines) && plan.routines.length > 0);
         const routines = plan?.routines || [];
 
         const activeSessions = routines.filter(r => !r.isRestDay);
@@ -311,6 +351,7 @@ exports.getWorkoutStats = async (req, res) => {
 
         return res.status(200).json({
             success: true,
+            hasPlan,
             currentWeight,
             startWeight,
             targetWeight,
@@ -375,5 +416,95 @@ exports.logWeight = async (req, res) => {
     } catch (error) {
         console.error("❌ Error in logWeight:", error);
         return res.status(500).json({ success: false, message: error.message || "Failed to log weight" });
+    }
+};
+
+/**
+ * Workout Preferences Management
+ * POST /api/workout/preferences
+ * PUT /api/workout/preferences
+ * Takes user strictly from JWT (ignores req.body.userId and dummy id 64b1f1c2d3e4f5a6b7c8d901).
+ * NEVER creates a workout plan.
+ */
+exports.saveWorkoutPreferences = async (req, res) => {
+    try {
+        const userId = req.user?._id || req.user?.id || req.userId;
+        if (!userId) {
+            return res.status(401).json({ success: false, message: "Unauthorized: User ID missing from token" });
+        }
+
+        const {
+            daysPerWeek,
+            specificDays,
+            preferredDurationMinutes,
+            durationMinutes,
+            equipmentAvailable,
+            equipment
+        } = req.body;
+
+        const existing = await WorkoutPreferences.findOne({ userId });
+
+        const updateData = {
+            userId,
+            daysPerWeek: daysPerWeek !== undefined
+                ? Math.max(1, Math.min(7, Number(daysPerWeek) || 4))
+                : (existing?.daysPerWeek || 4),
+            specificDays: Array.isArray(specificDays) && specificDays.length > 0
+                ? specificDays
+                : (existing?.specificDays?.length ? existing.specificDays : ["Monday", "Wednesday", "Friday", "Saturday"]),
+            preferredDurationMinutes: (preferredDurationMinutes !== undefined || durationMinutes !== undefined)
+                ? (Number(preferredDurationMinutes || durationMinutes) || 45)
+                : (existing?.preferredDurationMinutes || 45),
+            equipmentAvailable: Array.isArray(equipmentAvailable)
+                ? equipmentAvailable
+                : (Array.isArray(equipment) ? equipment : (existing?.equipmentAvailable?.length ? existing.equipmentAvailable : ["bodyweight", "none", "dumbbell"]))
+        };
+
+        const preferences = await WorkoutPreferences.findOneAndUpdate(
+            { userId },
+            { $set: updateData },
+            { returnDocument: 'after', upsert: true, runValidators: true }
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Workout preferences saved successfully",
+            preferenceId: preferences._id,
+            preferences
+        });
+    } catch (error) {
+        console.error("❌ Error in saveWorkoutPreferences:", error);
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Failed to save workout preferences"
+        });
+    }
+};
+
+// Legacy backward-compatibility alias
+exports.savePreferencesAndQueueGeneration = exports.saveWorkoutPreferences;
+
+/**
+ * GET /api/workout/preferences
+ */
+exports.getWorkoutPreferences = async (req, res) => {
+    try {
+        const userId = req.user?._id || req.user?.id || req.userId;
+        if (!userId) {
+            return res.status(401).json({ success: false, message: "Unauthorized" });
+        }
+
+        const preferences = await WorkoutPreferences.findOne({ userId });
+
+        return res.status(200).json({
+            success: true,
+            preferences: preferences || null
+        });
+    } catch (error) {
+        console.error("❌ Error in getWorkoutPreferences:", error);
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Failed to load preferences"
+        });
     }
 };

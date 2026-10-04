@@ -1,12 +1,23 @@
 const express = require("express");
 const router = express.Router();
 
-const { signup, login } = require("../controllers/auth.controller");
+const {
+    signup,
+    login,
+    googleSignIn,
+    forgotPassword,
+    verifyOtp,
+    resetPassword
+} = require("../controllers/auth.controller");
 const auth = require("../middleware/auth.middleware");
 const User = require("../models/user.model");
 
 router.post("/signup", signup);
 router.post("/login", login);
+router.post("/google", googleSignIn);
+router.post("/forgot-password", forgotPassword);
+router.post("/verify-otp", verifyOtp);
+router.post("/reset-password", resetPassword);
 
 router.get("/profile", auth, async (req, res) => {
     try {

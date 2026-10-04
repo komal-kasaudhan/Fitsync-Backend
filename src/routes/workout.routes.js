@@ -23,6 +23,11 @@ router.post('/session/skip', auth, workoutController.skipSession);
 // Exercise manual image update
 router.put('/exercises/:id/image', auth, workoutController.updateExerciseImage);
 
+// Workout Preferences
+router.post('/preferences', auth, workoutController.saveWorkoutPreferences);
+router.put('/preferences', auth, workoutController.saveWorkoutPreferences);
+router.get('/preferences', auth, workoutController.getWorkoutPreferences);
+
 
 // FEATURE F: Workout Stats & Weight logging
 router.get('/stats', auth, workoutController.getWorkoutStats);

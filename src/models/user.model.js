@@ -15,7 +15,16 @@ const userSchema = new mongoose.Schema(
         },
         password: {
             type: String,
-            required: true
+            required: false
+        },
+        photoUrl: {
+            type: String,
+            default: ""
+        },
+        authProvider: {
+            type: String,
+            enum: ["local", "google"],
+            default: "local"
         },
         roles: {
             type: [String],

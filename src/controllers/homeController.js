@@ -29,6 +29,8 @@ exports.getHomeSummary = async (req, res) => {
     const result = {
         success: true,
         date,
+        hasPlan: false,
+        days: [],
         user: null,
         weight: null,
         todayNutrition: null,
@@ -165,38 +167,42 @@ exports.getHomeSummary = async (req, res) => {
         // SECTION 4 & 5: Workout Plan (today + weekly stats)
         (async () => {
             try {
-                let plan = await WorkoutPlan.findOne({ userId, status: "Active" }).lean();
-                if (!plan) {
-                    plan = await workoutPlanService.getCurrentPlan(userId);
-                }
+                const plan = await workoutPlanService.getCurrentPlan(userId);
+                result.hasPlan = Boolean(plan && Array.isArray(plan.routines) && plan.routines.length > 0);
+                result.days = result.hasPlan ? (plan.routines || []) : [];
 
-                const todayWeekday = getWeekdayKolkata();
-                const routine = (plan?.routines || []).find(r => r.dayName === todayWeekday || r.day === todayWeekday) || (plan?.routines || [])[0];
+                if (result.hasPlan) {
+                    const todayWeekday = getWeekdayKolkata();
+                    const routine = (plan?.routines || []).find(r => r.dayName === todayWeekday || r.day === todayWeekday) || (plan?.routines || [])[0];
 
-                if (routine) {
-                    result.todayWorkout = {
-                        dayIndex: routine.dayIndex !== undefined ? routine.dayIndex : 0,
-                        dayName: routine.dayName || todayWeekday,
-                        focus: routine.focus || "Daily Movement",
-                        durationMin: Number(routine.durationMin || routine.estimatedMinutes || 45),
-                        calories: Number(routine.estimatedCalories || routine.calories || 200),
-                        isRestDay: Boolean(routine.isRestDay),
-                        completed: Boolean(routine.completed)
+                    if (routine) {
+                        result.todayWorkout = {
+                            dayIndex: routine.dayIndex !== undefined ? routine.dayIndex : 0,
+                            dayName: routine.dayName || todayWeekday,
+                            focus: routine.focus || "Daily Movement",
+                            durationMin: Number(routine.durationMin || routine.estimatedMinutes || 45),
+                            calories: Number(routine.estimatedCalories || routine.calories || 200),
+                            isRestDay: Boolean(routine.isRestDay),
+                            completed: Boolean(routine.completed)
+                        };
+                    }
+
+                    const routines = plan?.routines || [];
+                    const activeSessions = routines.filter(r => !r.isRestDay);
+                    const sessionsPlanned = activeSessions.length || 4;
+                    const sessionsCompleted = activeSessions.filter(r => r.completed).length;
+                    const completionPercent = Math.round((sessionsCompleted / sessionsPlanned) * 100);
+
+                    result.weeklyWorkout = {
+                        sessionsPlanned,
+                        sessionsCompleted,
+                        completionPercent,
+                        streakDays: sessionsCompleted
                     };
+                } else {
+                    result.todayWorkout = null;
+                    result.weeklyWorkout = null;
                 }
-
-                const routines = plan?.routines || [];
-                const activeSessions = routines.filter(r => !r.isRestDay);
-                const sessionsPlanned = activeSessions.length || 4;
-                const sessionsCompleted = activeSessions.filter(r => r.completed).length;
-                const completionPercent = Math.round((sessionsCompleted / sessionsPlanned) * 100);
-
-                result.weeklyWorkout = {
-                    sessionsPlanned,
-                    sessionsCompleted,
-                    completionPercent,
-                    streakDays: sessionsCompleted
-                };
             } catch (err) {
                 console.error("❌ [HomeSummary] Workout section error:", err.message);
             }

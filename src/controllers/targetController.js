@@ -145,10 +145,11 @@ exports.getTargetsOverview = async (req, res) => {
             }
         });
 
-        const weeklyCaloriePercentage = weeklyCalorieGoal > 0 ? Math.min(100, Math.round((weeklyCaloriesBurned / weeklyCalorieGoal) * 100)) : 0;
+        const hasPlan = Boolean(plan && Array.isArray(plan.routines) && plan.routines.length > 0);
 
         return res.status(200).json({
             success: true,
+            hasPlan,
             date,
             weeklyGoal: {
                 sessionsDone,
