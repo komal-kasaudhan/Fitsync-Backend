@@ -30,6 +30,9 @@ const addressRoutes = require("./routes/address.routes");
 
 const app = express();
 
+// Trust reverse proxy (Render, Heroku, Nginx) for accurate HTTPS protocol and client IPs
+app.set("trust proxy", 1);
+
 // 90-second request timeout guard
 app.use((req, res, next) => {
     req.setTimeout(90000);

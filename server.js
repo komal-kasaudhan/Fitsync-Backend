@@ -140,9 +140,11 @@ async function startServer() {
         console.log(`🔌 Physical Device (USB Mode):   http://localhost:${PORT} (needs adb reverse)`);
         console.log("=======================================================\n");
 
-        // Maintain ADB reverse for USB devices automatically
-        setupAdbReverse(PORT);
-        setInterval(() => setupAdbReverse(PORT), 4000);
+        // Maintain ADB reverse for USB devices locally in development only
+        if (process.env.NODE_ENV !== "production" && process.platform === "win32") {
+            setupAdbReverse(PORT);
+            setInterval(() => setupAdbReverse(PORT), 4000);
+        }
     });
 
     // Server/request timeout of at least 90 seconds so AI calls do not drop
