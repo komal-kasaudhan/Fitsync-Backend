@@ -84,24 +84,31 @@ app.get("/", (req, res) => {
         success: true,
         message: "FitSync Backend Running 🚀",
         version: "1.0.0",
+        uptimeSeconds: Math.floor(process.uptime()),
         dbStatus: mongoose.connection.readyState === 1 ? "Connected" : "Disconnected",
         timestamp: new Date().toISOString()
     });
 });
 
-// Health check endpoint (No auth, phone-friendly)
-app.get("/api/health", (req, res) => {
+// Comprehensive Health & Keep-Alive Endpoints (for Cron Jobs like cron-job.org / UptimeRobot)
+// Supports /health, /api/health, /ping, /healthz with GET and HEAD methods
+const healthHandler = (req, res) => {
     const isDbConnected = mongoose.connection.readyState === 1;
     res.status(200).json({
         status: "ok",
+        uptimeSeconds: Math.floor(process.uptime()),
         db: isDbConnected ? "connected" : "offline",
-        time: new Date().toISOString()
+        memoryMB: Math.round(process.memoryUsage().rss / 1024 / 1024),
+        timestamp: new Date().toISOString()
     });
-});
+};
 
-// Database-offline guard: return 503 if DB is offline instead of hanging
+app.get(["/health", "/api/health", "/ping", "/healthz"], healthHandler);
+app.head(["/health", "/api/health", "/ping", "/healthz"], (req, res) => res.status(200).end());
+
+// Database-offline guard: return 503 if DB is offline instead of hanging (bypass for health & ping)
 app.use("/api", (req, res, next) => {
-    if (req.path === "/health") {
+    if (req.path === "/health" || req.path === "/ping" || req.path === "/healthz") {
         return next();
     }
     if (mongoose.connection.readyState !== 1) {
