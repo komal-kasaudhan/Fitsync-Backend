@@ -5,9 +5,6 @@ if (dns.setDefaultResultOrder) {
 }
 
 const os = require("os");
-const { exec } = require("child_process");
-const path = require("path");
-const fs = require("fs");
 const app = require("./src/app");
 const connectDB = require("./src/config/db");
 
@@ -54,57 +51,6 @@ function getPhysicalLanAddress() {
     return candidates[0] || null;
 }
 
-// Find ADB executable path or report if missing
-function getAdbInfo() {
-    const localAppData = process.env.LOCALAPPDATA || (process.env.USERPROFILE ? path.join(process.env.USERPROFILE, "AppData", "Local") : "");
-    const possiblePaths = [
-        path.join(localAppData, "Android", "Sdk", "platform-tools", "adb.exe"),
-        path.join("C:", "Android", "platform-tools", "adb.exe"),
-        path.join("C:", "platform-tools", "adb.exe")
-    ];
-
-    for (const p of possiblePaths) {
-        if (fs.existsSync(p)) {
-            return { path: `"${p}"`, inPath: true };
-        }
-    }
-    return { path: "adb", inPath: false };
-}
-
-// Automatically setup and keep alive ADB reverse port forwarding for USB-connected Android physical devices
-let adbActive = false;
-let adbReportedNoDevice = false;
-
-function setupAdbReverse(port) {
-    const adbInfo = getAdbInfo();
-    const cmd = `${adbInfo.path} reverse tcp:${port} tcp:${port}`;
-    exec(cmd, (err, stdout, stderr) => {
-        if (!err) {
-            if (!adbActive) {
-                console.log(`📱 [ADB Reverse] Port ${port} forwarded to connected physical Android device!`);
-                console.log(`   -> USB phone base URL: http://localhost:${port}/api/`);
-                adbActive = true;
-                adbReportedNoDevice = false;
-            }
-        } else {
-            adbActive = false;
-            const rawMsg = (stderr || err.message || "").toLowerCase();
-            if (rawMsg.includes("no devices") || rawMsg.includes("device not found")) {
-                if (!adbReportedNoDevice) {
-                    console.log(`ℹ️  [ADB] No USB devices connected (harmless if testing over Wi-Fi LAN).`);
-                    adbReportedNoDevice = true;
-                }
-            } else if (rawMsg.includes("not recognized") || rawMsg.includes("not found") || rawMsg.includes("enoent")) {
-                console.log(`ℹ️  [ADB] 'adb' was not found in your system PATH.`);
-                console.log(`   👉 How to fix: Add Android platform-tools to PATH:`);
-                console.log(`      %LOCALAPPDATA%\\Android\\Sdk\\platform-tools`);
-            } else {
-                console.log(`ℹ️  [ADB Info]: ${(stderr || err.message).trim()}`);
-            }
-        }
-    });
-}
-
 async function startServer() {
     let isConnected = false;
     let attempts = 0;
@@ -134,17 +80,8 @@ async function startServer() {
         console.log("=======================================================");
         if (lanInfo) {
             console.log(`🌐 Physical Device (Wi-Fi LAN): http://${lanInfo.address}:${PORT}`);
-        } else {
-            console.log(`🌐 Physical Device (Wi-Fi LAN): No active Wi-Fi adapter detected`);
         }
-        console.log(`🔌 Physical Device (USB Mode):   http://localhost:${PORT} (needs adb reverse)`);
         console.log("=======================================================\n");
-
-        // Maintain ADB reverse for USB devices locally in development only
-        if (process.env.NODE_ENV !== "production" && process.platform === "win32") {
-            setupAdbReverse(PORT);
-            setInterval(() => setupAdbReverse(PORT), 4000);
-        }
     });
 
     // Server/request timeout of at least 90 seconds so AI calls do not drop
